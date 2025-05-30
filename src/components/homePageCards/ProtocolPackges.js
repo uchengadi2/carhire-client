@@ -32,15 +32,19 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Snackbar from "@material-ui/core/Snackbar";
 import backgroundDerica from "./../../assets/images/covers/food2.png";
 import backgroundPaint from "./../../assets/images/covers/delivery.png";
-import backgroundBulk from "./../../assets/images/controlsoft/digital-marketing1.webp";
+import backgroundBulk from "./../../assets/images/project/business1.webp";
 import backgroundRetail from "./../../assets/images/covers/delivery.png";
 
-import backgroundProduct from "./../../assets/images/controlsoft/image25.webp";
-import backgroundGrowth from "./../../assets/images/controlsoft/image24.webp";
-import backgroundMetrics from "./../../assets/images/controlsoft/image20.webp";
+import backgroundProduct from "./../../assets/images/project/medical1.webp";
+import backgroundGrowth from "./../../assets/images/project/crew1.webp";
+import backgroundMetrics from "./../../assets/images/project/jet1.webp";
 
-import softwareEngineering from "./../../assets/images/controlsoft/image2.jpg";
-import qualityAssurance from "./../../assets/images/controlsoft/quality-assurance.webp";
+import softwareEngineering from "./../../assets/images/project/vip3.webp";
+import qualityAssurance from "./../../assets/images/project/crew2.webp";
+import backgroundEvent from "./../../assets/images/project/event1.webp";
+import backgroundTraining from "./../../assets/images/project/training.webp";
+import backgroundDocumentation from "./../../assets/images/project/documentation2.webp";
+import backgroundFamily from "./../../assets/images/project/family1.webp";
 import history from "../../history";
 import { CREATE_CART, DELETE_CART } from "../../actions/types";
 
@@ -399,6 +403,78 @@ const useStyles = makeStyles((theme) => ({
       backgroundAttachment: "inherit",
     },
   },
+  backgroundEvent: {
+      backgroundImage: `url(${backgroundEvent})`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      //backgroundAttachment: "fixed",
+      backgroundRepeat: "no-repeat",
+      height: "25em",
+      width: "83%",
+      marginLeft: "8em",
+      marginBottom: "2em",
+      marginRight: 0,
+      borderRadius: 25,
+      [theme.breakpoints.down("md")]: {
+        // backgroundImage: `url(${mobileBackground})`,
+        backgroundAttachment: "inherit",
+      },
+    },
+  
+     backgroundTraining: {
+      backgroundImage: `url(${backgroundTraining})`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      //backgroundAttachment: "fixed",
+      backgroundRepeat: "no-repeat",
+      height: "25em",
+      width: "83%",
+      marginLeft: "8em",
+      marginBottom: "2em",
+      marginRight: 0,
+      borderRadius: 25,
+      [theme.breakpoints.down("md")]: {
+        // backgroundImage: `url(${mobileBackground})`,
+        backgroundAttachment: "inherit",
+      },
+    },
+  
+     backgroundDocumentation: {
+      backgroundImage: `url(${backgroundDocumentation})`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      //backgroundAttachment: "fixed",
+      backgroundRepeat: "no-repeat",
+      height: "25em",
+      width: "83%",
+      marginLeft: "8em",
+      marginBottom: "2em",
+      marginRight: 0,
+      borderRadius: 25,
+      [theme.breakpoints.down("md")]: {
+        // backgroundImage: `url(${mobileBackground})`,
+        backgroundAttachment: "inherit",
+      },
+    },
+     backgroundFamily: {
+      backgroundImage: `url(${backgroundFamily})`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      //backgroundAttachment: "fixed",
+      backgroundRepeat: "no-repeat",
+      height: "25em",
+      width: "83%",
+      marginLeft: "8em",
+      marginBottom: "2em",
+      marginRight: 0,
+      borderRadius: 25,
+      [theme.breakpoints.down("md")]: {
+        // backgroundImage: `url(${mobileBackground})`,
+        backgroundAttachment: "inherit",
+      },
+    },
+
+    
 }));
 
 export default function ProtocolPackges(props) {
@@ -1444,7 +1520,7 @@ const onVVIPSubmit = (formValues) => {
                   container
                   //direction="row"
                   alignItems="center"
-                  className={classes.qualityAssurance}
+                  className={classes.backgroundBulk}
                   justifyContent={matchesSM ? "center" : "space-between"}
                   direction={matchesSM ? "column" : "row"}
                   item
@@ -1495,7 +1571,7 @@ const onVVIPSubmit = (formValues) => {
                   container
                   //direction="row"
                   alignItems="center"
-                  className={classes.backgroundBulk}
+                  className={classes.qualityAssurance}
                   justifyContent={matchesSM ? "center" : "space-between"}
                   direction={matchesSM ? "column" : "row"}
                   item
@@ -1546,7 +1622,7 @@ const onVVIPSubmit = (formValues) => {
                   container
                   //direction="row"
                   alignItems="center"
-                  className={classes.backgroundBulk}
+                  className={classes.backgroundFamily}
                   justifyContent={matchesSM ? "center" : "space-between"}
                   direction={matchesSM ? "column" : "row"}
                   item
@@ -1597,7 +1673,7 @@ const onVVIPSubmit = (formValues) => {
                   container
                   //direction="row"
                   alignItems="center"
-                  className={classes.backgroundBulk}
+                  className={classes.backgroundMetrics}
                   justifyContent={matchesSM ? "center" : "space-between"}
                   direction={matchesSM ? "column" : "row"}
                   item
@@ -1915,7 +1991,7 @@ const onVVIPSubmit = (formValues) => {
                   container
                   //direction="row"
                   alignItems="center"
-                  className={classes.qualityAssurance}
+                  className={classes.backgroundBulk}
                   justifyContent={matchesSM ? "center" : "space-between"}
                   direction={matchesSM ? "column" : "row"}
                   item
@@ -1966,7 +2042,7 @@ const onVVIPSubmit = (formValues) => {
                   container
                   //direction="row"
                   alignItems="center"
-                  className={classes.backgroundBulk}
+                  className={classes.qualityAssurance}
                   justifyContent={matchesSM ? "center" : "space-between"}
                   direction={matchesSM ? "column" : "row"}
                   item
@@ -2017,7 +2093,7 @@ const onVVIPSubmit = (formValues) => {
                   container
                   //direction="row"
                   alignItems="center"
-                  className={classes.backgroundBulk}
+                  className={classes.backgroundFamily}
                   justifyContent={matchesSM ? "center" : "space-between"}
                   direction={matchesSM ? "column" : "row"}
                   item
@@ -2068,7 +2144,7 @@ const onVVIPSubmit = (formValues) => {
                   container
                   //direction="row"
                   alignItems="center"
-                  className={classes.backgroundBulk}
+                  className={classes.backgroundMetrics}
                   justifyContent={matchesSM ? "center" : "space-between"}
                   direction={matchesSM ? "column" : "row"}
                   item
