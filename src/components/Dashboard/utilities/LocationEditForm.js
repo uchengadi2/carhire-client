@@ -289,6 +289,37 @@ const renderContactPersonPhoneNumberField = ({
   );
 };
 
+const renderSingleLineField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  helperText,
+  id,
+  ...custom
+}) => {
+  return (
+    <TextField
+      //error={touched && invalid}
+      helperText={helperText}
+      variant="outlined"
+      label={label}
+      id={input.name}
+      //value={formInput.name}
+      fullWidth
+      style={{ marginTop: 20 }}
+      type={type}
+      {...custom}
+      onChange={input.onChange}
+      inputProps={{
+        style: {
+          height: 1,
+        },
+      }}
+    />
+  );
+};
+
 function LocationEditForm(props) {
   const { params, token, userId } = props;
 
@@ -526,12 +557,13 @@ function LocationEditForm(props) {
             label="Location Type"
             style={{ width: 500, height: 38, marginTop: 20 }}
           >
-            <MenuItem value={"own-shop"}>Own Shop</MenuItem>
-            <MenuItem value={"own-warehouse"}>Own Warehouse</MenuItem>
-            <MenuItem value={"affiliate-shop"}>Affiliate Shop</MenuItem>
-            <MenuItem value={"affiliate-warehouse"}>
-              Affiliate Warehouse
-            </MenuItem>
+            <MenuItem value={"local-airport"}>Local Airport</MenuItem>
+            <MenuItem value={"international-airport"}>International Airport</MenuItem>
+            <MenuItem value={"private-airfield"}>Private Airfield</MenuItem>
+            <MenuItem value={"cargo-airport"}>Cargo Airport</MenuItem>
+            <MenuItem value={"military-airport"}>Military Airport</MenuItem>
+            <MenuItem value={"heliport"}>Heliport</MenuItem>
+             
           </Select>
           <FormHelperText>Select Location Type</FormHelperText>
         </FormControl>
@@ -596,10 +628,19 @@ function LocationEditForm(props) {
       state: stateId ? stateId : params[0].stateId,
       city: cityId ? cityId : params[0].cityId,
       locationType: locationType ? locationType : params[0].locationType,
-      allowAffiliateSale: allowAffiliateSale
-        ? allowAffiliateSale
-        : params[0].allowAffiliateSale,
       createdBy: userId,
+      vvipPackageCost: formValues.vvipPackageCost ? formValues.vvipPackageCost : params[0].vvipPackageCost,
+      businessExecutivePackageCost: formValues.businessExecutivePackageCost ? formValues.businessExecutivePackageCost : params[0].businessExecutivePackageCost,
+      diplomaticPackageCost: formValues.diplomaticPackageCost ? formValues.diplomaticPackageCost : params[0].diplomaticPackageCost,
+      familyPackageCost: formValues.familyPackageCost ? formValues.familyPackageCost : params[0].familyPackageCost,
+      privateJetPackageCost: formValues.privateJetPackageCost ? formValues.privateJetPackageCost : params[0].privateJetPackageCost,
+      medicalEmergencyPackageCost: formValues.medicalEmergencyPackageCost ? formValues.medicalEmergencyPackageCost : params[0].medicalEmergencyPackageCost,
+      airlineCrewPackageCost: formValues.airlineCrewPackageCost ? formValues.airlineCrewPackageCost : params[0].airlineCrewPackageCost,
+      addonLuxuryServiceCost: formValues.addonLuxuryServiceCost ? formValues.addonLuxuryServiceCost : params[0].addonLuxuryServiceCost,
+      addonOnsiteSecurityServiceCost:formValues.addonOnsiteSecurityServiceCost ? formValues.addonOnsiteSecurityServiceCost : params[0].addonOnsiteSecurityServiceCost,
+      addonOntransitSecurityServiceCost:formValues.addonOntransitSecurityServiceCost ? formValues.addonOntransitSecurityServiceCost : params[0].addonOntransitSecurityServiceCost,
+      addonLoungeAccessServiceCost:formValues.addonLoungeAccessServiceCost ? formValues.addonLoungeAccessServiceCost : params[0].addonLoungeAccessServiceCost,
+      addonConciergeServiceCost:formValues.addonConciergeServiceCost ? formValues.addonConciergeServiceCost : params[0].addonConciergeServiceCost,
     };
     if (formValues) {
       const createForm = async () => {
@@ -776,11 +817,112 @@ function LocationEditForm(props) {
 
         <Field
           label=""
-          id="allowAffiliateSale"
-          name="allowAffiliateSale"
-          type="text"
-          component={renderAllowAffiliateSaleField}
+          id="vvipPackageCost"
+          name="vvipPackageCost"
+          type="number"
+          defaultValue={params[0].vvipPackageCost}
+          helperText="Cost of VVIP Package"
+          component={renderSingleLineField}
         />
+                <Field
+                  label=""
+                  id="businessExecutivePackageCost"
+                  name="businessExecutivePackageCost"
+                  type="number"
+                  defaultValue={params[0].businessExecutivePackageCost}
+                  helperText="Cost of Business Executive Package"
+                  component={renderSingleLineField}
+                />
+                 <Field
+                  label=""
+                  id="diplomaticPackageCost"
+                  name="diplomaticPackageCost"
+                  type="number"
+                  defaultValue={params[0].diplomaticPackageCost}
+                  helperText="Cost of Diplomatic Package"
+                  component={renderSingleLineField}
+                />
+                <Field
+                  label=""
+                  id="familyPackageCost"
+                  name="familyPackageCost"
+                  type="number"
+                  defaultValue={params[0].familyPackageCost}
+                  helperText="Cost of Family & Group Package"
+                  component={renderSingleLineField}
+                />
+                <Field
+                  label=""
+                  id="privateJetPackageCost"
+                  name="privateJetPackageCost"
+                  type="number"
+                  defaultValue={params[0].privateJetPackageCost}
+                  helperText="Cost of Private Jet Leasing Package"
+                  component={renderSingleLineField}
+                />
+                 <Field
+                  label=""
+                  id="medicalEmergencyPackageCost"
+                  name="medicalEmergencyPackageCost"
+                  type="number"
+                  defaultValue={params[0].medicalEmergencyPackageCost}
+                  helperText="Cost of Medical Emergency Package"
+                  component={renderSingleLineField}
+                />
+                <Field
+                  label=""
+                  id="airlineCrewPackageCost"
+                  name="airlineCrewPackageCost"
+                  type="number"
+                  defaultValue={params[0].airlineCrewPackageCost}
+                  helperText="Cost of Airline Crew Package"
+                  component={renderSingleLineField}
+                />
+                <Field
+                  label=""
+                  id="addonLuxuryServiceCost"
+                  name="addonLuxuryServiceCost"
+                  type="number"
+                  defaultValue={params[0].addonLuxuryServiceCost}
+                  helperText="Cost of Addon Luxury Vehicle Service"
+                  component={renderSingleLineField}
+                />
+                 <Field
+                  label=""
+                  id="addonOnsiteSecurityServiceCost"
+                  name="addonOnsiteSecurityServiceCost"
+                  type="number"
+                  defaultValue={params[0].addonOnsiteSecurityServiceCost}
+                  helperText="Cost of Addon Onsite Security Service"
+                  component={renderSingleLineField}
+                />
+                <Field
+                  label=""
+                  id="addonOntransitSecurityServiceCost"
+                  name="addonOntransitSecurityServiceCost"
+                  type="number"
+                  defaultValue={params[0].addonOntransitSecurityServiceCost}
+                  helperText="Cost of Addon Ontransit Security Service"
+                  component={renderSingleLineField}
+                />
+                 <Field
+                  label=""
+                  id="addonLoungeAccessServiceCost"
+                  name="addonLoungeAccessServiceCost"
+                  type="number"
+                  defaultValue={params[0].addonLoungeAccessServiceCost}
+                  helperText="Cost of Addon Lounge Access Service"
+                  component={renderSingleLineField}
+                />
+                <Field
+                  label=""
+                  id="addonConciergeServiceCost"
+                  name="addonConciergeServiceCost"
+                  type="number"
+                  defaultValue={params[0].addonConciergeServiceCost}
+                  helperText="Cost of Addon Concierge Service"
+                  component={renderSingleLineField}
+                />
 
         <Button
           variant="contained"

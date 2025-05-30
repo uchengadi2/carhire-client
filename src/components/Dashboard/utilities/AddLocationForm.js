@@ -289,12 +289,46 @@ const renderContactPersonPhoneNumberField = ({
   );
 };
 
+
+
+
+const renderSingleLineField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  helperText,
+  id,
+  ...custom
+}) => {
+  return (
+    <TextField
+      //error={touched && invalid}
+      helperText={helperText}
+      variant="outlined"
+      label={label}
+      id={input.name}
+      //value={formInput.name}
+      fullWidth
+      style={{ marginTop: 20 }}
+      type={type}
+      {...custom}
+      onChange={input.onChange}
+      inputProps={{
+        style: {
+          height: 1,
+        },
+      }}
+    />
+  );
+};
+
 function AddLocationForm(props) {
   const classes = useStyles();
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
-  const [locationType, setLocationType] = useState("own-shop");
+  const [locationType, setLocationType] = useState("local-airport");
   const [allowAffiliateSale, setAllowAffiliateSale] = useState(false);
   const [countryList, setCountryList] = useState([]);
   const [stateList, setStateList] = useState([]);
@@ -519,12 +553,12 @@ function AddLocationForm(props) {
             label="Location Type"
             style={{ width: 500, height: 38, marginTop: 20 }}
           >
-            <MenuItem value={"own-shop"}>Own Shop</MenuItem>
-            <MenuItem value={"own-warehouse"}>Own Warehouse</MenuItem>
-            <MenuItem value={"affiliate-shop"}>Affiliate Shop</MenuItem>
-            <MenuItem value={"affiliate-warehouse"}>
-              Affiliate Warehouse
-            </MenuItem>
+            <MenuItem value={"local-airport"}>Local Airport</MenuItem>
+            <MenuItem value={"international-airport"}>International Airport</MenuItem>
+            <MenuItem value={"private-airfield"}>Private Airfield</MenuItem>
+            <MenuItem value={"cargo-airport"}>Cargo Airport</MenuItem>
+            <MenuItem value={"military-airport"}>Military Airport</MenuItem>
+            <MenuItem value={"heliport"}>Heliport</MenuItem>
           </Select>
           <FormHelperText>Select Location Type</FormHelperText>
         </FormControl>
@@ -577,13 +611,24 @@ function AddLocationForm(props) {
       state: state,
       city: city,
       locationType: locationType,
-      allowAffiliateSale: allowAffiliateSale,
       address: formValues.address,
       town: formValues.town,
       contactPerson: formValues.contactPerson,
       contactPersonEmail: formValues.contactPersonEmail,
       contactPhoneNumber: formValues.contactPhoneNumber,
       createdBy: props.userId,
+      vvipPackageCost: formValues.vvipPackageCost,
+      businessExecutivePackageCost: formValues.businessExecutivePackageCost,
+      diplomaticPackageCost: formValues.diplomaticPackageCost,
+      familyPackageCost: formValues.familyPackageCost,
+      privateJetPackageCost: formValues.privateJetPackageCost,
+      medicalEmergencyPackageCost: formValues.medicalEmergencyPackageCost,
+      airlineCrewPackageCost: formValues.airlineCrewPackageCost,
+      addonLuxuryServiceCost: formValues.addonLuxuryServiceCost,
+      addonOnsiteSecurityServiceCost:formValues.addonOnsiteSecurityServiceCost,
+      addonOntransitSecurityServiceCost:formValues.addonOntransitSecurityServiceCost,
+      addonLoungeAccessServiceCost:formValues.addonLoungeAccessServiceCost,
+      addonConciergeServiceCost:formValues.addonConciergeServiceCost,
     };
     if (data) {
       const createForm = async () => {
@@ -752,11 +797,102 @@ function AddLocationForm(props) {
 
         <Field
           label=""
-          id="allowAffiliateSale"
-          name="allowAffiliateSale"
-          type="text"
-          component={renderAllowAffiliateSaleField}
+          id="vvipPackageCost"
+          name="vvipPackageCost"
+          type="number"
+          helperText="Cost of VVIP Package"
+          component={renderSingleLineField}
         />
+        <Field
+          label=""
+          id="businessExecutivePackageCost"
+          name="businessExecutivePackageCost"
+          type="number"
+          helperText="Cost of Business Executive Package"
+          component={renderSingleLineField}
+        />
+         <Field
+          label=""
+          id="diplomaticPackageCost"
+          name="diplomaticPackageCost"
+          type="number"
+          helperText="Cost of Diplomatic Package"
+          component={renderSingleLineField}
+        />
+        <Field
+          label=""
+          id="familyPackageCost"
+          name="familyPackageCost"
+          type="number"
+          helperText="Cost of Family & Group Package"
+          component={renderSingleLineField}
+        />
+        <Field
+          label=""
+          id="privateJetPackageCost"
+          name="privateJetPackageCost"
+          type="number"
+          helperText="Cost of Private Jet Leasing Package"
+          component={renderSingleLineField}
+        />
+         <Field
+          label=""
+          id="medicalEmergencyPackageCost"
+          name="medicalEmergencyPackageCost"
+          type="number"
+          helperText="Cost of Medical Emergency Package"
+          component={renderSingleLineField}
+        />
+        <Field
+          label=""
+          id="airlineCrewPackageCost"
+          name="airlineCrewPackageCost"
+          type="number"
+          helperText="Cost of Airline Crew Package"
+          component={renderSingleLineField}
+        />
+        <Field
+          label=""
+          id="addonLuxuryServiceCost"
+          name="addonLuxuryServiceCost"
+          type="number"
+          helperText="Cost of Addon Luxury Vehicle Service"
+          component={renderSingleLineField}
+        />
+         <Field
+          label=""
+          id="addonOnsiteSecurityServiceCost"
+          name="addonOnsiteSecurityServiceCost"
+          type="number"
+          helperText="Cost of Addon Onsite Security Service"
+          component={renderSingleLineField}
+        />
+        <Field
+          label=""
+          id="addonOntransitSecurityServiceCost"
+          name="addonOntransitSecurityServiceCost"
+          type="number"
+          helperText="Cost of Addon Ontransit Security Service"
+          component={renderSingleLineField}
+        />
+         <Field
+          label=""
+          id="addonLoungeAccessServiceCost"
+          name="addonLoungeAccessServiceCost"
+          type="number"
+          helperText="Cost of Addon Lounge Access Service"
+          component={renderSingleLineField}
+        />
+        <Field
+          label=""
+          id="addonConciergeServiceCost"
+          name="addonConciergeServiceCost"
+          type="number"
+          helperText="Cost of Addon Concierge Service"
+          component={renderSingleLineField}
+        />
+
+
 
         <Button
           variant="contained"

@@ -182,7 +182,7 @@ function AddVideoAndHooksForm(props) {
 
   const dispatch = useDispatch();
 
-  console.log('params:', params);
+  
 
   const handleUploadFiles = (files) => {
     const uploaded = [...uploadedFiles];

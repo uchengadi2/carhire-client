@@ -104,7 +104,18 @@ function Samples(props) {
           youtubeId:sample.youtubeId,
           sampleType: sample.sampleType,
           status:sample.status,
-          isAllowedOnThePlatform:sample.isAllowedOnThePlatform
+          isAllowedOnThePlatform:sample.isAllowedOnThePlatform,
+          specialFeature:sample.specialFeature,
+          image:sample.image,
+          images:sample.images,
+          driverDetails:sample.driverDetails,
+          location:sample.location,
+          vehicleDetails:sample.vehicleDetails,
+          vehicleDescription:sample.vehicleDescription,
+          maximumOccupants:sample.maximumOccupants,
+          vehicleClass:sample.vehicleClass,
+          vehicleMake:sample.vehicleMake,
+          vehicleModel:sample.vehicleModel,
         });
       });
       setSamplesList(allData);
@@ -250,23 +261,30 @@ function Samples(props) {
         //editable: true,
       },
       {
-        field: "youtubeId",
-        headerName: "YouTube Id",
-        width: 150,
+        field: "isAllowedOnThePlatform",
+        headerName: "Is Vehicle Approved for Platform?",
+        width: 250,
 
         //editable: true,
       },
       {
         field: "sampleType",
-        headerName: "Sample Type",
+        headerName: "Vehicle Type",
+        width: 150,
+
+        //editable: true,
+      },
+      {
+        field: "locationName",
+        headerName: "Vehicle Location",
         width: 150,
 
         //editable: true,
       },
       {
         field: "status",
-        headerName: "Status",
-        width: 150,
+        headerName: "Display Vehicle on the Platform?",
+        width: 200,
 
         //editable: true,
       },
@@ -284,7 +302,20 @@ function Samples(props) {
           youtubeId:sample.youtubeId,
           sampleType: sample.sampleType,
           status:sample.status,
-          isAllowedOnThePlatform:sample.isAllowedOnThePlatform
+          isAllowedOnThePlatform:sample.isAllowedOnThePlatform ? "Yes" : "Not Yet",
+          specialFeature:sample.specialFeature,
+          image:sample.image,
+          images:sample.images,
+          driverDetails:sample.driverDetails,
+          location:sample.location,
+          locationName: sample.location ? sample.location[0].name : "",
+          locationId: sample.location ? sample.location[0].id : "",
+          vehicleDetails:sample.vehicleDetails,
+          vehicleDescription:sample.vehicleDescription,
+          maximumOccupants:sample.maximumOccupants,
+          vehicleClass:sample.vehicleClass,
+          vehicleMake:sample.vehicleMake,
+          vehicleModel:sample.vehicleModel,
       };
       rows.push(row);
     });
@@ -321,7 +352,7 @@ function Samples(props) {
       <Grid container spacing={1} direction="column">
         <Grid item xs style={{ marginTop: 15 }}>
           <Grid container spacing={2}>
-          <Typography variant="h4">My Samples</Typography>
+          <Typography variant="h4">My Vehicles</Typography>
             <Grid item xs={matchesMDUp ? 9.3 : 2.7}>
               
               {/* {matchesMDUp &&<Typography variant="h4">My Samples</Typography>} */}

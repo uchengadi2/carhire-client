@@ -502,23 +502,53 @@ function Dashboard(props) {
                 </ListItemIcon>
                 <ListItemText>Countries</ListItemText>
               </MenuItem>
-              
               <MenuItem
                 className={
-                  slug === "utilities-languages" ? classes.selected : null
+                  slug === "utilities-states" ? classes.selected : null
                 }
-                selected={slug === "utilities-languages" ? true : false}
+                selected={slug === "utilities-states" ? true : false}
                 onClick={(event) => {
                   event.preventDefault();
-                  history.push(`/dashboard/utilities-languages`);
+                  history.push(`/dashboard/utilities-states`);
                 }}
               >
                 <ListItemIcon>
                   <StorefrontIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>Languages</ListItemText>
+                <ListItemText>States</ListItemText>
               </MenuItem>
               <MenuItem
+                className={
+                  slug === "utilities-cities" ? classes.selected : null
+                }
+                selected={slug === "utilities-cities" ? true : false}
+                onClick={(event) => {
+                  event.preventDefault();
+                  history.push(`/dashboard/utilities-cities`);
+                }}
+              >
+                <ListItemIcon>
+                  <StorefrontIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Cities</ListItemText>
+              </MenuItem>
+              
+              <MenuItem
+                className={
+                  slug === "utilities-locations" ? classes.selected : null
+                }
+                selected={slug === "utilities-locations" ? true : false}
+                onClick={(event) => {
+                  event.preventDefault();
+                  history.push(`/dashboard/utilities-locations`);
+                }}
+              >
+                <ListItemIcon>
+                  <StorefrontIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Locations</ListItemText>
+              </MenuItem>
+              {/* <MenuItem
                 className={
                   slug === "utilities-niches" ? classes.selected : null
                 }
@@ -532,7 +562,7 @@ function Dashboard(props) {
                   <StorefrontIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText>Niches</ListItemText>
-              </MenuItem>
+              </MenuItem> */}
              
               <MenuItem
                 className={
@@ -734,6 +764,11 @@ function Dashboard(props) {
         {slug === "utilities-cities" && (
           <Grid item xs={9.5}>
             <Cities />
+          </Grid>
+        )}
+        {slug === "utilities-locations" && (
+          <Grid item xs={9.5}>
+            <Locations />
           </Grid>
         )}
         {slug === "utilities-languages" && (

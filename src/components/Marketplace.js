@@ -16,6 +16,10 @@ import Snackbar from "@material-ui/core/Snackbar";
 import ReactPlayer from "react-player";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import LoginForm from "./authForms/LoginForm";
+import UserSignUp from "./users/UserSignUp";
+import UserPasswordReset from "./users/UserPasswordReset";
+
 import data from "../apis/local";
 import CallToAction from "./ui/CallToAction";
 import animationData from "../animations/landinganimation/data";
@@ -23,27 +27,24 @@ import animationData from "../animations/landinganimation/data";
 import revolutionBackground from "./../assets/repeatingBackground.svg";
 import infoBackground from "./../assets/infoBackground.svg";
 
-import background from "./../assets/images/covers/cover_1_image.jpg";
+import background from "./../assets/images/site/image5.webp";
 import UpperFooter from "./ui/UpperFooter";
 import TopCover from "./homePageCards/TopCover";
-import LearningPath from "./homePageCards/LearningPath";
-import TopCoverNew from "./homePageCards/TopCoverNew";
-import TopCoverServices from "./homePageCards/TopCoverServices";
-import ServicePreferences from "./homePageCards/ServicePreferences";
+import HeroSection from "./homePageCards/HeroSection";
+import NoCodeAndAutomationAdBar from "./homePageCards/NoCodeAndAutomationAdBar";
+import ProtocolPackges from "./homePageCards/ProtocolPackges";
+import CarHireOnlyService from "./homePageCards/CarHireOnlyService";
+import CarHireAndSecurityOnlyServices from "./homePageCards/CarHireAndSecurityOnlyServices";
+import TheFounders from "./homePageCards/TheFounders";
+import OurClients from "./homePageCards/OurClients";
+import api from "./../apis/local";
 
-//import mobileBackground from "./../../assets/mobileBackground.jpg";
-
-import AllCourses from "./homePageCards/AllCourses";
-
-import { baseURL } from "../apis/util";
-import AllCreatorsOnList from "./homePageCards/AllCreatorsOnList";
-import AllProductsInCardDesign from "./homePageCards/AllProductsInCardDesign.";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     height: "80vh",
-    // height: "100%",
+    height: "100%",
     position: "relative",
     "& video": {
       objectFit: "cover",
@@ -263,6 +264,33 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "5rem",
     marginBottom: "5rem",
   },
+  button: {
+    ...theme.typography.estimate,
+    borderRadius: "250px",
+    marginLeft: "20px",
+    marginRight: "10px",
+    height: "45px",
+    width: "120px",
+
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+      color: "white",
+    },
+  },
+  cart: {
+    ...theme.typography.estimate,
+    borderRadius: "250px",
+    marginLeft: "2px",
+    marginRight: "1px",
+    height: "45px",
+    fontSize: "13px",
+    fontWeight: "500px",
+    width: "60px",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+      color: "white",
+    },
+  },
 }));
 
 const Marketplace = (props) => {
@@ -289,6 +317,12 @@ const Marketplace = (props) => {
   const [updateNichePath, setUpdateNichePath] = useState(0);
   const [updateCountryPath, setUpdateCountryPath] = useState(0);
   const [updateDeliveryDaysPath, setUpdateDeliveryDaysPath] = useState('all');
+  const [locationList, setLocationList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [openLoginForm, setOpenLoginForm] = useState(false);
+  const [openSignUpForm, setOpenSignUpForm] = useState(false);
+  const [openForgotPasswordForm, setOpenForgotPasswordForm] = useState(false);
 
 
   // const [courseType, setCourseType] = useState(0);
@@ -308,6 +342,53 @@ const Marketplace = (props) => {
       preserveAspectRatio: "xMidyMid slice",
     },
   };
+
+
+
+  useEffect(() => {
+      setLoading(true);
+      const fetchData = async () => {
+        let allData = [];
+        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+        const response = await api.get(`/locations`,{params:{status:"active"}});
+        const workingData = response.data.data.data;
+        workingData.map((location) => {
+          allData.push({
+            id: location._id,
+            name: location.name,
+            code: location.code,
+            locationType: location.locationType,
+            description: location.description,
+            country: location.country,
+            state: location.state,
+            city: location.city,
+            town: location.town,
+            address: location.address,
+            contactPerson: location.contactPerson,
+            contactPersonEmail: location.contactPersonEmail,
+            contactPhoneNumber: location.contactPhoneNumber,
+            vvipPackageCost: location.vvipPackageCost,
+            businessExecutivePackageCost: location.businessExecutivePackageCost,
+            diplomaticPackageCost: location.diplomaticPackageCost,
+            familyPackageCost: location.familyPackageCost,
+            privateJetPackageCost: location.privateJetPackageCost,
+            medicalEmergencyPackageCost: location.medicalEmergencyPackageCost,
+            airlineCrewPackageCost: location.airlineCrewPackageCost,
+            addonLuxuryServiceCost: location.addonLuxuryServiceCost,
+            addonOnsiteSecurityServiceCost:location.addonOnsiteSecurityServiceCost,
+            addonOntransitSecurityServiceCost:location.addonOntransitSecurityServiceCost,
+            addonLoungeAccessServiceCost:location.addonLoungeAccessServiceCost,
+            addonConciergeServiceCost:location.addonConciergeServiceCost,
+          });
+        });
+        setLocationList(allData);
+        setLoading(false);
+      };
+  
+      //call the function
+  
+      fetchData().catch(console.error);
+    }, [props.token]);
 
   const handleBecomeAPartnerOpenDialogBox = () => {
     setBecomePartnerOpen(false);
@@ -377,6 +458,91 @@ const Marketplace = (props) => {
     setBecomePartnerOpen(true);
   };
 
+
+  const handleMakeOpenSignUpDialogStatus = () => {
+    // history.push("/categories/new");
+    setOpenSignUpForm(true);
+    setOpenLoginForm(false);
+  };
+  const handleMakeOpenLoginFormDialogStatus = () => {
+    // history.push("/categories/new");
+    setOpenSignUpForm(false);
+    setOpenLoginForm(true);
+  };
+
+  const handleLoginDialogOpenStatus = () => {
+    // history.push("/categories/new");
+    setOpenLoginForm(false);
+  };
+
+  const handleFailedLoginDialogOpenStatusWithSnackbar = (message) => {
+    // history.push("/categories/new");
+    setAlert({
+      open: true,
+      message: message,
+
+      backgroundColor: "#FF3232",
+    });
+    setOpenLoginForm(true);
+  };
+
+  const handleSuccessfulSignUpDialogOpenStatusWithSnackbar = () => {
+    // history.push("/categories/new");
+    setOpenSignUpForm(false);
+    setAlert({
+      open: true,
+      message: "You have successfully signed up",
+      backgroundColor: "#4BB543",
+    });
+  };
+
+ 
+  const handleFailedSignUpDialogOpenStatusWithSnackbar = (message) => {
+    // history.push("/categories/new");
+    setAlert({
+      open: true,
+      message: message,
+
+      backgroundColor: "#FF3232",
+    });
+    setOpenSignUpForm(true);
+  };
+
+
+  const handleMakeOpenForgotPasswordFormDialogStatus = () => {
+    // history.push("/categories/new");
+    setOpenForgotPasswordForm(true);
+    setOpenLoginForm(false);
+  };
+  const handleMakeCloseForgotPasswordFormDialogStatus = () => {
+    // history.push("/categories/new");
+    setOpenForgotPasswordForm(false);
+    setOpenLoginForm(false);
+  };
+
+ 
+  const handleMakeCloseSignUpDialogStatus = () => {
+    // history.push("/categories/new");
+    setOpenSignUpForm(false);
+  };
+
+
+
+  const handleLoginDialogCloseStatus = () => {
+    // history.push("/categories/new");
+    setOpenLoginForm(false);
+  };
+
+  const handleSuccessfulLoginDialogOpenStatusWithSnackbar = () => {
+    // history.push("/categories/new");
+    setOpenLoginForm(false);
+    setAlert({
+      open: true,
+      message: "You have successfully logged in",
+      backgroundColor: "#4BB543",
+    });
+  };
+  
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -2995,144 +3161,246 @@ const Marketplace = (props) => {
   const Str = require("@supercharge/strings");
 
 
-  //This is the working code that had been tested
-  const allCreatorsList = matchesMD ? (
-    <React.Fragment>
-      {
-        <Grid container direction="row">
-        <Box>
-          {creatorsList.map((creator, index) => (
-            <AllCreatorsOnList
-            name={creator.name}
-            creatorId={creator.id}
-              key={`${creator.id}${index}`}
-              bio={Str(creator.bio)
-                .limit(500, "...")
-                .get()}
-                //bio={course.bio}
-                user={creator.user}
-                currency={creator.currency}
-                videoPrice={creator.videoPrice}
-                videoHookPrice={creator.videoHookPrice}
-                videoDeliveryDays={creator.videoDeliveryDays}
-                soundPrice={creator.soundPrice}
-                soundHookPrice={creator.soundHookPrice}
-                soundDeliveryDays={creator.soundDeliveryDays}
-                age={creator.age}
-                gender={creator.gender}
-                rate={creator.rate}
-                country={creator.country}
-                category={creator.category}
-                niches={creator.niches}
-                languages={creator.languages}
-                slug={creator.slug}
-                status={creator.status}
-                creatorContactPhoneNumber={creator.creatorContactPhoneNumber}
-                creatorContactEmailAddress={creator.creatorContactEmailAddress}
-                image={creator.image}
-                token={props.token}
-              userId={props.userId}
+
+  const renderLoginForm = () => {
+      return (
+        <Dialog
+          //style={{ zIndex: 1302 }}
+          fullScreen={matchesXS}
+          open={openLoginForm}
+          //onClose={() => [setOpenLoginForm(false), history.push("/")]}
+          onClose={() => [setOpenLoginForm(false)]}
+        >
+          <DialogContent>
+            <LoginForm
+              handleLoginDialogOpenStatus={handleLoginDialogOpenStatus}
+              handleMakeOpenSignUpDialogStatus={handleMakeOpenSignUpDialogStatus}
+              handleMakeCloseSignUpDialogStatus={
+                handleMakeCloseSignUpDialogStatus
+              }
+              handleLoginDialogCloseStatus={handleLoginDialogCloseStatus}
+              handleMakeOpenForgotPasswordFormDialogStatus={
+                handleMakeOpenForgotPasswordFormDialogStatus
+              }
+              handleSuccessfulLoginDialogOpenStatusWithSnackbar={
+                handleSuccessfulLoginDialogOpenStatusWithSnackbar
+              }
+              handleFailedLoginDialogOpenStatusWithSnackbar={
+                handleFailedLoginDialogOpenStatusWithSnackbar
+              }
+              handleFailedSignUpDialogOpenStatusWithSnackbar={
+                handleFailedSignUpDialogOpenStatusWithSnackbar
+              }
+              setToken={props.setToken}
+             setUserId={props.setUserId}
+            />
+          </DialogContent>
+        </Dialog>
+      );
+    };
+  
+    const renderSignUpForm = () => {
+      return (
+        <Dialog
+          //style={{ zIndex: 1302 }}
+          fullScreen={matchesXS}
+          open={openSignUpForm}
+          //onClose={() => [setOpenSignUpForm(false), history.push("/")]}\
+          onClose={() => [setOpenSignUpForm(false)]}
+        >
+          <DialogContent>
+            <UserSignUp
+              token={props.token}
+              handleMakeOpenSignUpDialogStatus={handleMakeOpenSignUpDialogStatus}
+              handleMakeCloseSignUpDialogStatus={
+                handleMakeCloseSignUpDialogStatus
+              }
+              handleMakeOpenLoginFormDialogStatus={
+                handleMakeOpenLoginFormDialogStatus
+              }
+              handleSuccessfulSignUpDialogOpenStatusWithSnackbar={
+                handleSuccessfulSignUpDialogOpenStatusWithSnackbar
+              }
+              handleFailedSignUpDialogOpenStatusWithSnackbar={
+                handleFailedSignUpDialogOpenStatusWithSnackbar
+              }
               setToken={props.setToken}
               setUserId={props.setUserId}
-              updateLearningPathInfoInfo={updateLearningPathInfoInfo}
-              path={path}
             />
-          ))}
-           </Box>
-        </Grid>
+          </DialogContent>
+        </Dialog>
+      );
+    };
+
+
+    const renderForgotPasswordForm = () => {
+        return (
+          <Dialog
+            //style={{ zIndex: 1302 }}
+            fullScreen={matchesXS}
+            open={openForgotPasswordForm}
+            //onClose={() => [setOpenForgotPasswordForm(false), history.push("/")]}
+            onClose={() => [setOpenForgotPasswordForm(false)]}
+          >
+            <DialogContent>
+              <UserPasswordReset
+                token={props.token}
+                userId={props.userId}
+                handleMakeOpenSignUpDialogStatus={handleMakeOpenSignUpDialogStatus}
+                handleMakeCloseSignUpDialogStatus={
+                  handleMakeCloseSignUpDialogStatus
+                }
+                handleMakeOpenLoginFormDialogStatus={
+                  handleMakeOpenLoginFormDialogStatus
+                }
+                handleMakeCloseForgotPasswordFormDialogStatus={
+                  handleMakeCloseForgotPasswordFormDialogStatus
+                }
+              />
+            </DialogContent>
+          </Dialog>
+        );
+      };
+
+
+  //This is the working code that had been tested
+  // const allCreatorsList = matchesMD ? (
+  //   <React.Fragment>
+  //     {
+  //       <Grid container direction="row">
+  //       <Box>
+  //         {creatorsList.map((creator, index) => (
+  //           <AllCreatorsOnList
+  //           name={creator.name}
+  //           creatorId={creator.id}
+  //             key={`${creator.id}${index}`}
+  //             bio={Str(creator.bio)
+  //               .limit(500, "...")
+  //               .get()}
+  //               //bio={course.bio}
+  //               user={creator.user}
+  //               currency={creator.currency}
+  //               videoPrice={creator.videoPrice}
+  //               videoHookPrice={creator.videoHookPrice}
+  //               videoDeliveryDays={creator.videoDeliveryDays}
+  //               soundPrice={creator.soundPrice}
+  //               soundHookPrice={creator.soundHookPrice}
+  //               soundDeliveryDays={creator.soundDeliveryDays}
+  //               age={creator.age}
+  //               gender={creator.gender}
+  //               rate={creator.rate}
+  //               country={creator.country}
+  //               category={creator.category}
+  //               niches={creator.niches}
+  //               languages={creator.languages}
+  //               slug={creator.slug}
+  //               status={creator.status}
+  //               creatorContactPhoneNumber={creator.creatorContactPhoneNumber}
+  //               creatorContactEmailAddress={creator.creatorContactEmailAddress}
+  //               image={creator.image}
+  //               token={props.token}
+  //             userId={props.userId}
+  //             setToken={props.setToken}
+  //             setUserId={props.setUserId}
+  //             updateLearningPathInfoInfo={updateLearningPathInfoInfo}
+  //             path={path}
+  //           />
+  //         ))}
+  //          </Box>
+  //       </Grid>
        
 
 
-        //This is the new code for Card implementation
-        // <Box>
+  //       //This is the new code for Card implementation
+  //       // <Box>
          
-        //     <AllProductsInCardDesign
-        //      creatorsList={creatorsList}
+  //       //     <AllProductsInCardDesign
+  //       //      creatorsList={creatorsList}
               
-        //         token={props.token}
-        //         userId={props.userId}
-        //         setToken={props.setToken}
-        //         setUserId={props.setUserId}
-        //         updateLearningPathInfoInfo={updateLearningPathInfoInfo}
-        //         path={path}
-        //     />
+  //       //         token={props.token}
+  //       //         userId={props.userId}
+  //       //         setToken={props.setToken}
+  //       //         setUserId={props.setUserId}
+  //       //         updateLearningPathInfoInfo={updateLearningPathInfoInfo}
+  //       //         path={path}
+  //       //     />
         
 
-        // </Box>
+  //       // </Box>
        
-      }
-    </React.Fragment>
-  ) : (
-    <React.Fragment>
-      {
-        //This is teh first design for Card implementation
+  //     }
+  //   </React.Fragment>
+  // ) : (
+  //   <React.Fragment>
+  //     {
+  //       //This is teh first design for Card implementation
 
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-        <Box>
+  //       <Grid
+  //         container
+  //         direction="column"
+  //         justifyContent="center"
+  //         alignItems="center"
+  //       >
+  //       <Box>
      
-          {creatorsList.map((creator, index) => (
-            <AllCreatorsOnList
-            name={creator.name}
-            creatorId={creator.id}
-            key={`${creator.id}${index}`}
-            bio={Str(creator.bio)
-              .limit(500, "...")
-              .get()}
-              //bio={course.bio}
-              user={creator.user}
-              currency={creator.currency}
-              videoPrice={creator.videoPrice}
-              videoHookPrice={creator.videoHookPrice}
-              videoDeliveryDays={creator.videoDeliveryDays}
-              soundPrice={creator.soundPrice}
-              soundHookPrice={creator.soundHookPrice}
-              soundDeliveryDays={creator.soundDeliveryDays}
-              age={creator.age}
-              gender={creator.gender}
-              rate={creator.rate}
-              country={creator.country}
-              category={creator.category}
-              niches={creator.niches}
-              languages={creator.languages}
-              slug={creator.slug}
-              status={creator.status}
-              creatorContactPhoneNumber={creator.creatorContactPhoneNumber}
-              creatorContactEmailAddress={creator.creatorContactEmailAddress}
-              image={creator.image}
-              token={props.token}
-            userId={props.userId}
-            setToken={props.setToken}
-            setUserId={props.setUserId}
-            updateLearningPathInfoInfo={updateLearningPathInfoInfo}
-            path={path}
-            />
-          ))}
-       </Box>
-    </Grid>
+  //         {creatorsList.map((creator, index) => (
+  //           <AllCreatorsOnList
+  //           name={creator.name}
+  //           creatorId={creator.id}
+  //           key={`${creator.id}${index}`}
+  //           bio={Str(creator.bio)
+  //             .limit(500, "...")
+  //             .get()}
+  //             //bio={course.bio}
+  //             user={creator.user}
+  //             currency={creator.currency}
+  //             videoPrice={creator.videoPrice}
+  //             videoHookPrice={creator.videoHookPrice}
+  //             videoDeliveryDays={creator.videoDeliveryDays}
+  //             soundPrice={creator.soundPrice}
+  //             soundHookPrice={creator.soundHookPrice}
+  //             soundDeliveryDays={creator.soundDeliveryDays}
+  //             age={creator.age}
+  //             gender={creator.gender}
+  //             rate={creator.rate}
+  //             country={creator.country}
+  //             category={creator.category}
+  //             niches={creator.niches}
+  //             languages={creator.languages}
+  //             slug={creator.slug}
+  //             status={creator.status}
+  //             creatorContactPhoneNumber={creator.creatorContactPhoneNumber}
+  //             creatorContactEmailAddress={creator.creatorContactEmailAddress}
+  //             image={creator.image}
+  //             token={props.token}
+  //           userId={props.userId}
+  //           setToken={props.setToken}
+  //           setUserId={props.setUserId}
+  //           updateLearningPathInfoInfo={updateLearningPathInfoInfo}
+  //           path={path}
+  //           />
+  //         ))}
+  //      </Box>
+  //   </Grid>
         
         
-    //This is the second design for Card implementation
+  //   //This is the second design for Card implementation
         
-        // <Box>         
-        //     <AllProductsInCardDesign
-        //      creatorsList={creatorsList}
+  //       // <Box>         
+  //       //     <AllProductsInCardDesign
+  //       //      creatorsList={creatorsList}
               
-        //         token={props.token}
-        //         userId={props.userId}
-        //         setToken={props.setToken}
-        //         setUserId={props.setUserId}
-        //         updateLearningPathInfoInfo={updateLearningPathInfoInfo}
-        //         path={path}
-        //     />
-        //     </Box>
-      }
-    </React.Fragment>
-  );
+  //       //         token={props.token}
+  //       //         userId={props.userId}
+  //       //         setToken={props.setToken}
+  //       //         setUserId={props.setUserId}
+  //       //         updateLearningPathInfoInfo={updateLearningPathInfoInfo}
+  //       //         path={path}
+  //       //     />
+  //       //     </Box>
+  //     }
+  //   </React.Fragment>
+  // );
 
   return (
     <>
@@ -3180,15 +3448,25 @@ const Marketplace = (props) => {
                         }}
                       >
                         {" "}
-                        Connect with top creators to craft high-quality <br />
+                      We specialize in corporate, diplomatic, and VIP airport protocol services <br />
                       </span>{" "}
                       <span style={{ marginLeft: matchesSM ? 20 : 60 }}>
-                      marketing videos and audio jingles that,
+                      — ensuring smooth, secure, and efficient travel experiences for 
                       </span>
+                    
+                      {/* <span style={{ marginLeft: matchesSM ? 20 : 80 }}>
+                       while raking in more customers for your business.
+                      </span> */}
                       <br />
                       <span style={{ marginLeft: matchesSM ? 20 : 110 }}>
-                      elevate your brand
+                      business leaders, government officials, and private clients.
                       </span>
+                      <br />
+                      {/* <span style={{ marginLeft: matchesSM ? 20 : 140 }}>
+                      and scalable solutions
+                      </span> */}
+                      <br />
+                     
                       <br />
                     </Typography>
                   ) : (
@@ -3205,34 +3483,53 @@ const Marketplace = (props) => {
                         }}
                       >
                         {" "}
-                        Connect with top creators to craft high-quality<br />
+                      We specialize in corporate, diplomatic,   <br />
                       </span>{" "}
                       <span style={{ marginLeft: matchesSM ? 20 : 60 }}>
-                      marketing videos and audio jingles that
+                      and VIP airport protocol services
                       </span>
                       <br />
-                      <span style={{ marginLeft: matchesSM ? 30 : 110 }}>
-                      elevate your brand
+                      <span style={{ marginLeft: matchesSM ? 30 : 60 }}>
+                      — ensuring smooth, secure, and efficient
                       </span>
                       <br />
-                      {/* <span style={{ marginLeft: matchesSM ? 50 : 140 }}>
-                        into future champions in their fields
-                      </span> */}
+                      <span style={{ marginLeft: matchesSM ? 40 : 60 }}>
+                     travel experiences for business leaders,
+                      </span>
+                      <br />
+                      <span style={{ marginLeft: matchesSM ? 50 : 110 }}>
+                      government officials, and private clients. 
+                      </span>
+                      <br />
+                      {/* <span style={{ marginLeft: matchesSM ? 60 : 140 }}>
+                      secure, and scalable solutions
+                      </span>
+                      <br /> */}
                     </Typography>
                   )}
 
-                  {/* {matchesMD ? (
-                    <Grid
-                      container
-                      justifyContent="flex-start"
-                      direction={matchesSM ? "column" : "row"}
-                      // className={classes.topCover}
-                    >
+                  {matchesMD ? (
+                    // <Grid
+                    //   container
+                    //   justifyContent="flex-start"
+                    //   direction={matchesSM ? "column" : "row"}
+                    //   className={classes.topCover}
+                    // >
+                    //   <Button 
+                    //     variant="contained" 
+                    //     style={{ marginTop: 40, marginLeft:350 }}
+                    //     className={classes.button}
+                    //     color="secondary"
+                    //   >
+                    //     Let's Talk
+                    //   </Button>
                       
-                    </Grid>
+                    // </Grid>
+                    <></>
                   ) : (
+                    <></>
                     
-                  )} */}
+                  )}
                 </Grid>
               </Box>
               {/* </div> */}
@@ -3242,8 +3539,20 @@ const Marketplace = (props) => {
             </Grid>
           </Grid>
         </Grid>
+        {/** Adding the Heero Text container here  */}
+        <CarHireOnlyService />
         {/* </section> */}
         <TopCover />
+        <CarHireAndSecurityOnlyServices />
+        <ProtocolPackges 
+          location={locationList} 
+          handleMakeOpenSignUpDialogStatus={handleMakeOpenSignUpDialogStatus}
+          handleMakeOpenLoginFormDialogStatus={handleMakeOpenLoginFormDialogStatus}
+        />
+        <TheFounders />
+        <OurClients />
+
+        {/* <NoCodeAndAutomationAdBar /> */}
         {/* <TopCoverServices />
         <TopCoverNew /> */}
         {/* <TopCover /> */}
@@ -3251,7 +3560,7 @@ const Marketplace = (props) => {
           updatePathHandler={updatePathHandler}
           updateLearningPathInfoInfo={updateLearningPathInfoInfo}
         /> */}
-        <ServicePreferences
+        {/* <ServicePreferences
           //updateCourseTypeHandler={updateCourseTypeHandler}
           updateAgePathInfoHandler={updateAgePathInfoHandler}
           updatePricePathHandler={updatePricePathHandler}
@@ -3263,16 +3572,16 @@ const Marketplace = (props) => {
           updateServicePathInfoInfo={updateServicePathInfoInfo}
           
     
-        />
+        /> */}
 
-        {isLoading && (
+        {/* {isLoading && (
           <CircularProgress
             size={100}
             color="inherit"
             style={{ marginTop: 250, marginLeft: 650 }}
           />
         )}
-        {/**if there is no course */}
+      
         {!isLoading && creatorsList.length === 0 && (
           <Typography
             variant="h4"
@@ -3283,16 +3592,28 @@ const Marketplace = (props) => {
             No Creator Is Found
           </Typography>
         )}
-        {/** This is for path = crash-course**/}
        
-        {/** This is for path = all**/}
        
         {!isLoading && path === "all" && (
           <Grid item>{allCreatorsList}</Grid>
-        )}
+        )} */}
+      {renderLoginForm()}
+      {renderSignUpForm()}
+      {renderForgotPasswordForm()}
+     
         <Grid item className={classes.footer}>
           <UpperFooter />
         </Grid>
+         <Snackbar
+                open={alert.open}
+                message={alert.message}
+                ContentProps={{
+                  style: { backgroundColor: alert.backgroundColor },
+                }}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                onClose={() => setAlert({ ...alert, open: false })}
+                autoHideDuration={4000}
+              />
       </Grid>
     </>
   );

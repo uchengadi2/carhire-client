@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
     marginLeft: "10px",
     //borderRadius: 30,
-    marginTop: "2rem",
+    //marginTop: "2rem",
     marginBottom: "1.5em",
     padding: 0,
     borderRadius: 10,
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     // borderColor: "transparent",
     // backgroundColor: theme.palette.common.white,
     // borderShadow: "1px 1px 1px 1px",
-    // boxShadow: "2px 2px 2px 2px",
+    boxShadow: "0px 0px 1px 1px",
     // "&:hover": {
     //   //border: "solid",
     //   //borderColor: theme.palette.common.grey,
@@ -201,6 +201,32 @@ const useStyles = makeStyles((theme) => ({
       backgroundAttachment: "inherit",
     },
   },
+  viewButton: {
+    ...theme.typography.learnButton,
+    fontSize: "0.7rem",
+    height: 35,
+    width: 140,
+    padding: 5,
+    marginTop: "55px",
+    marginLeft: "11%",
+    border: `2px solid ${theme.palette.common.blue}`,
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: "1em",
+    },
+  },
+  viewButtonMobile: {
+    ...theme.typography.learnButton,
+    fontSize: "0.7rem",
+    height: 35,
+    width: 180,
+    padding: 5,
+    marginTop: "55px",
+    marginLeft: "5%",
+    border: `2px solid ${theme.palette.common.blue}`,
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: "1em",
+    },
+  },
 }));
 
 export default function AllProductsInCardDesign(props) {
@@ -215,6 +241,7 @@ export default function AllProductsInCardDesign(props) {
   const [stateName, setStateName] = useState();
   const [product, setProduct] = useState({});
   const [vendorName, setVendorName] = useState();
+  const [categorySlug, setCategorySlug] = useState();
 
   // const { token, setToken } = useToken();
   // const { userId, setUserId } = useUserId();
@@ -457,40 +484,91 @@ export default function AllProductsInCardDesign(props) {
     return <></>;
   }
 
-  console.log('props is:',props)
-
+  
   return (
     <>
       {matchesMDUp ? (
         <Box>
-            <Grid container direction="row" style={{marginBottom:20, marginTop:20, marginLeft:'2%',marginRight:'5%'}}>
+            <Grid 
+              container 
+              direction="row" 
+              style={
+                {
+                  marginBottom:5,
+                   marginTop:100, 
+                   marginLeft:'2%',
+                   marginRight:'5%',
+                  
+                   }}
+                >
                 {props.creatorsList.map((creator, index) => (
-                
+               
 
                  <Grid item container justifyContent="center" alignItems="center" style={{width:'17%',marginLeft:"2%",marginTop:20}}>
-                    <Card style={{height:400}} raised={true} className={classes.root}>
+                    <Card 
+                      style={{height:420, boxShadow:'0px 0px 1px 1px #B7B7B7'}} 
+                      raised={true} 
+                      className={classes.root}
+                      onMouseOver={(event) => {
+                       //event.currentTarget.style.height = "450px";
+                        event.currentTarget.style.boxShadow = "0px 0px 20px 20px #B7B7B7";
+                        
+                        
+                      }}
+
+                      onMouseOut={event => {
+                        //event.currentTarget.style.height = "420px";
+                        event.currentTarget.style.boxShadow = "0px 0px 1px 1px #B7B7B7";
+                       //event.currentTarget.style.height = "420px";
+                      }}
+                      
+                      
+                    >
                 
 
                         <CardActionArea
-                            component={Link}
-                            to={`/products/${props.id}`}
+                             component={Link}
+                            // to="/mobileapps"
+                            // to={`/categories/${categoryId}/${productId}`}
+                            to={`/categories/${creator.category[0].slug}/${creator.slug}/${props.service}`}
+                            varaint="outlined"
                             className={classes.imageContainer}
-                             onClick={() => {
-                        
-                    }}
+                            onClick={() => <ProductDetails />}
                     >
                     <CardMedia
                         className={classes.media}
                         component="img"
                         alt={props.name}
-                        image={`${baseURL}/images/creators/${creator.image}`}
+                        image={`${baseURL}/images/vehicles/${creator.image}`}
                         //title={product.name}
                         crossOrigin="anonymous"
                      />
                 </CardActionArea>  
-                <CardContent style={{height:'auto'}}>
-                    <Typography>This is the content Area</Typography>
+                <CardContent style={{height:150}}>
+                    <Typography>{creator.refNumber}</Typography>
+                    <Typography><strong>Make</strong>: {creator.vehicleMake}</Typography>
+                    <Typography><strong>Model</strong>: {creator.vehicleModel}</Typography>
+                    <Typography><strong>Class</strong>: {creator.vehicleClass}</Typography>
+                    <Typography><strong>Type</strong>: {creator.sampleType}</Typography>
+                    <Typography><strong>Maximum Occupants</strong>: {creator.maximumOccupants}</Typography>
+                    
+                    <Typography><strong>Special Feature</strong>: {creator.specialFeature}</Typography>
+                    {creator.location && <Typography><strong>Location</strong>: {creator.location[0].name}</Typography>}
                 </CardContent>
+                <CardActions style={{justifyContent:'center', marginTop:10, marginBottom:10}}>
+                    <Button
+                       component={Link}
+                       // to="/mobileapps"
+                       // to={`/categories/${categoryId}/${productId}`}
+                       to={`/categories/${creator.category[0].slug}/${creator.slug}/${props.service}`}
+                       varaint="outlined"
+                       className={classes.viewButton}
+                       onClick={() => <ProductDetails />}
+                    >
+                      <span style={{ marginRight: 10 }}>View Vehicle</span>
+                      <ButtonArrow width={15} height={15} fill={theme.palette.common.blue} />
+                    </Button>
+                  </CardActions>
 
                 </Card>
               </Grid>   
@@ -510,29 +588,52 @@ export default function AllProductsInCardDesign(props) {
                 
 
                  <Grid item container justifyContent="center" alignItems="center" style={{width:'45%',marginLeft:"2%",marginTop:10}}>
-                    <Card style={{height:400}} raised={true} className={classes.root}>
+                    <Card style={{height:450}} raised={true} className={classes.root}>
                 
 
                         <CardActionArea
                             component={Link}
-                            to={`/products/${props.id}`}
+                            // to="/mobileapps"
+                            // to={`/categories/${categoryId}/${productId}`}
+                            to={`/categories/${creator.category[0].slug}/${creator.slug}/${props.service}`}
+                            varaint="outlined"
                             className={classes.imageContainer}
-                             onClick={() => {
-                        
-                    }}
+                            onClick={() => <ProductDetails />}
                     >
                     <CardMedia
                         className={classes.media}
                         component="img"
                         alt={props.name}
-                        image={`${baseURL}/images/creators/${creator.image}`}
+                        image={`${baseURL}/images/vehicles/${creator.image}`}
                         //title={product.name}
                         crossOrigin="anonymous"
                      />
                 </CardActionArea>  
-                <CardContent style={{height:'auto'}}>
-                    <Typography>This is the content Area</Typography>
+                <CardContent style={{height:220}}>
+               
+                <Typography>{creator.refNumber}</Typography>
+                    <Typography><strong>Make</strong>: {creator.vehicleMake}</Typography>
+                    <Typography><strong>Model</strong>: {creator.vehicleModel}</Typography>
+                    <Typography><strong>Class</strong>: {creator.vehicleClass}</Typography>
+                    <Typography><strong>Type</strong>: {creator.sampleType}</Typography>
+                    <Typography><strong>Occupants</strong>: {creator.maximumOccupants}</Typography>
+                    <Typography><strong>Special Feature</strong>: {creator.specialFeature}</Typography>
+                    {creator.location && <Typography><strong>Location</strong>: {creator.location[0].name}</Typography>}
                 </CardContent>
+                <CardActions style={{justifyContent:'center', marginTop:10,marginBottom:10}}>
+                    <Button
+                      component={Link}
+                      // to="/mobileapps"
+                      // to={`/categories/${categoryId}/${productId}`}
+                      to={`/categories/${creator.category[0].slug}/${creator.slug}/${props.service}`}
+                      varaint="outlined"
+                      className={classes.viewButton}
+                      onClick={() => <ProductDetails />}
+                    >
+                      <span style={{ marginRight: 10 }}>View Vehicle</span>
+                      <ButtonArrow width={15} height={15} fill={theme.palette.common.blue} />
+                    </Button>
+                  </CardActions>
 
                 </Card>
               </Grid>   

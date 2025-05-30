@@ -46,6 +46,7 @@ import ProductAssessmentDetails from "./products/ProductAssessmentDetails";
 import DashboardBrand from "./Dashboard/DashboardBrand";
 import DashboardCreator from "./Dashboard/DashboardCreator";
 import ResetUserPasswordForm from "./authForms/ResetUserPasswordForm";
+import BookingCentral from "./BookingCentral";
 
 function App() {
   const { token, setToken } = useToken();
@@ -174,6 +175,15 @@ function App() {
                 setUserId={setUserId ? setUserId : {}}
               />
             </Route>
+            <Route path="/bookingcentral/:serviceId">
+              <BookingCentral
+                token={token}
+                setToken={setToken ? setToken : {}}
+                userId={userId}
+                setUserId={setUserId ? setUserId : {}}
+              
+              />
+            </Route>
             <Route exact path="/categories/:categoryId">
               <ProductsForCategory
                 token={token}
@@ -182,7 +192,7 @@ function App() {
                 setUserId={setUserId ? setUserId : {}}
               />
             </Route>
-            <Route path="/categories/:catSlug/:slug">
+            <Route path="/categories/:catSlug/:slug/:serviceId">
               <ProductDetails
                 token={token}
                 userId={userId}
@@ -419,6 +429,9 @@ function App() {
                 setUserId={setUserId ? setUserId : {}}
               />
             </Route>
+           
+
+            
             {/* <Route path="/preferences">
               <Preferences />
             </Route> */}

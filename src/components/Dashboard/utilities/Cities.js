@@ -58,6 +58,7 @@ function Cities(props) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [cityList, setCityList] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [rowSelected, setRowSelected] = useState(false);
   const [selectedRowId, setSelectedRowId] = useState();
   const [rowNumber, setRowNumber] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -183,6 +184,11 @@ function Cities(props) {
     selectedIDs.forEach(function (value) {
       setSelectedRowId(value);
     });
+    if (selectedIDs.size === 1) {
+      setRowSelected(true);
+    } else {
+      setRowSelected(false);
+    }
   };
 
   const renderDataGrid = () => {
@@ -316,7 +322,7 @@ function Cities(props) {
                       />
                     </DialogContent>
                   </Dialog>
-                  <Button variant="contained" onClick={handleEditOpen}>
+                  <Button variant="contained" onClick={handleEditOpen} disabled={rowSelected ? false : true}>
                     Edit
                   </Button>
                   <Dialog
@@ -342,7 +348,7 @@ function Cities(props) {
                       />
                     </DialogContent>
                   </Dialog>
-                  <Button variant="contained" onClick={handleDeleteOpen}>
+                  <Button variant="contained" onClick={handleDeleteOpen} disabled={rowSelected ? false : true}>
                     Delete
                   </Button>
                   <Dialog

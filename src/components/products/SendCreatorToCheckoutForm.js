@@ -55,80 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const renderRequestedQuantityField = ({
-  input,
-  label,
-  meta: { touched, error, invalid },
-  type,
-  helperText,
-  min,
-  id,
-  ...custom
-}) => {
-  return (
-    <TextField
-      //error={touched && invalid}
-      helperText={`${helperText} `} 
-      variant="outlined"
-      label={label}
-      id={input.name}
-      //value={input.value}
-      fullWidth
-      //required
-      type={type}
-      //defaultValue={quantity}
-      {...custom}
-      onChange={input.onChange}
-      InputProps={{
-        inputProps: {
-          min: min,
-          style: {
-            height: 1,
-          },
-        },
-        //readOnly: true,
-      }}
-    />
-  );
-};
 
-
-const renderRequestedHookQuantityField = ({
-    input,
-    label,
-    meta: { touched, error, invalid },
-    type,
-    helperText,
-    min,
-    id,
-    ...custom
-  }) => {
-    return (
-      <TextField
-        //error={touched && invalid}
-        helperText={`${helperText} We recommend adding at least 2 more hooks, for optimal performance.`} 
-        variant="outlined"
-        label={label}
-        id={input.name}
-        //value={input.value}
-        fullWidth
-        //required
-        type={type}
-        //defaultValue={quantity}
-        {...custom}
-        onChange={input.onChange}
-        InputProps={{
-          inputProps: {
-            min: min,
-            style: {
-              height: 1,
-            },
-          },
-          //readOnly: true,
-        }}
-      />
-    );
-  };
 
 const renderSingleLineField = ({
   input,
@@ -165,162 +92,79 @@ const renderSingleLineField = ({
             height: 1,
           },
         },
-        readOnly:readOnly
+        //readOnly:readOnly
+      }}
+    />
+  );
+};
+
+
+
+
+const renderMultiLineField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  helperText,
+  defaultValue,
+  readOnly,
+  min,
+  id,
+  rows,
+  ...custom
+}) => {
+  return (
+    <TextField
+      //error={touched && invalid}
+      helperText={helperText}
+      variant="outlined"
+      label={label}
+      id={input.name}
+      defaultValue={defaultValue}
+      //value={input.value}
+      fullWidth
+      //required
+      type={type}
+      {...custom}
+      minRows={rows}
+      multiline={true}
+      //disabled
+      // defaultValue={`${minimumQuantity}`}
+      onChange={input.onChange}
+      InputProps={{
+        inputProps: {
+          min: min,
+          // style: {
+          //   height: 1,
+          // },
+        },
+        //readOnly:readOnly
       }}
     />
   );
 };
 
 function SendCreatorToCheckoutForm(props) {
-  const { 
-    brandId, 
-    brandName,
-    brandCountry,
-    creatorId,
-    videoPrice, 
-    soundPrice, 
-    videoHookPrice, 
-    soundHookPrice, 
-    categoryCode,
-    categoryName, 
-    videoDeliveryDays,
-    soundDeliveryDays,
-    token, 
-    userId } = props;
-  const [quantity, setQuantity] = useState(0);
-  const [hookQuantity, setHookQuantity] = useState(0);
-  const [newQuantity, setNewQuantity] = useState(0);
-  const [newHookQuantity, setNewHookQuantity] = useState(0);
-  const [price, setPrice] = useState();
-  const [audioPrice, setAudioPrice] = useState();
-  const [hookPrice, setHookPrice] = useState();
-  const [audioHookPrice,setAudioHookPrice] = useState();
-  const [productQuantityInCart, setProductQuantityInCart] = useState();
-  const [productLocation, setProductLocation] = useState();
-  const [productLocationCountry, setProductLocationCountry] = useState();
-  const [cartHolder, setCartHolder] = useState();
-  const [minimumQuantity, setMinimumQuantity] = useState(1);
-  const [cartId, setCartId] = useState();
-  const [total, setTotal] = useState();
-  const [computedTotal, setComputedTotal] = useState(0);
-  const [hookTotal, setHookTotal] = useState();
-  const [computedHookTotal, setComputedHookTotal] = useState(0);
-  const [grandTotal, setGrandTotal] = useState(0)
-  const [projectsList, setProjectsList] = useState([]);
-  const [project, setProject] = useState();
-  const [projectType, setProjectType] = useState();
-  const [projectLanguage, setProjectLanguage] = useState();
-  const [projectLanguageId, setProjectLanguageId] = useState()
+  const { token, userId } = props;
+  const [locationsList, setLocationsList] = useState([]);
+  const [statesList, setStatesList] = useState([]);
+  const [countriesList, setCountriesList] = useState([]);
+  const [destinationStatesList, setDestinationStatesList] = useState([]);
+  const [location, setLocation] = useState();
+  const [state, setState] = useState();
+  const [destinationState, setDestinationState] = useState();
+  const [country, setCountry] = useState();
+  const [tripCoverage, setTripCoverage ] = useState("one-way");
+  const [serviceApplicability, setServiceApplicability] = useState("at-arrival");
+  const [onsiteSecurityServiceApplicability, setOnsiteSecurityServiceApplicability] = useState("not-applicable");
+  const [ontransitSecurityServiceApplicability, setOntransitSecurityServiceApplicability] = useState("not-applicable");
+
+
   const [cartForCheckoutList, setCartForCheckoutList] = useState([]);
-  const [sameProductAlreadyInCart, setSameProductAlreadyInCart] =
-    useState(false);
-  const [isCreatorSkillSuitableForProject, setIsCreatorSkillSuitableForProject] = useState(false);
-  const [preferredCreatorLanguages, setPreferredCreatorLanguages] = useState([]);
+ 
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setQuantity(quantity);
-    setHookQuantity(hookQuantity)
-    setPrice(videoPrice);
-    setHookPrice(videoHookPrice);
-    setAudioPrice(soundPrice);
-    setAudioHookPrice(soundHookPrice)
-    // setHookPrice(projectType === 'video' ? videoHookPrice:soundHookPrice)
-  }, [props, quantity,hookQuantity]);
-
-  useEffect(() => {
-    if (!quantity || !hookQuantity) {
-      return;
-    }
-    if (!price || !audioPrice || !hookPrice || !soundHookPrice) {
-      return;
-    }
-    
-if(projectType === "video"){
-    setTotal(0)
-    const sum = ((+quantity * +price) )
-      .toFixed(2)
-      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
-      setTotal(sum);
-      const grand = +quantity * +price
-      setComputedTotal(grand)
-}else if(projectType === "audio"){
-    setTotal(0)
-    const sum = ((+quantity * +audioPrice))
-      .toFixed(2)
-      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
-    setTotal(sum);
-    const grand = +quantity * +audioPrice;
-    setComputedTotal(grand)
-}
-
-
-//for hooks
-if(projectType === "video"){
-    setHookTotal(0)
-    const sum = ((+hookQuantity * +hookPrice) )
-      .toFixed(2)
-      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
-      setHookTotal(sum);
-      const grand = +hookQuantity * +hookPrice;
-      setComputedHookTotal(grand);
-     
-        
-}else if(projectType === "audio"){
-    setHookTotal(0)
-    const sum = ((+hookQuantity * +soundHookPrice))
-      .toFixed(2)
-      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
-      setHookTotal(sum);
-      const grand = +hookQuantity * +soundHookPrice;
-      setComputedHookTotal(grand);
-     
-}
-   
-  }, [quantity, price,audioPrice,hookQuantity,hookPrice,soundHookPrice,projectType,categoryCode]);
-
-
-
-  //get the grand tota;l
-  useEffect(() => {
-    const fetchData = async () => {
-      let allLangData=[];
-      if(projectType ==='video'){
-        if(categoryCode === 'video-only-creators' || categoryCode ==='video-and-audio-creators'){
-          setIsCreatorSkillSuitableForProject(true)
-        }else{
-          setIsCreatorSkillSuitableForProject(false)
-        }
-      }
-      if(projectType ==='audio'){
-        if(categoryCode === 'audio-only-creators' || categoryCode ==='video-and-audio-creators'){
-          setIsCreatorSkillSuitableForProject(true)
-        }else{
-          setIsCreatorSkillSuitableForProject(false)
-        }
-      }
-     
-      {props.creatorLanguages.map((lang, index) => (
-        allLangData.push(lang.id)
-       
-
-      ))}
-      
-      const sum = computedTotal + computedHookTotal;
-      setGrandTotal(sum);
-      setPreferredCreatorLanguages(allLangData)
-    };
-
-    //call the function
-
-    fetchData().catch(console.error);
-  }, [computedTotal,computedHookTotal,projectType,categoryCode,projectLanguageId]);
-
 
    
   const classes = useStyles();
@@ -331,7 +175,6 @@ if(projectType === "video"){
   // );
   const [loading, setLoading] = useState();
   const [isLoading, setIsLoading] = useState();
-
 
 
   useEffect(() => {
@@ -363,120 +206,167 @@ if(projectType === "video"){
     fetchData().catch(console.error);
   }, [userId]);
 
-  //get the currency name
-  useEffect(() => {
-    const fetchData = async () => {
-      let allData = [];
-      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await api.get(`/carts`, {
-        params: {
-          cartHolder: userId,
-          //productLocation: location,
-          product: brandId,
-        },
-      });
-
-      const item = response.data.data.data;
-
-      allData.push({
-        id: item[0]._id,
-        quantity: item[0].quantity,
-        // location: item[0].productLocation,
-        // locationCountry: item[0].locationCountry,
-        cartHolder: item[0].cartHolder,
-      });
-
-      if (allData[0].quantity) {
-        setProductQuantityInCart(allData[0].quantity);
-      }
-
-      if (allData[0].cartHolder) {
-        setCartHolder(allData[0].cartHolder);
-      }
-
-      setSameProductAlreadyInCart(true);
-      if (allData[0].id) {
-        setCartId(allData[0].id);
-      }
-    };
-
-    //call the function
-
-    fetchData().catch(console.error);
-  }, []);
-
-
-  //get all brand new projects
-  useEffect(() => {
-      const fetchData = async () => {
-        let allData = [];
-        api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-        const response = await api.get(`/projects`,
-            {
-                params:{
-                    brand:brandId, 
-                    status:"new"
-                }
-            });
-        const workingData = response.data.data.data;
-        workingData.map((project) => {
-          allData.push({ 
-            id: project._id,
-            name: project.name, 
-            
-        });
-        });
-        setProjectsList(allData);
-        
-      };
   
-      //call the function
-  
-      fetchData().catch(console.error);
-    }, [brandId]);
+//retrieve all the countries
+ useEffect(() => {
+       const fetchData = async () => {
+         let allData = [];
+         api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+         const response = await api.get(`/countries`, {
+           //params: { country: country },
+         });
+         const workingData = response.data.data.data;
+         workingData.map((country) => {
+           allData.push({ id: country._id, name: country.name });
+         });
+         setCountriesList(allData);
+       };
+   
+       //call the function
+   
+       fetchData().catch(console.error);
+     }, []);
 
+
+
+//retrieve all the states
+ useEffect(() => {
+  const fetchData = async () => {
+    let allData = [];
+    api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+    const response = await api.get(`/states`, {
+      params: { country: country },
+    });
+    const workingData = response.data.data.data;
+    workingData.map((state) => {
+      allData.push({ id: state._id, name: state.name });
+    });
+    setStatesList(allData);
+  };
+
+  //call the function
+
+  fetchData().catch(console.error);
+}, [country]);
+
+
+
+//retrieve all the destination states
+useEffect(() => {
+  const fetchData = async () => {
+    let allData = [];
+    api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+    const response = await api.get(`/states`, {
+      params: { country: country },
+    });
+    const workingData = response.data.data.data;
+    workingData.map((state) => {
+      allData.push({ id: state._id, name: state.name });
+    });
+    setDestinationStatesList(allData);
+  };
+
+  //call the function
+
+  fetchData().catch(console.error);
+}, [country]);
+
+
+
+//retrieve all the locations
+useEffect(() => {
+  const fetchData = async () => {
+    let allData = [];
+    api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+    const response = await api.get(`/locations`, {
+      params: { state: state },
+    });
+    const workingData = response.data.data.data;
+    workingData.map((location) => {
+      allData.push({ id: location._id, name: location.name });
+    });
+    setLocationsList(allData);
+  };
+
+  //call the function
+
+  fetchData().catch(console.error);
+}, [state]);
     
-    useEffect(() => {
-        const fetchData = async () => {
-          let allData = [];
-          api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-          const response = await api.get(`/projects/${project}`);
-          const workingData = response.data.data.data;
-          
-        if(workingData){
-            setProjectType(workingData.type);
-            setProjectLanguage(workingData.language[0].language);
-            setProjectLanguageId(workingData.language[0].id)
-        }
-          
-        };
     
-        //call the function
+    const handleLocationChange=(event)=>{
+      setLocation(event.target.value)
+    }  
+
+
+    const handleStateChange=(event)=>{
+      setState(event.target.value)
+    } 
+
+    const handleDestinationStateChange=(event)=>{
+      setDestinationState(event.target.value)
+    }
+
+    const handleCountryChange=(event)=>{
+      setCountry(event.target.value)
+    } 
+
+    const handleTripCoverageChange=(event)=>{
+      setTripCoverage(event.target.value)
+    }
+
+    const handleServiceApplicabilityChange =(event)=>{
+      setServiceApplicability(event.target.value)
+    }
+
+    const handleOnsiteSecurityServiceApplicabilityChange=(event)=>{
+      setOnsiteSecurityServiceApplicability(event.target.value)
+    }
+
+
+    const handleOntransitSecurityServiceApplicabilityChange=(event)=>{
+      setOntransitSecurityServiceApplicability(event.target.value)
+    }
     
-        fetchData().catch(console.error);
-      }, [project]);
-
-      
-
-    const handleProjectChange = (event) => {
-        setProject(event.target.value);
-        setQuantity(0);
-        setTotal(0);
-        setNewHookQuantity(0);
-        setHookTotal(0);
-        setHookQuantity(0);
-        setComputedTotal(0);
-        setComputedHookTotal(0);
-        setGrandTotal(0);
-
-        
+      //get the countries list
+      const renderCountriesList = () => {
+        return countriesList.map((item) => {
+          return (
+            <MenuItem key={item.id} value={item.id}>
+              {item.name}
+            </MenuItem>
+          );
+        });
       };
-    
-      
-    
-      //get the brand'sprojects list
-      const renderProjectsList = () => {
-        return projectsList.map((item) => {
+
+
+      //get the states list
+      const renderStatesList = () => {
+        return statesList.map((item) => {
+          return (
+            <MenuItem key={item.id} value={item.id}>
+              {item.name}
+            </MenuItem>
+          );
+        });
+      };
+
+
+      //get the destination states list
+      const renderDestinationStatesList = () => {
+        return destinationStatesList.map((item) => {
+          return (
+            <MenuItem key={item.id} value={item.id}>
+              {item.name}
+            </MenuItem>
+          );
+        });
+      };
+
+
+      //get the locations list
+      const renderLocationsList = () => {
+        return locationsList.map((item) => {
           return (
             <MenuItem key={item.id} value={item.id}>
               {item.name}
@@ -487,50 +377,8 @@ if(projectType === "video"){
 
     
 
-  const onQuantityChange = (e) => {
-   setTotal(0);
-    const newQuantity = parseFloat(e.target.value);
-
-    const newTotal = newQuantity * parseFloat(price);
-    setTotal(newTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
-    setComputedTotal(newTotal);
-    setNewQuantity(newQuantity);
-    //setHookQuantity(0);
-  };
-
-  const onSoundQuantityChange = (e) => {
-    setTotal(0);
-    const newQuantity = parseFloat(e.target.value);
-
-    const newTotal = newQuantity * parseFloat(audioPrice);
-    setTotal(newTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
-    setComputedTotal(newTotal);
-    setNewQuantity(newQuantity);
-    //setHookQuantity(0);
-    
-  };
-
-  const onHookQuantityChange = (e) => {
-    const newQuantity = parseFloat(e.target.value);
-    
-    const newTotal = newQuantity * parseFloat(hookPrice);
-    setHookTotal(newTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
-    setComputedHookTotal(newTotal);
-    setHookQuantity(newQuantity);
-  };
-
-  const onSoundHookQuantityChange = (e) => {
-    const newQuantity = parseFloat(e.target.value);
-   
-    const newTotal = newQuantity * parseFloat(soundHookPrice);
-    setHookTotal(newTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"));
-    setComputedHookTotal(newTotal);
-    setHookQuantity(newQuantity);
-  };
-
-
-  
-  const renderProjectField = ({
+     
+  const renderCountryField = ({
       input,
       label,
       meta: { touched, error, invalid },
@@ -543,64 +391,249 @@ if(projectType === "video"){
           <FormControl variant="outlined">
             {/* <InputLabel id="vendor_city">City</InputLabel> */}
             <Select
-              labelId="project"
-              id="project"
-              value={project}
-              onChange={handleProjectChange}
+              labelId="country"
+              id="country"
+              value={country}
+              onChange={handleCountryChange}
               // label="User"
               style={{ marginTop: 10, width: 300, height: 38, marginLeft:0,marginRight:0 }}
               //{...input}
             >
-              {renderProjectsList()}
+              {renderCountriesList()}
             </Select>
-            <FormHelperText>Select Your Project(Or Create a new one in your Dashboard)</FormHelperText>
+            <FormHelperText>Source Country</FormHelperText>
           </FormControl>
         </Box>
       );
     };
 
-  const renderTotalField = ({
-    input,
-    label,
-    meta: { touched, error, invalid },
-    type,
-    id,
-    ...custom
-  }) => {
-    return (
-      <TextField
-        error={touched && invalid}
-        //placeholder="category description"
-        variant="outlined"
-        helperText="Amount"
-        label={label}
-        id={input.name}
-        name={input.name}
-        value={grandTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-        fullWidth
-        type={type}
-        style={{ marginTop: 3, width: 240 }}
-        onChange={input.onChange}
-        InputProps={{
-          inputProps: {
-            min: 1,
-            style: {
-              height: 38,
-              fontSize: "2em",
-            },
-            readOnly: true,
-          },
-        }}
-      />
-    );
-  };
 
+    const renderStateField = ({
+      input,
+      label,
+      meta: { touched, error, invalid },
+      type,
+      id,
+      ...custom
+    }) => {
+      return (
+        <Box>
+          <FormControl variant="outlined">
+            {/* <InputLabel id="vendor_city">City</InputLabel> */}
+            <Select
+              labelId="state"
+              id="state"
+              value={state}
+              onChange={handleStateChange}
+              // label="User"
+              style={{ marginTop: 10, width: 300, height: 38, marginLeft:0,marginRight:0 }}
+              //{...input}
+            >
+              {renderStatesList()}
+            </Select>
+            <FormHelperText>Select Source State</FormHelperText>
+          </FormControl>
+        </Box>
+      );
+    };
+
+
+
+    const renderDestinationStateField = ({
+      input,
+      label,
+      meta: { touched, error, invalid },
+      type,
+      id,
+      ...custom
+    }) => {
+      return (
+        <Box>
+          <FormControl variant="outlined">
+            {/* <InputLabel id="vendor_city">City</InputLabel> */}
+            <Select
+              labelId="destinationState"
+              id="destinationState"
+              value={destinationState}
+              onChange={handleDestinationStateChange}
+              // label="User"
+              style={{ marginTop: 10, width: 300, height: 38, marginLeft:0,marginRight:0 }}
+              //{...input}
+            >
+              {renderDestinationStatesList()}
+            </Select>
+            <FormHelperText>Select Destination State</FormHelperText>
+          </FormControl>
+        </Box>
+      );
+    };
+
+
+    const renderLocationField = ({
+      input,
+      label,
+      meta: { touched, error, invalid },
+      type,
+      id,
+      ...custom
+    }) => {
+      return (
+        <Box>
+          <FormControl variant="outlined">
+            {/* <InputLabel id="vendor_city">City</InputLabel> */}
+            <Select
+              labelId="location"
+              id="location"
+              value={location}
+              onChange={handleLocationChange}
+              // label="User"
+              style={{ marginTop: 10, width: 300, height: 38, marginLeft:0,marginRight:0 }}
+              //{...input}
+            >
+              {renderLocationsList()}
+            </Select>
+            <FormHelperText>Select Source Location</FormHelperText>
+          </FormControl>
+        </Box>
+      );
+    };
+
+
+    const renderTripCoverageField = ({
+      input,
+      label,
+      meta: { touched, error, invalid },
+      type,
+      id,
+      ...custom
+    }) => {
+      return (
+        <Box>
+          <FormControl variant="outlined">
+            {/* <InputLabel id="vendor_city">City</InputLabel> */}
+            <Select
+              labelId="tripCoverage"
+              id="tripCoverage"
+              value={tripCoverage}
+              onChange={handleTripCoverageChange}
+              // label="User"
+              style={{ marginTop: 10, width: 300, height: 38, marginLeft:0,marginRight:0 }}
+              //{...input}
+            >
+              <MenuItem value="one-way">One Way Trip Coverage</MenuItem>
+              <MenuItem value="two-way">Two Way Trip Coverage</MenuItem>
+            </Select>
+            <FormHelperText>Select Booking Coverage</FormHelperText>
+          </FormControl>
+        </Box>
+      );
+    };
+
+
+    const renderServiceApplicabilityField = ({
+      input,
+      label,
+      meta: { touched, error, invalid },
+      type,
+      id,
+      ...custom
+    }) => {
+      return (
+        <Box>
+          <FormControl variant="outlined">
+            {/* <InputLabel id="vendor_city">City</InputLabel> */}
+            <Select
+              labelId="serviceApplicability"
+              id="serviceApplicability"
+              value={serviceApplicability}
+              onChange={handleServiceApplicabilityChange}
+              // label="User"
+              style={{ marginTop: 10, width: 300, height: 38, marginLeft:0,marginRight:0 }}
+              //{...input}
+            >
+              <MenuItem value="at-arrival">At Arrival Period</MenuItem>
+              <MenuItem value="at-departure">At Departure Period</MenuItem>
+              <MenuItem value="both">Both Arrival & Departure Periods </MenuItem>
+            </Select>
+            <FormHelperText>Select Where Service Will Be Applicable</FormHelperText>
+          </FormControl>
+        </Box>
+      );
+    };
+
+
+    const renderOnsiteSecurityServiceApplicabilityField = ({
+      input,
+      label,
+      meta: { touched, error, invalid },
+      type,
+      id,
+      ...custom
+    }) => {
+      return (
+        <Box>
+          <FormControl variant="outlined">
+            {/* <InputLabel id="vendor_city">City</InputLabel> */}
+            <Select
+              labelId="onsiteSecurityServiceApplicability"
+              id="onsiteSecurityServiceApplicability"
+              value={onsiteSecurityServiceApplicability}
+              onChange={handleOnsiteSecurityServiceApplicabilityChange}
+              // label="User"
+              style={{ marginTop: 10, width: 300, height: 38, marginLeft:0,marginRight:0 }}
+              //{...input}
+            >
+              <MenuItem value="not-applicable">Not Applicable</MenuItem>
+              <MenuItem value="at-arrival">At Arrival Period</MenuItem>
+              <MenuItem value="at-departure">At Departure Period</MenuItem>
+              <MenuItem value="both">Both Arrival & Departure Periods </MenuItem>
+            </Select>
+            <FormHelperText>Select When Onsite Security Service Will Be Applicable</FormHelperText>
+          </FormControl>
+        </Box>
+      );
+    };
+
+
+    const renderOntransitSecurityServiceApplicabilityField = ({
+      input,
+      label,
+      meta: { touched, error, invalid },
+      type,
+      id,
+      ...custom
+    }) => {
+      return (
+        <Box>
+          <FormControl variant="outlined">
+            {/* <InputLabel id="vendor_city">City</InputLabel> */}
+            <Select
+              labelId="ontransitSecurityServiceApplicability"
+              id="ontransitSecurityServiceApplicability"
+              value={ontransitSecurityServiceApplicability}
+              onChange={handleOntransitSecurityServiceApplicabilityChange}
+              // label="User"
+              style={{ marginTop: 10, width: 300, height: 38, marginLeft:0,marginRight:0 }}
+              //{...input}
+            >
+              <MenuItem value="not-applicable">Not Applicable</MenuItem>
+              <MenuItem value="from-arrival">From Arrival Location(Airport)</MenuItem>
+              <MenuItem value="from-destination">From Destination Location</MenuItem>
+              <MenuItem value="both">Both From Arrival & Destination Locations </MenuItem>
+            </Select>
+            <FormHelperText>Select Where On-transit Security Service Will Commence From</FormHelperText>
+          </FormControl>
+        </Box>
+      );
+    };
+
+  
   
   const buttonContent = () => {
     return <React.Fragment>Proceed to Hire</React.Fragment>;
   };
 
- console.log('props:',props)
+ 
 
    const onSubmit = (formValues) => {
     setLoading(true);
@@ -612,84 +645,43 @@ if(projectType === "video"){
       return;
     }    
     
-
-    if (!project) {
-      props.handleFailedSnackbar("Please select a project. You can create new projects in your dashboard");
-      setLoading(false);
-
-      return;
-    }
-
-    if(!preferredCreatorLanguages.includes(projectLanguageId)){
-      props.handleFailedSnackbar("This creator does not work with the language required for this project. Please select another creator and try again");
-      setLoading(false);
-
-      return;
-    }
-
-    if(!isCreatorSkillSuitableForProject){
-      props.handleFailedSnackbar(`This creator is not skillful to handle this type of project. Please select another creator and try again`);
-      setLoading(false);
-
-      return;
-    }
-
-  
-    if (newQuantity <= 0) {
-      if(projectType === 'video'){
-        props.handleFailedSnackbar(
-          "The number of marketing videos required cannot be 0"
-        );
-        setLoading(false);
-  
-        return;
-
-      }
-      if(projectType === 'audio'){
-        props.handleFailedSnackbar(
-          "The number of marketing jingles required cannot be 0"
-        );
-        setLoading(false);
-  
-        return;
-
-      }
-    }
-
-     
+    
 
     const data = {
-      creator: creatorId,
-      brand: brandId,
-      brandName: brandName,
-      brandCountry: brandCountry,
+      creator: props.sample.creator[0].id,
+      brand: props.sample.brand ? props.sample.brand.id : "",
+      vehicle: props.sample.id,
+      numberOfVehicleOccupant: formValues['numberOfVehicleOccupant'],
       refNumber: formValues.refNumber
         ? formValues.refNumber
-        : "CREATOR-" + Math.floor(Math.random() * 1000000000) + "-CT",
+        : "VEHICLE-" + Math.floor(Math.random() * 1000000000) + "-3START",
 
-      creativeQuantity: newQuantity,
-      creativeHookQuantity: hookQuantity,
-      creativeType: projectType,
-      project: project,
-      creativeLanguage: projectLanguageId,
-      creatorCategoryCode: categoryCode,
-      creatorCategoryName: categoryName,
-      grandTotal: grandTotal, 
+      service: props.service ==='carhireandsecurity'? 'car-and-security' : 'carhire',
+      sourceLocation: location,
+      sourceState:state,
+      destinationState:destinationState,
+      country: country,
+      destinationAddress: formValues['destinationAddress'],
+      arrivalDate: new Date(formValues['arrivalDate']).toISOString(),
+      departureDate:new Date(formValues['departureDate']).toISOString(), 
+      tripCoverage: tripCoverage,
+      serviceApplicability: serviceApplicability,
+      onsiteSecurityServiceApplicability: onsiteSecurityServiceApplicability, 
+      ontransitSecurityServiceApplicability:ontransitSecurityServiceApplicability,
 
       cartHolder: props.userId,
       isDeleted: false,
-      creativeUnitPrice: price,
-      creativeHookUnitPrice: hookPrice,
-      createiveDeliveryDays: projectType === 'video' ? videoDeliveryDays:soundDeliveryDays,
-      currency: props.currency ? props.currency[0].id : "",
-      currencyName: props.currency ? props.currency[0].name :"",
+      
       status: "marked-for-checkout",      
-      category: props.creator ?props.creator.category[0].id :"",      
-      slug: props.creator.slug,
-      creatorImage: props.image,
+      category: props.sample.category ?props.sample.category[0].id :"",      
+      slug: props.sample.slug,
+      image:props.sample.image
+      
             
       
     };
+
+   
 
    
       //delete all items in this user's cart
@@ -759,110 +751,119 @@ if(projectType === "video"){
         noValidate
         autoComplete="off"
       >
+        <Typography variant="h6" style={{marginLeft:10, fontSize:15}}>Enter Your Booking Details</Typography>
+        
         <Grid
           item
           container
           style={{ marginTop: 10, marginBottom: 10 }}
           justifyContent="center"
         ></Grid>
-                <Grid
-                  item
-                  container
-                  style={{ marginTop: 10, marginBottom: 10 }}
-                  justifyContent="center"
-                ></Grid>
-                <Field
-                  label=""
-                  id="project"
-                  name="project"
-                  type="text"
-                  component={renderProjectField}
-                  style={{ width: 300 }}
-                />
-        {project && <Typography style={{width:350,marginTop:10}}><strong>Project Type:</strong>&nbsp;{projectType}, <strong>Project Language:</strong>&nbsp;{projectLanguage}</Typography>}            
+        <Field
+          label=""
+          id="country"
+          name="country"
+          type="text"
+          component={renderCountryField}
+          style={{ width: 300 }}
+        />
+        <Field
+           label=""
+           id="state"
+           name="state"
+           type="text"
+           
+           component={renderStateField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+         <Field
+           label=""
+           id="location"
+           name="location"
+           type="text"           
+           component={renderLocationField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+        <Field
+           label=""
+           id="destinationAddress"
+           name="destinationAddress"
+           type="text"   
+           rows={5}     
+           helperText="Enter Destination Address Details"   
+           component={renderMultiLineField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+        <Field
+           label=""
+           id="destinationState"
+           name="destinationState"
+           type="text"   
+           component={renderDestinationStateField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+         <Field
+           label=""
+           id="tripCoverage"
+           name="tripCoverage"
+           type="text"   
+           component={renderTripCoverageField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+         <Field
+           label=""
+           id="serviceApplicability"
+           name="serviceApplicability"
+           type="text"   
+           component={renderServiceApplicabilityField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+         
+         <Field
+           label=""
+           id="numberOfVehicleOccupant"
+           name="numberOfVehicleOccupant"
+           type="number"
+            helperText="Enter The Expected Number of Vehicle Occupants"
+           component={renderSingleLineField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+         <Field
+           label=""
+           id="arrivalDate"
+           name="arrivalDate"
+           type="date"
+            helperText="Enter Arrival Date"
+           component={renderSingleLineField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+         <Field
+           label=""
+           id="departureDate"
+           name="departureDate"
+           type="date"
+            helperText="Enter Departure Date"
+           component={renderSingleLineField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+        {props.service === "carhireandsecurity" &&  <Field
+           label=""
+           id="onsiteSecurityServiceApplicability"
+           name="onsiteSecurityServiceApplicability"
+           type="text"   
+           component={renderOnsiteSecurityServiceApplicabilityField}
+          style={{ width: 300, marginTop: 10 }}
+        />}
+         {props.service === "carhireandsecurity" && <Field
+           label=""
+           id="ontransitSecurityServiceApplicability"
+           name="ontransitSecurityServiceApplicability"
+           type="text"   
+           component={renderOntransitSecurityServiceApplicabilityField}
+          style={{ width: 300, marginTop: 10 }}
+        />}
 
-       
-        {projectType ==='video' && <Typography style={{width:350,marginTop:10}}><strong>Cost per Marketing Video:</strong><span style={{fontSize:19, fontWeight:700}}>&#8358;{videoPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}</span></Typography>}
-        {projectType ==='audio' && <Typography style={{width:350,marginTop:10}}><strong>Cost per Marketing Jingle:</strong>&nbsp;<span style={{fontSize:19, fontWeight:700}}>&#8358;{soundPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}</span></Typography>} 
-          
-                 
-               {projectType ==="video" && <Field
-                  label=""
-                  id="quantity"
-                  name="quantity"
-                  type="number"
-                  defaultValue={quantity}
-                  helperText="How Many Of this Marketing Videos do you need?"
-                  onChange={onQuantityChange}
-                  component={renderRequestedQuantityField}
-                  min={0}
-                  style={{ width: 300, marginTop: 10 }}
-                />}
-                {projectType ==="audio" && <Field
-                  label=""
-                  id="quantity"
-                  name="quantity"
-                  type="number"
-                  defaultValue={quantity}
-                  helperText="How Many Of this Marketing Jingles do you need?"
-                  onChange={onSoundQuantityChange}
-                  component={renderRequestedQuantityField}
-                  min={0}
-                  style={{ width: 300, marginTop: 10 }}
-                />}
-
-        {projectType ==='video' && <Typography style={{width:350,marginTop:10}}><strong>Cost per Extra Video Hook:</strong>&nbsp;&#8358;{videoHookPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}</Typography>}
-        {projectType ==='audio' && <Typography style={{width:350,marginTop:10}}><strong>Cost per Extra Audio Hook:</strong>&nbsp; &#8358;{soundHookPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}</Typography>}     
-       
-        {projectType === 'video' &&<Field
-                  label=""
-                  id="hookQuantity"
-                  name="hookQuantity"
-                  type="number"
-                  defaultValue={hookQuantity}
-                  helperText="How Many Extra Video Hook do you need?" 
-                  onChange={onHookQuantityChange}
-                  component={renderRequestedHookQuantityField}
-                  min={0}
-                  style={{ width: 300, marginTop: 10 }}
-                />}
-            {projectType === 'audio' &&<Field
-                  label=""
-                  id="hookQuantity"
-                  name="hookQuantity"
-                  type="number"
-                  defaultValue={hookQuantity}
-                  helperText="How Many Extra Sound Hook do you need?"
-                  onChange={onSoundHookQuantityChange}
-                  component={renderRequestedHookQuantityField}
-                  min={0}
-                  style={{ width: 300, marginTop: 10 }}
-                />}      
-        <Grid
-          item
-          container
-          style={{ marginTop: 10, marginBottom: 10 }}
-          justifyContent="center"
-        ></Grid>
-
-        <Grid container direction="row">
-          <Grid item style={{ width: 50, marginTop: 45, fontSize: 45 }}>
-            <span style={{ color: "grey" }}>&#8358;</span>
-          </Grid>
-          <Grid item style={{ marginLeft: 10, width: 100 }}>
-            <Field
-              label=""
-              id="grandTotal"
-              name="grandTotal"
-              defaultValue={grandTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-              type="text"
-              component={renderTotalField}
-              style={{ width: 100 }}
-            />
-          </Grid>
-          
-        </Grid>
-
+        
         <Button
           variant="contained"
           className={classes.submitButton}

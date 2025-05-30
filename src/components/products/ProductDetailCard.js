@@ -276,7 +276,7 @@ export default function ProductDetailCard(props) {
   const matchesMDUp = useMediaQuery(theme.breakpoints.up("md"));
 
   //const imageUrl = `${baseURL}/images/categories/${props.image}`;
-  const imageUrl = `${baseURL}/images/creators/${props.creator.image}`;
+  const imageUrl = `${baseURL}/images/vehicles/${props.sample.image}`;
 
   const Str = require("@supercharge/strings");
 
@@ -287,10 +287,10 @@ export default function ProductDetailCard(props) {
 
  
 
-  useEffect(() => {
-    setPrice(props.creator.price);
-    setCurrencyName(props.creator.currency ? props.creator.currency[0].name : "")
-  }, [props.creator]);
+  // useEffect(() => {
+  //   setPrice(props.creator.price);
+  //   setCurrencyName(props.creator.currency ? props.creator.currency[0].name : "")
+  // }, [props.creator]);
 
 
   
@@ -305,55 +305,55 @@ export default function ProductDetailCard(props) {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let allData = [];
-      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await api.get(`/currencies/${props.creator.currency}`);
-      const item = response.data.data.data;
-      //workingData.map((vendor) => {
-      allData.push({ name: item.name });
-      //});
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     let allData = [];
+  //     api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+  //     const response = await api.get(`/currencies`);
+  //     const item = response.data.data.data;
+  //     //workingData.map((vendor) => {
+  //     allData.push({ name: item.name });
+  //     //});
 
       
-      setCurrencyName(allData[0].name);
-    };
+  //     setCurrencyName(allData[0].name);
+  //   };
 
-    //call the function
+  //   //call the function
 
-    fetchData().catch(console.error);
-  }, [props.creator.currency]);
+  //   fetchData().catch(console.error);
+  // }, []);
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let allData = [];
-      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await api.get(`/samples`, {
-        params:{
-          creator:props.creatorId,
-          status:"visible",
-          isAllowedOnThePlatform:true
-        }});
-      const workingData = response.data.data.data;
-      workingData.map((sample) => {
-      allData.push({ refNumber: sample.refNumber, 
-        youtubeId:sample.youtubeId, 
-        status:sample.status,
-        sampleType:sample.sampleType,
-        creator:sample.creator,
-        isAllowedOnThePlatform:sample.isAllowedOnThePlatform
-       });
-      });
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     let allData = [];
+  //     api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+  //     const response = await api.get(`/samples`, {
+  //       params:{
+  //         creator:props.creatorId,
+  //         status:"visible",
+  //         isAllowedOnThePlatform:true
+  //       }});
+  //     const workingData = response.data.data.data;
+  //     workingData.map((sample) => {
+  //     allData.push({ refNumber: sample.refNumber, 
+  //       youtubeId:sample.youtubeId, 
+  //       status:sample.status,
+  //       sampleType:sample.sampleType,
+  //       creator:sample.creator,
+  //       isAllowedOnThePlatform:sample.isAllowedOnThePlatform
+  //      });
+  //     });
 
       
-      setSamplesList(allData);
-    };
+  //     setSamplesList(allData);
+  //   };
 
-    //call the function
+  //   //call the function
 
-    fetchData().catch(console.error);
-  }, [props.creatorId]);
+  //   fetchData().catch(console.error);
+  // }, [props.creatorId]);
 
   
 
@@ -434,11 +434,7 @@ export default function ProductDetailCard(props) {
     setOpenSignUpForm(true);
   };
 
-  const handleMakeOpenLoginFormDialogStatus = () => {
-    // history.push("/categories/new");
-    setOpenSignUpForm(false);
-    setOpenLoginForm(true);
-  };
+
   const handleMakeOpenForgotPasswordFormDialogStatus = () => {
     // history.push("/categories/new");
     setOpenForgotPasswordForm(true);
@@ -454,7 +450,11 @@ export default function ProductDetailCard(props) {
     setOpenSignUpForm(true);
     setOpenLoginForm(false);
   };
-
+  const handleMakeOpenLoginFormDialogStatus = () => {
+    // history.push("/categories/new");
+    setOpenSignUpForm(false);
+    setOpenLoginForm(true);
+  };
   const handleMakeCloseSignUpDialogStatus = () => {
     // history.push("/categories/new");
     setOpenSignUpForm(false);
@@ -585,7 +585,7 @@ export default function ProductDetailCard(props) {
                 <CardMedia
                   className={classes.media}
                   component="img"
-                  alt={props.creator.name}
+                  alt={props.sample.refNumber}
                   image={imageUrl}
                   //   title={props.name}
                   crossOrigin="anonymous"
@@ -594,212 +594,94 @@ export default function ProductDetailCard(props) {
             </Grid>
             <Grid item className={classes.secondRow}>
               <Box>
-              {props.creator.category[0].code === 'video-and-audio-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                    {props.creator.name}
+              <Typography variant="h4" color="textSecondary" component="p">
+                    
                     <span style={{ fontSize: 16, fontWeight: 700 }}>
-                      <em> ({props.creator.country[0].name}, Video & Jingle Creator,  {props.creator.age} years)</em>
+                      <em> {props.sample.refNumber}</em>
                     </span>
-                  </Typography>}
-                  {props.creator.category[0].code === 'video-only-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                    {props.creator.name}
-                    <span style={{ fontSize: 16, fontWeight: 700 }}>
-                      <em> ({props.creator.country[0].name}, Video Creator,  {props.creator.age} years)</em>
-                    </span>
-                  </Typography>}
-                  {props.creator.category[0].code === 'audio-only-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                    {props.creator.name}
-                    <span style={{ fontSize: 16, fontWeight: 700 }}>
-                      <em> ({props.creator.country[0].name}, Jingle Creator,  {props.creator.age} years)</em>
-                    </span>
-                  </Typography>}
+                  </Typography>
+                  
                 <Typography
                   variant="subtitle1"
                   color="textSecondary"
                   component="p"
                 >
-                  {Str(props.bio).limit(200, "...").get()}
+                  {Str(props.sample.vehicleDescription).limit(200, "...").get()}
                 </Typography>
-                {props.creator.category[0].code === 'video-and-audio-creators'  && <Typography
-                  variant="h4"
+                <Typography
+                  variant="h5"
                   color="textSecondary"
                   component="p"
                   style={{ marginTop: 5, marginBottom: 15 }}
                 >
-                  <span style={{ marginLeft: 30 }}>
-                    <strong>
-                      {getCurrencyCode()}
-                      {props.creator.videoPrice
-                        ? props.creator.videoPrice
-                            .toFixed(2)
-                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                        : 0}
-                    </strong>
-                   
-                  </span>
-                  <span style={{fontSize:12,marginLeft:0}}>/per video</span>
-                  <span>&</span>
-                  <span style={{ marginLeft: 20 }}>
-                    <strong>
-                      {getCurrencyCode()}
-                      {props.creator.soundPrice
-                        ? props.creator.soundPrice
-                            .toFixed(2)
-                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                        : 0}
-                    </strong>
-                   
-                  </span>
-                  <span style={{fontSize:12,marginLeft:0}}>/per jingle</span>
-                </Typography>}
+                  <strong>Make </strong>:{props.sample.vehicleMake}
+                  </Typography>       
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Model </strong>: {props.sample.vehicleModel}
 
-                {props.creator.category[0].code === 'video-only-creators' && <Typography
-                  variant="h4"
-                  color="textSecondary"
-                  component="p"
-                  style={{ marginTop: 5, marginBottom: 15 }}
-                >
-                  <span style={{ marginLeft: 30 }}>
-                    <strong>
-                      {getCurrencyCode()}
-                      {props.creator.videoPrice
-                        ? props.creator.videoPrice
-                            .toFixed(2)
-                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                        : 0}
-                    </strong>
-                   
-                  </span>
-                  <span style={{fontSize:12,marginLeft:0}}>/per video</span>
-                  
-                </Typography>}
-
-                {props.creator.category[0].code === 'audio-only-creators' && <Typography
-                  variant="h4"
-                  color="textSecondary"
-                  component="p"
-                  style={{ marginTop: 5, marginBottom: 15 }}
-                >
-                   <span style={{ marginLeft: 20 }}>
-                    <strong>
-                      {getCurrencyCode()}
-                      {props.creator.soundPrice
-                        ? props.creator.soundPrice
-                            .toFixed(2)
-                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                        : 0}
-                    </strong>
-                   
-                  </span>
-                  <span style={{fontSize:12,marginLeft:0}}>/per jingle</span>
-                  
-                </Typography>}
-                {props.creator.category[0].code === 'video-and-audio-creators' && <Typography
-                      style={{ marginTop: 9, color: "red", marginBottom: 15 }}
-                    >
-                      <span
-                        style={{ fontSize: 14, marginLeft: 10, marginTop: 20 }}
-                      >
-                        {/* <strong>Delivery Method:</strong> &nbsp; */}
-                        <span>{"This is the price for the production of a 10 to 40 seconds marketing video or jingle"}</span>
-                      </span>
-                    </Typography>}
-                    {props.creator.category[0].code === 'video-only-creators' && <Typography
-                      style={{ marginTop: 9, color: "red", marginBottom: 15 }}
-                    >
-                      <span
-                        style={{ fontSize: 14, marginLeft: 10, marginTop: 20 }}
-                      >
-                        {/* <strong>Delivery Method:</strong> &nbsp; */}
-                        <span>{"This is the price for the production of a 10 to 40 seconds marketing video"}</span>
-                      </span>
-                    </Typography>}
-                    {props.creator.category[0].code === 'audio-only-creators' && <Typography
-                      style={{ marginTop: 9, color: "red", marginBottom: 15 }}
-                    >
-                      <span
-                        style={{ fontSize: 14, marginLeft: 10, marginTop: 20 }}
-                      >
-                        {/* <strong>Delivery Method:</strong> &nbsp; */}
-                        <span>{"This is the price for the production of a 10 to 40 seconds marketing jingle"}</span>
-                      </span>
-                    </Typography>}
-               
-                
-                {(props.creator.category[0].code === 'video-and-audio-creators' || props.creator.category[0].code === 'video-only-creators') && <Typography>
-                  
-                    <strong style={{marginLeft:10}}> Cost for An Extra Video Hook:</strong>
-                    <span style={{ marginLeft: 5 }}>
-                    <strong>
-                      {getCurrencyCode()}
-                      {props.creator.videoHookPrice
-                        ? props.creator.videoHookPrice
-                            .toFixed(2)
-                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                        : 0}
-                    </strong>
-                   
-                  </span>
-                    
-          
-                </Typography>}
-                {(props.creator.category[0].code === 'video-and-audio-creators' || props.creator.category[0].code === 'audio-only-creators') && <Typography>
-                  
-                  <strong style={{marginLeft:10}}> Cost for An Extra Sound Hook:</strong>
-                  <span style={{ marginLeft: 5 }}>
-                  <strong>
-                    {getCurrencyCode()}
-                    {props.creator.soundHookPrice
-                      ? props.creator.soundHookPrice
-                          .toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                      : 0}
-                  </strong>
-                 
-                </span>
-                  
-        
-              </Typography>}
-               
-                  
-                
-                {(props.creator.category[0].code === 'video-and-audio-creators' || props.creator.category[0].code === 'video-only-creators') && <Typography>
-                  <span style={{ fontSize: 14, marginLeft: 10 }}>
-                    <strong> Video Delivery Period:</strong>
-                    <span>{props.creator.videoDeliveryDays} days</span>
-                  </span>
-                </Typography>}
-                {(props.creator.category[0].code === 'video-and-audio-creators' || props.creator.category[0].code === 'audio-only-creators') && <Typography>
-                  <span style={{ fontSize: 14, marginLeft: 10 }}>
-                    <strong> Jingle Delivery Period:</strong>
-                    <span>{props.creator.soundDeliveryDays} days</span>
-                  </span>
-                </Typography>}
-                <Typography style={{marginLeft:10}}><strong>Niches:</strong></Typography>
-              
-               <Grid container direction="row" style={{marginLeft:30}}>
-                              {props.creator.niches.map((niche, index) => (
-                                <Typography>{niche.niche},  </Typography>
-
-                              ))}
-                            </Grid>
-                <Typography style={{marginLeft:10}}><strong>Languages:</strong></Typography>
-                
-                <Grid container direction="row" style={{marginLeft:30}}>
-                              {props.creator.languages.map((lang, index) => (
-                                <Typography>{lang.language},  </Typography>
-
-                              ))}
-                            </Grid>
-
-
-                <Typography style={{marginTop: 20}}>
-                    <span style={{ fontSize: 14, marginLeft: 12, color:"red",  }}>
-                      <strong>
-                       Note: A hook is the initial 2 to 5 seconds of a video or jingle designed to immediately capture the audience's attention and encourage them to continue watching or listening.
-                      </strong>
-                     
-                    </span>
                   </Typography>
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Class</strong>: {props.sample.vehicleClass}
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Type</strong>: {props.sample.sampleType}
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Special Feature</strong>: {props.sample.specialFeature}
+
+                </Typography>
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Maximum Occupants Allowed</strong>: {props.sample.maximumOccupants}
+
+                </Typography> 
+
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Vehicle Details</strong>: {props.sample.vehicleDetails}
+
+                </Typography> 
+                
+                {props.sample.location && <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Location</strong>: {props.sample.location[0].name}
+
+                </Typography> }
+               
               </Box>
             </Grid>
             <Grid item className={classes.thirdRow}>
@@ -808,23 +690,9 @@ export default function ProductDetailCard(props) {
                 //height: 430,
                }}>
                 <SendCreatorToCheckoutForm
-                  videoPrice={props.creator.videoPrice}
-                  videoHookPrice={props.creator.videoHookPrice}
-                  creatorId={props.creator.id}
-                  soundPrice = {props.creator.soundPrice}
-                  soundHookPrice = {props.creator.soundHookPrice}
-                  videoDeliveryDays = {props.creator.videoDeliveryDays}
-                  soundDeliveryDays = {props.creator.soundDeliveryDays}
-                  brandId={props.brandId}
-                  brandName={props.brandName}
-                   brandCountry={props.brandCountry}
-                  categoryName={props.categoryName}
-                  categoryCode={props.categoryCode}
-                  currency={props.creator.currency}
-                  creatord={props.creatorId}
-                  creator={props.creator}
-                  image={props.creator.image}
-                  creatorLanguages={props.creator.languages}
+                 sample={props.sample}
+                 service={props.service}
+                 sampleId={props.sampleId}
                   token={props.token}
                   userId={props.userId}
                   handleMakeOpenSignUpDialogStatus={
@@ -851,7 +719,7 @@ export default function ProductDetailCard(props) {
               </Box>
             </Grid>
           </Grid>
-          {samplesList.length >=1 && <Typography style={{marginLeft:'40%',marginTop:20, fontSize:20, fontWeight:700}}>Creator Work Samples</Typography>}
+          {props.sample.images.length >=1 && <Typography style={{marginLeft:'40%',marginTop:20, fontSize:20, fontWeight:700}}>Various Views Of The Car</Typography>}
           <Grid
             item
             container
@@ -863,18 +731,27 @@ export default function ProductDetailCard(props) {
            <Grid item style={{width:'22.5%'}}><Typography></Typography></Grid>
            <Grid item container direction="row" style={{width:'40%'}}> 
           
-           {samplesList.map((sample, index) => (
+           {props.sample.images.map((sample, index) => (
+            
                   <Grid item style={{width:'100%', marginTop:30}}>
+                    
                          <Card>
                              <CardMedia
-                                      className={classes.videoMedia}
-                                      component="iframe"
-                                      alt={'creator sample'}
-                                      height="140"
-                                      src={`https://www.youtube.com/embed/${sample.youtubeId}`}
-                                      allow="autoPlay"
-                                      allowfullscreen="allowfullscreen"
-                                      controls
+                                    className={classes.media}
+                                    component="img"
+                                    alt={props.sample.refNumber}
+                                    image={`${baseURL}/images/vehicles/${sample}`}
+                                    //   title={props.name}
+                                    crossOrigin="anonymous"
+                                    // onMouseOver={(event) => {
+                                    //   event.currentTarget.style.height = "680";
+                                    //   event.currentTarget.style.boxShadow = "0px 0px 20px 20px #B7B7B7";
+                                    // }}
+                                    // onMouseOut={event => {
+                                    //   event.currentTarget.style.height = "400px";
+                                    //   event.currentTarget.style.boxShadow = "0px 0px 1px 1px #B7B7B7";
+                                    //  //event.currentTarget.style.height = "420px";
+                                    // }}
                                     />
                   
                               
@@ -902,7 +779,7 @@ export default function ProductDetailCard(props) {
                 <CardMedia
                   className={classes.mediaMobile}
                   component="img"
-                  alt={props.creator.name}
+                  alt={props.sample.refNumber}
                   image={imageUrl}
                   //   title={props.name}
                   crossOrigin="anonymous"
@@ -910,229 +787,106 @@ export default function ProductDetailCard(props) {
               </Card>
             </Grid>
             <Grid item className={classes.secondRowMobile}>
-              {props.creator.category && props.creator.country && <Box>
-              {props.creator.category[0].code === 'video-and-audio-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                    {props.creator.name}
+              <Box>
+              <Typography variant="h4" color="textSecondary" component="p">
+                    
                     <span style={{ fontSize: 16, fontWeight: 700 }}>
-                      <em> ({props.creator.country[0].name}, Video & Jingle Creator,  {props.creator.age} years)</em>
+                      <em> {props.sample.refNumber}</em>
                     </span>
-                  </Typography>}
-                  {props.creator.category[0].code === 'video-only-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                    {props.creator.name}
-                    <span style={{ fontSize: 16, fontWeight: 700 }}>
-                      <em> ({props.creator.country[0].name}, Video Creator,  {props.creator.age} years)</em>
-                    </span>
-                  </Typography>}
-                  {props.creator.category[0].code === 'audio-only-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                    {props.creator.name}
-                    <span style={{ fontSize: 16, fontWeight: 700 }}>
-                      <em> ({props.creator.country[0].name}, Jingle Creator,  {props.creator.age} years)</em>
-                    </span>
-                  </Typography>}
+                  </Typography>
+                  
+                
+              
                   <Typography
-                  variant="subtitle1"
-                  color="textSecondary"
-                  component="p"
+                    variant="subtitle1"
+                    color="textSecondary"
+                   component="p"
                 >
-                  {Str(props.bio).limit(200, "...").get()}
+                  {Str(props.sample.vehicleDescription).limit(200, "...").get()}
                 </Typography>
-                {props.creator.category[0].code === 'video-and-audio-creators'  && <Typography
+                
+                <Typography
                   variant="h5"
                   color="textSecondary"
                   component="p"
                   style={{ marginTop: 5, marginBottom: 15 }}
                 >
-                  <span style={{ marginLeft: 0 }}>
-                    <strong>
-                      {getCurrencyCode()}
-                      {props.creator.videoPrice
-                        ? props.creator.videoPrice
-                            .toFixed(2)
-                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                        : 0}
-                    </strong>
-                   
-                  </span>
-                  <span style={{fontSize:12,marginLeft:0}}>/video</span>
-                  <span>&</span>
-                  <span style={{ marginLeft: 10 }}>
-                    <strong>
-                      {getCurrencyCode()}
-                      {props.creator.soundPrice
-                        ? props.creator.soundPrice
-                            .toFixed(2)
-                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                        : 0}
-                    </strong>
-                   
-                  </span>
-                  <span style={{fontSize:12,marginLeft:0}}>/jingle</span>
-                </Typography>}
+                <strong>Make</strong>: {props.sample.vehicleMake}
+                  </Typography>       
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Model</strong>: {props.sample.vehicleModel}
 
-                {props.creator.category[0].code === 'video-only-creators' && <Typography
-                  variant="h4"
-                  color="textSecondary"
-                  component="p"
-                  style={{ marginTop: 5, marginBottom: 15 }}
-                >
-                  <span style={{ marginLeft: 30 }}>
-                    <strong>
-                      {getCurrencyCode()}
-                      {props.creator.videoPrice
-                        ? props.creator.videoPrice
-                            .toFixed(2)
-                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                        : 0}
-                    </strong>
-                   
-                  </span>
-                  <span style={{fontSize:12,marginLeft:0}}>/per video</span>
-                  
-                </Typography>}
-
-                {props.creator.category[0].code === 'audio-only-creators' && <Typography
-                  variant="h4"
-                  color="textSecondary"
-                  component="p"
-                  style={{ marginTop: 5, marginBottom: 15 }}
-                >
-                   <span style={{ marginLeft: 20 }}>
-                    <strong>
-                      {getCurrencyCode()}
-                      {props.creator.soundPrice
-                        ? props.creator.soundPrice
-                            .toFixed(2)
-                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                        : 0}
-                    </strong>
-                   
-                  </span>
-                  <span style={{fontSize:12,marginLeft:0}}>/per jingle</span>
-                  
-                </Typography>}
-                {props.creator.category[0].code === 'video-and-audio-creators' && <Typography
-                      style={{ marginTop: 9, color: "red", marginBottom: 15 }}
-                    >
-                      <span
-                        style={{ fontSize: 14, marginLeft: 10, marginTop: 20 }}
-                      >
-                        {/* <strong>Delivery Method:</strong> &nbsp; */}
-                        <span>{"This is the price for the production of a 10 to 40 seconds marketing video or jingle"}</span>
-                      </span>
-                    </Typography>}
-                    {props.creator.category[0].code === 'video-only-creators' && <Typography
-                      style={{ marginTop: 9, color: "red", marginBottom: 15 }}
-                    >
-                      <span
-                        style={{ fontSize: 14, marginLeft: 10, marginTop: 20 }}
-                      >
-                        {/* <strong>Delivery Method:</strong> &nbsp; */}
-                        <span>{"This is the price for the production of a 10 to 40 seconds marketing video"}</span>
-                      </span>
-                    </Typography>}
-                    {props.creator.category[0].code === 'audio-only-creators' && <Typography
-                      style={{ marginTop: 9, color: "red", marginBottom: 15 }}
-                    >
-                      <span
-                        style={{ fontSize: 14, marginLeft: 10, marginTop: 20 }}
-                      >
-                        {/* <strong>Delivery Method:</strong> &nbsp; */}
-                        <span>{"This is the price for the production of a 10 to 40 seconds marketing jingle"}</span>
-                      </span>
-                    </Typography>}
-               
-                
-                {(props.creator.category[0].code === 'video-and-audio-creators' || props.creator.category[0].code === 'video-only-creators') && <Typography>
-                  
-                    <strong style={{marginLeft:10}}> Cost for An Extra Video Hook:</strong>
-                    <span style={{ marginLeft: 5 }}>
-                    <strong>
-                      {getCurrencyCode()}
-                      {props.creator.videoHookPrice
-                        ? props.creator.videoHookPrice
-                            .toFixed(2)
-                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                        : 0}
-                    </strong>
-                   
-                  </span>
-                    
-          
-                </Typography>}
-                {(props.creator.category[0].code === 'video-and-audio-creators' || props.creator.category[0].code === 'audio-only-creators') && <Typography>
-                  
-                  <strong style={{marginLeft:10}}> Cost for An Extra Sound Hook:</strong>
-                  <span style={{ marginLeft: 5 }}>
-                  <strong>
-                    {getCurrencyCode()}
-                    {props.creator.soundHookPrice
-                      ? props.creator.soundHookPrice
-                          .toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                      : 0}
-                  </strong>
-                 
-                </span>
-                  
-        
-              </Typography>}
-               
-                  
-                
-                <Typography>
-                  <span style={{ fontSize: 14, marginLeft: 10 }}>
-                    <strong> Delivery Period:</strong>
-                    <span>{props.creator.videoDeliveryDays} days</span>
-                  </span>
-                </Typography>
-                <Typography style={{marginLeft:10}}><strong>Niches:</strong></Typography>
-              
-               {props.creator.niches && <Grid container direction="row" style={{marginLeft:30}}>
-                              {props.creator.niches.map((niche, index) => (
-                                <Typography>{niche.niche},  </Typography>
-
-                              ))}
-                            </Grid>}
-                <Typography style={{marginLeft:10}}><strong>Languages:</strong></Typography>
-                
-                {props.creator.languages && <Grid container direction="row" style={{marginLeft:30}}>
-                              {props.creator.languages.map((lang, index) => (
-                                <Typography>{lang.language},  </Typography>
-
-                              ))}
-                            </Grid>}
-
-
-                <Typography style={{marginTop: 20}}>
-                    <span style={{ fontSize: 14, marginLeft: 12, color:"red",  }}>
-                      <strong>
-                       Note: A hook is the initial 2 to 5 seconds of a video designed to immediately capture the audience's attention and encourage them to continue watching.
-                      </strong>
-                     
-                    </span>
                   </Typography>
-              </Box>}
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Class</strong>: {props.sample.vehicleClass}
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Type</strong>: {props.sample.sampleType}
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Special Feature</strong>: {props.sample.specialFeature}
+
+                </Typography>
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Occupants Allowed</strong>: {props.sample.maximumOccupants}
+
+                </Typography> 
+
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Vehicle Details</strong>: {props.sample.vehicleDetails}
+
+                </Typography> 
+                
+                {props.sample.location && <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Location</strong>: {props.sample.location[0].name}
+
+                </Typography> }
+                
+              </Box>
             </Grid>
             <Grid item className={classes.thirdRowMobile}>
               <Box>
                 <SendCreatorToCheckoutForm
-                   videoPrice={props.creator.videoPrice}
-                   videoHookPrice={props.creator.videoHookPrice}
-                   creatorId={props.creator.id}
-                   soundPrice = {props.creator.soundPrice}
-                   soundHookPrice = {props.creator.soundHookPrice}
-                   videoDeliveryDays = {props.creator.videoDeliveryDays}
-                   soundDeliveryDays = {props.creator.soundDeliveryDays}
-                   brandId={props.brandId}
-                   brandName={props.brandName}
-                    brandCountry={props.brandCountry}
-                   categoryName={props.categoryName}
-                   categoryCode={props.categoryCode}
-                   currency={props.creator.currency}
-                   creatord={props.creatorId}
-                   creator={props.creator}
-                   image={props.creator.image}
-                   creatorLanguages={props.creator.languages}
+                  sample={props.sample}
+                  service={props.service}
+                  sampleId={props.sampleId}
                    token={props.token}
                    userId={props.userId}
                    handleMakeOpenSignUpDialogStatus={
@@ -1159,29 +913,30 @@ export default function ProductDetailCard(props) {
               </Box>
             </Grid>
           </Grid>
-          {samplesList.length >=1 &&<Typography style={{marginLeft:'25%',marginTop:20, fontSize:20, fontWeight:700}}>Creator Work Samples</Typography>}
-          <Grid
+          {/* {props.sample.images.length >=1 &&<Typography style={{marginLeft:'25%',marginTop:20, fontSize:20, fontWeight:700}}>Various Views Of The Car</Typography>} */}
+          
+          {props.images && <Grid
             item
             container
             direction="row"
             style={{ width: "100%" }}
             justifyContent="center"
           >
+            <Typography style={{marginLeft:'20%',marginTop:20, fontSize:20, fontWeight:700}}>Various Views Of The Car</Typography>
             <Grid item style={{width:'7%'}}><Typography></Typography></Grid>
            <Grid item container direction="row" style={{width:'74%'}}> 
           
-           {samplesList.map((sample, index) => (
+           {props.images.map((sample, index) => (
                   <Grid item style={{width:'100%', marginTop:30}}>
                          <Card>
-                             <CardMedia
-                                      className={classes.videoMedia}
-                                      component="iframe"
-                                      alt={'creator sample'}
-                                      height="140"
-                                      src={`https://www.youtube.com/embed/${sample.youtubeId}`}
-                                      allow="autoPlay"
-                                      allowfullscreen="allowfullscreen"
-                                      controls
+                         <CardMedia
+                                    className={classes.mediaMobile}
+                                    component="img"
+                                    alt={props.sample.refNumber}
+                                    image={`${baseURL}/images/vehicles/${sample}`}
+                                    //   title={props.name}
+                                    crossOrigin="anonymous"
+                                   
                                     />
                   
                               
@@ -1199,7 +954,7 @@ export default function ProductDetailCard(props) {
 
            
           
-          </Grid>       
+          </Grid>}       
 
          
         </Grid>

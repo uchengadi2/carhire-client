@@ -333,12 +333,12 @@ const LoginForm = (props) => {
                   Forget your password?
                 </Button>
               </Grid>
-              <Grid
+              {/* <Grid
                 item
                 container
-                style={{ width: "5%", marginLeft: 10, fontSize: 10 }}
+                style={{ width: "25%", marginLeft: 10, fontSize: 10 }}
               >
-                {/* <Button
+                <Button
                   variant="text"
                   onClick={() => [
                     handleMakeOpenSignUpDialogStatus(),
@@ -346,8 +346,8 @@ const LoginForm = (props) => {
                   ]}
                 >
                   Sign Up
-                </Button> */}
-              </Grid>
+                </Button>
+              </Grid> */}
             </Grid>
 
             {/* {renderSignUpForm()} */}

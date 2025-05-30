@@ -344,8 +344,8 @@ const SignUpCreatorForm = (props) => {
       email: formValues.email,
       password: formValues.password,
       passwordConfirm: formValues.passwordConfirm,
-      role: "creator",
-      type: "creator",
+      role: "vehicleOwner",
+      type: "vehicleOwner",
       createdBy: props.userId,
     };
 
@@ -384,7 +384,7 @@ const SignUpCreatorForm = (props) => {
               style={{ color: "blue", fontSize: "1.5em" }}
               component="legend"
             >
-              Creator's Sign Up Form
+              Vehicle Owner's Sign Up Form
             </FormLabel>
           </Grid>
           <Box
@@ -504,7 +504,7 @@ const SignUpCreatorForm = (props) => {
               style={{ color: "blue", fontSize: "1.15em" }}
               component="legend"
             >
-              Creator's Sign Up Form
+              Vehicle Owner's Sign Up Form
             </FormLabel>
           </Grid>
           <Box

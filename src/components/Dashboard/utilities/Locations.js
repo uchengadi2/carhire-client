@@ -20,6 +20,7 @@ import api from "./../../../apis/local";
 import AddLocationForm from "./AddLocationForm";
 import LocationDeleteForm from "./LocationDeleteForm";
 import LocationEditForm from "./LocationEditForm";
+import LocationStatusChange from "./LocationStatusChange";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -51,16 +52,20 @@ function Locations(props) {
     useState(false);
   const [updateDeletedLocationCounter, setUpdateDeletedLocationCounter] =
     useState(false);
+  const [updateLocationStatusCounter, setUpdateLocationStatusCounter] =
+    useState(false);  
 
   const { token, setToken } = useToken();
   const { userId, setUserId } = useUserId();
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [markOpen, setMarkOpen] = useState(false);
 
   const [locationList, setLocationList] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowId, setSelectedRowId] = useState();
+  const [rowSelected, setRowSelected] = useState(false);
   const [rowNumber, setRowNumber] = useState(0);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({
@@ -91,7 +96,19 @@ function Locations(props) {
           contactPerson: location.contactPerson,
           contactPersonEmail: location.contactPersonEmail,
           contactPhoneNumber: location.contactPhoneNumber,
-          allowAffiliateSale: location.allowAffiliateSale,
+          vvipPackageCost: location.vvipPackageCost,
+          businessExecutivePackageCost: location.businessExecutivePackageCost,
+          diplomaticPackageCost: location.diplomaticPackageCost,
+          familyPackageCost: location.familyPackageCost,
+          privateJetPackageCost: location.privateJetPackageCost,
+          medicalEmergencyPackageCost: location.medicalEmergencyPackageCost,
+          airlineCrewPackageCost: location.airlineCrewPackageCost,
+          addonLuxuryServiceCost: location.addonLuxuryServiceCost,
+          addonOnsiteSecurityServiceCost:location.addonOnsiteSecurityServiceCost,
+          addonOntransitSecurityServiceCost:location.addonOntransitSecurityServiceCost,
+          addonLoungeAccessServiceCost:location.addonLoungeAccessServiceCost,
+          addonConciergeServiceCost:location.addonConciergeServiceCost,
+          status: location.status,
         });
       });
       setLocationList(allData);
@@ -105,9 +122,10 @@ function Locations(props) {
     updateLocationCounter,
     updateEdittedLocationCounter,
     updateDeletedLocationCounter,
+    updateLocationStatusCounter
   ]);
 
-  console.log("location:", locationList);
+  
 
   useEffect(() => {
     // 👇️ scroll to top on page load
@@ -124,6 +142,10 @@ function Locations(props) {
 
   const renderLocationDeletedUpdateCounter = () => {
     setUpdateDeletedLocationCounter((prevState) => !prevState);
+  };
+
+const renderLocationStatusUpdateCounter = () => {
+    setUpdateLocationStatusCounter((prevState) => !prevState);
   };
 
   const handleSuccessfulCreateSnackbar = (message) => {
@@ -155,6 +177,16 @@ function Locations(props) {
     });
   };
 
+  const handleSuccessfulStatusSnackbar = (message) => {
+    //setBecomePartnerOpen(false);
+    setAlert({
+      open: true,
+      message: message,
+      //backgroundColor: "#4BB543",
+      backgroundColor: "#FF731D",
+    });
+  };
+
   const handleFailedSnackbar = (message) => {
     setAlert({
       open: true,
@@ -174,6 +206,9 @@ function Locations(props) {
   const handleDialogOpenStatus = () => {
     setOpen(false);
   };
+  const handleMarkDialogOpenStatus = () => {
+    setMarkOpen(false);
+  }
 
   const handleEditDialogOpenStatus = () => {
     setEditOpen(false);
@@ -191,6 +226,10 @@ function Locations(props) {
     setDeleteOpen(true);
   };
 
+  const handleMarkOpen = () => {
+    setMarkOpen(true);  
+  }
+
   const onRowsSelectionHandler = (ids, rows) => {
     const selectedIDs = new Set(ids);
     const selectedRowsData = ids.map((id) => rows.find((row) => row.id === id));
@@ -199,6 +238,11 @@ function Locations(props) {
     selectedIDs.forEach(function (value) {
       setSelectedRowId(value);
     });
+    if (selectedIDs.size === 1) {
+      setRowSelected(true);
+    } else {
+      setRowSelected(false);
+    }
   };
 
   const renderDataGrid = () => {
@@ -214,7 +258,14 @@ function Locations(props) {
       {
         field: "name",
         headerName: "Location Name",
-        width: 350,
+        width: 250,
+
+        //editable: true,
+      },
+      {
+        field: "status",
+        headerName: "Location Status",
+        width: 150,
 
         //editable: true,
       },
@@ -228,14 +279,14 @@ function Locations(props) {
         field: "locationType",
         headerName: "Location Type",
         //type: "number",
-        width: 150,
+        width: 200,
         //editable: true,
       },
       {
         field: "town",
         headerName: "Town",
         sortable: false,
-        width: 250,
+        width: 200,
         // valueGetter: (params) =>
         //   `${params.row.firstName || ""} ${params.row.lastName || ""}`,
       },
@@ -243,25 +294,25 @@ function Locations(props) {
         field: "address",
         headerName: "Address",
         sortable: false,
-        width: 250,
+        width: 200,
       },
       {
         field: "country",
         headerName: "Country",
         sortable: false,
-        width: 250,
+        width: 200,
       },
       {
         field: "state",
         headerName: "State/Region",
         sortable: false,
-        width: 250,
+        width: 200,
       },
       {
         field: "city",
         headerName: "City",
         sortable: false,
-        width: 250,
+        width: 200,
       },
     ];
 
@@ -308,14 +359,26 @@ function Locations(props) {
             )
           : "",
 
-        allowAffiliateSale: location.allowAffiliateSale,
-        contactPerson: location.contactPerson,
+         contactPerson: location.contactPerson,
         contactPersonEmail: location.contactPersonEmail,
         contactPhoneNumber: location.contactPhoneNumber,
         countryId: location.country,
         stateId: location.state,
         cityId: location.city[0].id,
         description: location.description,
+        vvipPackageCost: location.vvipPackageCost,
+          businessExecutivePackageCost: location.businessExecutivePackageCost,
+          diplomaticPackageCost: location.diplomaticPackageCost,
+          familyPackageCost: location.familyPackageCost,
+          privateJetPackageCost: location.privateJetPackageCost,
+          medicalEmergencyPackageCost: location.medicalEmergencyPackageCost,
+          airlineCrewPackageCost: location.airlineCrewPackageCost,
+          addonLuxuryServiceCost: location.addonLuxuryServiceCost,
+          addonOnsiteSecurityServiceCost:location.addonOnsiteSecurityServiceCost,
+          addonOntransitSecurityServiceCost:location.addonOntransitSecurityServiceCost,
+          addonLoungeAccessServiceCost:location.addonLoungeAccessServiceCost,
+          addonConciergeServiceCost:location.addonConciergeServiceCost,
+          status: location.status,
       };
       rows.push(row);
     });
@@ -352,11 +415,11 @@ function Locations(props) {
       <Grid container spacing={1} direction="column">
         <Grid item xs>
           <Grid container spacing={2}>
-            <Grid item xs={9.3}>
+            <Grid item xs={7.3}>
               {/* <Item>xs=8</Item> */}
               <Typography variant="h4">Locations</Typography>
             </Grid>
-            <Grid item xs={2.7}>
+            <Grid item xs={4.7}>
               <div>
                 <Stack direction="row" spacing={1.5}>
                   <Button variant="contained" onClick={handleAddOpen}>
@@ -384,7 +447,7 @@ function Locations(props) {
                       />
                     </DialogContent>
                   </Dialog>
-                  <Button variant="contained" onClick={handleEditOpen}>
+                  <Button variant="contained" onClick={handleEditOpen} disabled={rowSelected ? false : true}>
                     Edit
                   </Button>
                   <Dialog
@@ -410,7 +473,7 @@ function Locations(props) {
                       />
                     </DialogContent>
                   </Dialog>
-                  <Button variant="contained" onClick={handleDeleteOpen}>
+                  <Button variant="contained" onClick={handleDeleteOpen} disabled={rowSelected ? false : true}>
                     Delete
                   </Button>
                   <Dialog
@@ -434,6 +497,35 @@ function Locations(props) {
                         handleFailedSnackbar={handleFailedSnackbar}
                         renderLocationDeletedUpdateCounter={
                           renderLocationDeletedUpdateCounter
+                        }
+                      />
+                    </DialogContent>
+                  </Dialog>
+                  <Button variant="contained" onClick={handleMarkOpen} disabled={rowSelected ? false : true}>
+                    {selectedRows[0]?.status === "active" ? "Mark Inactive" : "Mark Active"}
+                  </Button>
+                  <Dialog
+                    //style={{ zIndex: 1302 }}
+                    fullScreen={matchesXS}
+                    open={markOpen}
+                    // onClose={() => [setOpen(false), history.push("/utilities/countries")]}
+                    onClose={() => [setMarkOpen(false)]}
+                  >
+                    <DialogContent>
+                      <LocationStatusChange
+                        token={token}
+                        userId={userId}
+                        params={selectedRows}
+                        status={selectedRows[0]?.status}
+                        handleMarkDialogOpenStatus={
+                          handleMarkDialogOpenStatus
+                        }
+                        handleSuccessfulStatusSnackbar={
+                          handleSuccessfulStatusSnackbar
+                        }
+                        handleFailedSnackbar={handleFailedSnackbar}
+                        renderLocationStatusUpdateCounter={
+                          renderLocationStatusUpdateCounter
                         }
                       />
                     </DialogContent>

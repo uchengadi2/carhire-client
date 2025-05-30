@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Field, reduxForm } from "redux-form";
+import { Field, formValues, reduxForm } from "redux-form";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useDispatch } from "react-redux";
 import Grid from "@material-ui/core/Grid";
@@ -21,7 +21,7 @@ import Box from "@material-ui/core/Box";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import api from "./../../apis/local";
-import { CREATE_ORDER } from "../../actions/types";
+import { CREATE_ORDER,DELETE_CART } from "../../actions/types";
 import CheckoutPage from "./CheckoutPage";
 import Paystack from "../../Paystack";
 import history from "../../history";
@@ -38,12 +38,12 @@ const useStyles = makeStyles((theme) => ({
   submitButton: {
     borderRadius: 10,
     height: 40,
-    width: 100,
-    marginLeft: 230,
+    width: 150,
+    marginLeft: '30%',
     marginTop: 30,
     marginBottom: 20,
-    // color: "white",
-    // backgroundColor: theme.palette.common.green,
+    color: "white",
+    backgroundColor: theme.palette.common.green,
     // "&:hover": {
     //   backgroundColor: theme.palette.common.green,
     // },
@@ -79,11 +79,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const renderRecipientNameField = ({
+const renderSingleLineField = ({
   input,
   label,
   meta: { touched, error, invalid },
   type,
+  helperText,
   id,
   ...custom
 }) => {
@@ -92,7 +93,7 @@ const renderRecipientNameField = ({
       error={touched && invalid}
       //placeholder="category description"
       variant="outlined"
-      helperText="Recipient Name"
+      helperText={helperText}
       label={label}
       id={input.name}
       name={input.name}
@@ -113,11 +114,13 @@ const renderRecipientNameField = ({
   );
 };
 
-const renderRecipientAddressField = ({
+const renderMultiLineField = ({
   input,
   label,
   meta: { touched, error, invalid },
   type,
+  helperText,
+  rows,
   id,
   ...custom
 }) => {
@@ -126,7 +129,7 @@ const renderRecipientAddressField = ({
       error={touched && invalid}
       //placeholder="category description"
       variant="outlined"
-      helperText="Recipient Address"
+      helperText={helperText}
       label={label}
       id={input.name}
       name={input.name}
@@ -135,44 +138,12 @@ const renderRecipientAddressField = ({
       style={{ marginTop: 10, width: 300 }}
       onChange={input.onChange}
       multiline
-      minRows={2}
+      minRows={rows}
     />
   );
 };
 
-const renderRecipientPhoneNumberField = ({
-  input,
-  label,
-  meta: { touched, error, invalid },
-  type,
-  id,
-  ...custom
-}) => {
-  return (
-    <TextField
-      error={touched && invalid}
-      //placeholder="category description"
-      variant="outlined"
-      helperText="Recipient Phone Number"
-      label={label}
-      id={input.name}
-      name={input.name}
-      fullWidth
-      type={type}
-      style={{ marginTop: 10, width: 300 }}
-      onChange={input.onChange}
-      InputProps={{
-        inputProps: {
-          min: 1,
-          style: {
-            height: 1,
-            //fontSize: "2em",
-          },
-        },
-      }}
-    />
-  );
-};
+
 
 function CheckoutActionPage(props) {
   const { price, productId, token, userId } = props;
@@ -201,8 +172,9 @@ function CheckoutActionPage(props) {
   const [customerName, setCustomerName] = useState();
   const [total, setTotal] = useState();
   const [orderNumber, setOrderNumber] = useState(
-    "OR-" + Math.floor(Math.random() * 10000000000000) + "-" + "ES"
+    "OR-" + Math.floor(Math.random() * 10000000000000) + "-" + "PLUTO"
   );
+    
 
   const dispatch = useDispatch();
 
@@ -214,6 +186,8 @@ function CheckoutActionPage(props) {
   //     : 0
   // );
   const [loading, setLoading] = useState();
+
+
 
   useEffect(() => {
     if (!price) {
@@ -284,6 +258,9 @@ function CheckoutActionPage(props) {
 
     fetchData().catch(console.error);
   }, []);
+
+
+
 
   const onChange = (e) => {
     const quantity = parseFloat(e.target.value);
@@ -601,124 +578,322 @@ function CheckoutActionPage(props) {
     return <React.Fragment>Remove</React.Fragment>;
   };
 
+
+  const buttonRequestAnInvoiceContent = () => {
+    return <React.Fragment>Get Invoice</React.Fragment>;
+  };
+
   
-  const onSubmit = () => {
+  // const onSubmit = () => {
+  //   setLoading(true);
+  //   const createForm = async () => {
+  //     api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+  //     await api.delete(`/carts/${props.cartId}`);
+
+  //     props.handleSuccessfulCreateSnackbar(
+  //       `This item is removed successfully!!!`
+  //     );
+
+  //     //history.push("/");
+  //     props.renderCheckoutUpdate(props.cartId);
+
+  //     setLoading(false);
+  //   };
+  //   createForm().catch((err) => {
+  //     props.handleFailedSnackbar();
+  //     console.log("err:", err.message);
+  //   });
+  // };
+console.log('props is:',props);
+  console.log('service is:', props.service)
+
+  const onInvoiceSubmitSubmit = (formValues)=>{
     setLoading(true);
-    const createForm = async () => {
-      api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      await api.delete(`/carts/${props.cartId}`);
+    
+        if (
+          !formValues["name"] ||
+          formValues["name"].replace(/\s/g, "").length === 0
+        ) {
+          props.handleFailedSnackbar("The name field cannot be empty");
+          setLoading(false);
+          return;
+        }
+    
+        if (
+          !formValues["phoneNumber"] ||
+          formValues["phoneNumber"].replace(/\s/g, "").length === 0
+        ) {
+          props.handleFailedSnackbar(
+            "Please the phone number field cannot be empty"
+          );
+          setLoading(false);
+          return;
+        }
 
-      props.handleSuccessfulCreateSnackbar(
-        `This item is removed successfully!!!`
-      );
+        if (
+          !formValues["emailAddress"] ||
+          formValues["emailAddress"].replace(/\s/g, "").length === 0
+        ) {
+          props.handleFailedSnackbar(
+            "Please the Email Address field cannot be empty"
+          );
+          setLoading(false);
+          return;
+        }
+        const refNumber = "ORDER" + "-" + Math.floor(Math.random() * 100000000) + "-" + "VEHICLE";
+        const Str = require("@supercharge/strings");
+    
+        if(props.parameters.service[0] ==='carhire' || props.parameters.service[0] === "car-and-security"){
 
-      //history.push("/");
-      props.renderCheckoutUpdate(props.cartId);
+          const data = {
+            name:formValues.name,
+            phoneNumber:formValues.phoneNumber,
+            emailAddress:formValues.emailAddress,
+            businessName: formValues.businessName,
+            image: props.parameters.image,
+            category: props.parameters.category[0].id,
+            ontransitSecurityServiceApplicability: props.parameters.ontransitSecurityServiceApplicability,
+            onsiteSecurityServiceApplicability: props.parameters.onsiteSecurityServiceApplicability,
+            serviceApplicability: props.parameters.serviceApplicability,
+            tripCoverage: props.parameters.tripCoverage,
+            departureDate: props.parameters.departureDate,
+            arrivalDate: props.parameters.arrivalDate,
+            destinationAddress: props.parameters.destinationAddress,
+            destinationState: props.parameters.destinationState[0].id,
+            sourceState: props.parameters.sourceState[0].id,
+            country: props.parameters.country[0].id,
+            sourceLocation: props.parameters.sourceLocation[0].id,
+            service:props.parameters.service[0],
+            numberOfVehicleOccupant: props.parameters.numberOfVehicleOccupant,
+            numberOfGuest: props.parameters.numberOfGuest,
+            vehicle: props.parameters.vehicle[0].id,
+            status: "pending",
+            dateAddedToCart: props.parameters.dateAddedToCart,
+            user: props.parameters.userId,
+            refNumber: refNumber,
+            creator: props.parameters.creator.id,
+            cartId: props.parameters.cartId,
+            orderNumber: orderNumber,
+         
+            bookedBy: props.userId
+  
+          }
+          
+      
+          if (data) {
+            const createForm = async () => {
+              api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+              const response = await api.post(`/orders`, data);
+      
+              if (response.data.status === "success") {
+                dispatch({
+                  type: CREATE_ORDER,
+                  payload: response.data.data.data,
+                });
+      
+                // props.handleSuccessfulCreateSnackbar(
+                //   //`${response.data.data.data.orderNumber} Order is successfully submitted!!!`
+                //   "We are processing your invoice. You will get it as soon as possible"
+                // );
+                props.renderCheckoutUpdate(props.cartId);
+                props.handleDialogOpenStatus();
+                setLoading(false);
+              } else {
+                props.handleFailedSnackbar(
+                  "Something went wrong, please try again!!!"
+                );
+                return
+              }
+            };
+            createForm().catch((err) => {
+              //props.handleFailedSnackbar("Something went wrong, please try again!!!");
+              //console.log("err:", err.message);
+              //return
+            });
+          } else {
+            //props.handleFailedSnackbar("Something went wrong, please try again!!!");
+          }
+          //remove item from cart
+          
+          const createForm = async () => {
+                  api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+                  await api.delete(`/carts/${props.cartId}`);
+                  dispatch({
+                    type: DELETE_CART,
+                    //payload: response2.data.data.data,
+                  });
+                };
+                createForm().catch((err) => {
+                  props.handleFailedSnackbar();
+                  console.log("err:", err.message);
+                });
+            
+              props.handleSuccessfulCreateSnackbar(
+                "We are processing your invoice. You will get it as soon as possible"
+              );
+              history.push("/thankyou");
+        }else{
 
-      setLoading(false);
-    };
-    createForm().catch((err) => {
-      props.handleFailedSnackbar();
-      console.log("err:", err.message);
-    });
-  };
+          const data = {
+            name:formValues.name,
+            phoneNumber:formValues.phoneNumber,
+            emailAddress:formValues.emailAddress,
+            businessName: formValues.businessName,
+            image: props.parameters.image,
+            //category: props.parameters.category[0].id,
+            //ontransitSecurityServiceApplicability: props.parameters.ontransitSecurityServiceApplicability,
+            //onsiteSecurityServiceApplicability: props.parameters.onsiteSecurityServiceApplicability,
+            serviceApplicability: props.serviceApplicability,
+            //tripCoverage: props.parameters.tripCoverage,
+            departureDate: props.departureDate,
+            arrivalDate: props.arrivalDate,
+            //destinationAddress: props.parameters.destinationAddress,
+            //destinationState: props.parameters.destinationState[0].id,
+            sourceState: props.parameters.sourceState[0].id,
+            country: props.parameters.country[0].id,
+            sourceLocation: props.parameters.sourceLocation[0].id,
+            service:props.parameters.service[0],
+            //numberOfVehicleOccupant: props.parameters.numberOfVehicleOccupant,
+            numberOfGuest: props.numberOfGuest,
+            //vehicle: props.parameters.vehicle[0].id,
+            status: "pending",
+            dateAddedToCart: props.parameters.dateAddedToCart,
+            user: props.userId,
+            refNumber: refNumber,
+            //creator: props.parameters.creator.id,
+            cartId: props.parameters.id,
+            orderNumber: orderNumber,
+         
+            bookedBy: props.userId,
+            ontransitSecurityService:props.ontransitSecurityService,
+            onsiteSecurityService:props.onsiteSecurityService,
+            carService:props.carService,
+            numberOfGuest:props.numberOfGuest
+  
+          }
 
-  const renderOnlinePayment = (email, amount, orderNumber) => {
-    const data = {
-      orderNumber: orderNumber,
-      product: props.productId,
-      orderedPrice: props.price,
-      recipientName: props.recipientName,
-      recipientPhoneNumber: props.recipientPhoneNumber,
-      recipientAddress: props.recipientAddress,
-      recipientCountry: props.recipientCountry,
-      recipientState: props.recipientState,
-      productLocation: props.location,
-      locationCountry: props.locationCountry,
-      totalDeliveryCost: totalDeliveryCost.toFixed(2),
-      totalProductCost: totalProductCost.toFixed(2),
-      productVendor: props.productVendor,
-      cartId: props.cartId,
-      quantityAdddedToCart: props.quantity,
-      orderedQuantity: quantity,
-      dateAddedToCart: props.dateAddedToCart,
-      productCurrency: props.currency,
-      paymentMethod: paymentMethod,
-      paymentStatus: "paid",
+          
+          
+      
+          if (data) {
+            const createForm = async () => {
+              api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+              const response = await api.post(`/orders`, data);
+      
+              if (response.data.status === "success") {
+                dispatch({
+                  type: CREATE_ORDER,
+                  payload: response.data.data.data,
+                });
+      
+                // props.handleSuccessfulCreateSnackbar(
+                //   //`${response.data.data.data.orderNumber} Order is successfully submitted!!!`
+                //   "We are processing your invoice. You will get it as soon as possible"
+                // );
+                props.renderCheckoutUpdate(props.cartId);
+                props.handleDialogOpenStatus();
+                setLoading(false);
+              } else {
+                props.handleFailedSnackbar(
+                  "Something went wrong, please try again!!!"
+                );
+                return
+              }
+            };
+            createForm().catch((err) => {
+              //props.handleFailedSnackbar("Something went wrong, please try again!!!");
+              //console.log("err:", err.message);
+              //return
+            });
+          } else {
+            //props.handleFailedSnackbar("Something went wrong, please try again!!!");
+          }
+          //remove item from cart
+          
+          const createForm = async () => {
+                  api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
+                  await api.delete(`/carts/${props.cartId}`);
+                  dispatch({
+                    type: DELETE_CART,
+                    //payload: response2.data.data.data,
+                  });
+                };
+                createForm().catch((err) => {
+                  props.handleFailedSnackbar();
+                  console.log("err:", err.message);
+                });
+            
+              props.handleSuccessfulCreateSnackbar(
+                "We are processing your invoice. You will get it as soon as possible"
+              );
+              history.push("/thankyou");
+        }
 
-      orderedBy: props.userId,
-      preferredStartDate: props.preferredStartDate,
-    };
-    return (
-      <Paystack
-        email={email}
-        amount={parseInt(amount)}
-        text={"Make Payment"}
-        orderNumber={orderNumber}
-        data={data}
-        token={props.token}
-        handleSuccessfulCreateSnackbar={props.handleSuccessfulCreateSnackbar}
-        handleFailedSnackbar={props.handleFailedSnack}
-      />
-    );
-  };
+       
+  }
+
+  
 
   
 
   return (
     <>
-      <Typography style={{ width: 300, marginTop: 15, marginLeft: 10 }}>
-        <strong>Brand:</strong>&nbsp;&nbsp;{props.brandName}
+     
+      <Box style={{marginLeft:30}}>
+      <Field
+        label=""
+        id="name"
+        name="name"
+        type="text"
+        helperText="Enter Your Name"
+        component={renderSingleLineField}
         
-      </Typography>
-      <Typography style={{ width: 300, marginTop: 15, marginLeft: 10 }}>
-        <strong>Project:</strong>&nbsp;&nbsp;{props.projectName}        
-      </Typography>
-      <Typography style={{ width: 300, marginTop: 15, marginLeft: 10 }}>
-        <strong>Project Type:</strong>&nbsp;&nbsp;{props.projectType}        
-      </Typography>
-      <Typography style={{ width: 300, marginTop: 15, marginLeft: 10 }}>
-        <strong>Required Language for this Project:</strong>&nbsp;&nbsp;{props.projectLanguage}        
-      </Typography>
-      <Typography style={{ width: "100%", marginTop: 5, marginLeft: 10 }}>
-        <strong>Number of {props.creativeType ==="video" ? "video(s)":"jingle(s)"} required:</strong>&nbsp;&nbsp;{props.creativeQuantity}
-      </Typography>
-      <Typography style={{ width: "100%", marginTop: 5, marginLeft: 10 }}>
-        <strong>Number of Hooks required:</strong>&nbsp;&nbsp;{props.creativeHookQuantity} 
-      </Typography>
-     {props.grandTotal && <Typography style={{ width: "100%", marginTop: 15, marginLeft: 10 }}>
-        <strong>Total Cost:</strong>{props.getCurrencyCode()}
-        {props.grandTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-      </Typography>}
-      {/* <Typography
-        style={{ width: 300, fontSize: 20, marginTop: 15, marginLeft: 10 }}
-      >
-        Total Cost:{props.getCurrencyCode()}
-        {totalProductCostForDisplay}
-      </Typography> */}
+      />
 
-      {/* {renderPaymentMethodField()} */}
-      {!isOnlinePayment && paymentMethod && (
-        <Typography className={classes.bankDetails}>
-          Bank: Ecobank; Name: E-Shield Africa Limited; Account number:
-          5140090808
-        </Typography>
-      )}
+      <Field
+        label=""
+        id="phoneNumber"
+        name="phoneNumber"
+        type="text"
+        helperText="Enter Your WhatsApp Number"
+        component={renderSingleLineField}
+        
+      />
+      <Field
+        label=""
+        id="emailAddress"
+        name="emailAddress"
+        type="text"
+        helperText="Enter Your Email Address"
+        component={renderSingleLineField}
+        
+      />
+      <Field
+        label=""
+        id="businessName"
+        name="businessName"
+        type="text"
+        helperText="Enter Your Business Name(Optional)"
+        component={renderSingleLineField}
+        
+      />
+      <Typography style={{fontSize:12, color:"red", marginTop:15}}>The Invoice will be sent to these contact details</Typography>
+      </Box>
 
       <Button
-        variant="outlined"
+        variant="contained"
         className={classes.submitButton}
-        onClick={onSubmit}
+        onClick={props.handleSubmit(onInvoiceSubmitSubmit)}
       >
         {loading ? (
           <CircularProgress size={30} color="inherit" />
         ) : (
-          buttonContent()
+          buttonRequestAnInvoiceContent()
         )}
       </Button>
 
-      {isOnlinePayment &&
-        renderOnlinePayment(customerEmail, amountForPayment, orderNumber)}
+      {/* {isOnlinePayment &&
+        renderOnlinePayment(customerEmail, amountForPayment, orderNumber)} */}
     </>
   );
 }

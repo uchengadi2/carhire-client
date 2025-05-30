@@ -344,8 +344,8 @@ const SignUpForm = (props) => {
       email: formValues.email,
       password: formValues.password,
       passwordConfirm: formValues.passwordConfirm,
-      role: "brand",
-      type:"brand",
+      role: "customer",
+      type:"customer",
       createdBy: props.userId,
     };
 
@@ -384,7 +384,7 @@ const SignUpForm = (props) => {
               style={{ color: "blue", fontSize: "1.5em" }}
               component="legend"
             >
-              Brand's Sign Up Form
+              Customer's Sign Up Form
             </FormLabel>
           </Grid>
           <Box
@@ -504,7 +504,7 @@ const SignUpForm = (props) => {
               style={{ color: "blue", fontSize: "1.15em" }}
               component="legend"
             >
-               Brand's Sign Up Form
+               Customer's Sign Up Form
             </FormLabel>
           </Grid>
           <Box

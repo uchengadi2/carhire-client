@@ -20,7 +20,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import data from "./../../apis/local";
-import background from "../../assets/images/covers/aboutus-cover.jpg";
+import background from "../../assets/images/site/image7.webp";
 
 const useStyles = makeStyles((theme) => ({
   root: {

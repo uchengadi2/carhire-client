@@ -224,6 +224,7 @@ function CheckoutPage(props) {
   const [brand, setBrand] = useState();
   const [project, setProject] = useState();
   const [isLoading, setIsLoading] = useState(null);
+  const [isAPackage, setIsAPackage] = useState(false)
 
   const [alert, setAlert] = useState({
     open: false,
@@ -290,29 +291,29 @@ function CheckoutPage(props) {
           dateAddedToCart: cart.dateAddedToCart,
           creator: cart.creator,
           brand: cart.brand,
-          brandName: cart.brandName,
-          brandCountry: cart.brandCountry,
+          vehicle: cart.vehicle,
+          numberOfGuest: cart.numberOfGuest,
           refNumber: cart.refNumber, 
-          creativeQuantity: cart.creativeQuantity,
-          creativeHookQuantity: cart.creativeHookQuantity,
-          creativeType: cart.creativeType,
-          project: cart.project,
-          creativeLanguage: cart.creativeLanguage,
-          creatorCategoryCode: cart.creatorCategoryCode,
-          creatorCategoryName: cart.creatorCategoryName,
-          grandTotal: cart.grandTotal, 
+          numberOfVehicleOccupant: cart.numberOfVehicleOccupant,
+          service: cart.service,
+          country: cart.country,
+          sourceState: cart.sourceState,
+          sourceLocation:cart.sourceLocation,
+          destinationState: cart.destinationState,
+          destinationAddress: cart.destinationAddress,
+          arrivalDate: cart.arrivalDate, 
           cartHolder: cart.cartHolder,
           isDeleted: cart.isDeleted,
-          creativeUnitPrice: cart.creativeUnitPrice,
-          creativeHookUnitPrice: cart.creativeHookUnitPrice,
-          creativeDeliveryDays: cart.createiveDeliveryDays,
-          currency: cart.currency,
-          currencyName: cart.currencyName,
-          //status: "marked-for-checkout",    
+          departureDate: cart.departureDate,
+          tripCoverage: cart.tripCoverage,
+          serviceApplicability: cart.serviceApplicability,
+          onsiteSecurityServiceApplicability: cart.onsiteSecurityServiceApplicability,
+          ontransitSecurityServiceApplicability: cart.ontransitSecurityServiceApplicability,
           status: cart.status,  
           category: cart.category,            
           slug: cart.slug,
-          image:cart.creatorImage
+          image:cart.image,
+          packageCostPerPerson:cart.packageCostPerPerson
         });
       });
 
@@ -332,7 +333,7 @@ function CheckoutPage(props) {
       // if (allData.length >= 1) {
       //   setAcceptablePaymentOptions(allData[0].acceptablePaymentOptions);
       // }
-      console.log('allData.length:',allData.length)
+      
       if (allData.length === 0) {
         setCartProductList(allData);
         setIsLoading(false);
@@ -340,10 +341,10 @@ function CheckoutPage(props) {
         
       }else{
         setCartProductList(allData);
-        setGrandTotal(allData[0].grandTotal);
-        setCurrencyName(allData[0].currencyName);
-        setBrand(allData[0].brand);
-        setProject(allData[0].project.id);
+        //setGrandTotal(allData[0].grandTotal);
+        //setCurrencyName(allData[0].currencyName);
+       // setBrand(allData[0].brand);
+        //setProject(allData[0].project.id);
 
         setIsLoading(false);
       }
@@ -367,37 +368,33 @@ function CheckoutPage(props) {
         <Grid container direction="row">
           {cartProductList.map((cart, index) => (
             <CheckoutCard
-              creator={cart.creator}
-              key={`${cart.id}${index}`}
-              cartHolder={cart.cartHolder}
-              cartId={cart.id}
-              dateAddedToCart={cart.dateAddedToCart}
-              brand={cart.brand}
-              brandName= {cart.brandName}
-              brandCountry={cart.brandCountry}
-              refNumber={cart.refNumber} 
-              creativeQuantity={cart.creativeQuantity}
-              creativeHookQuantity={cart.creativeHookQuantity}
-              creativeType={cart.creativeType}
-              project={cart.project}
-              projectName={cart.project?cart.project.name:""}
-              projectLanguage={cart.project?cart.project.language[0].language:""}
-              projectType={cart.project?cart.project.type:""}
-              creativeLanguage={cart.creativeLanguage}
-              creatorCategoryCode={cart.creatorCategoryCode}
-              creatorCategoryName= {cart.creatorCategoryName}
-              grandTotal={cart.grandTotal} 
-              isDeleted= {cart.isDeleted}
-              creativeUnitPrice={cart.creativeUnitPrice}
-              creativeHookUnitPrice={cart.creativeHookUnitPrice}
-              creativeDeliveryDays={cart.creativeDeliveryDays}
-              currency={cart.currency}
-              currencyName={cart.currencyName}
-              //status: "marked-for-checkout",
-              status={cart.status}
-              category={cart.category}
-              slug={cart.slug}
-              image={cart.image}
+            id={cart.id}
+            dateAddedToCart={cart.dateAddedToCart}
+            creator={cart.creator}
+            brand={cart.brand}
+            vehicle={cart.vehicle}
+            numberOfGuest={cart.numberOfGuest}
+            refNumber={cart.refNumber} 
+            numberOfVehicleOccupant= {cart.numberOfVehicleOccupant}
+            service={cart.service}
+            country={cart.country}
+            sourceState={cart.sourceState}
+            sourceLocation={cart.sourceLocation}
+            destinationState={cart.destinationState}
+            destinationAddress= {cart.destinationAddress}
+            arrivalDate={cart.arrivalDate} 
+            cartHolder={cart.cartHolder}
+            isDeleted={cart.isDeleted}
+            departureDate= {cart.departureDate}
+            tripCoverage={cart.tripCoverage}
+            serviceApplicability={cart.serviceApplicability}
+            onsiteSecurityServiceApplicability={cart.onsiteSecurityServiceApplicability}
+            ontransitSecurityServiceApplicability={cart.ontransitSecurityServiceApplicability}
+            status={cart.status}  
+            category={cart.category}   
+            packageCostPerPerson={cart.packageCostPerPerson}         
+            slug={cart.slug}
+            image={cart.image}
               token={props.token}
               userId={props.userId}
               setToken={props.setToken}
@@ -424,37 +421,33 @@ function CheckoutPage(props) {
         >
           {cartProductList.map((cart, index) => (
             <CheckoutCard
-              creator={cart.creator}
-              key={`${cart.id}${index}`}
-              cartHolder={cart.cartHolder}
-              cartId={cart.id}
-              dateAddedToCart={cart.dateAddedToCart}
-              refNumber={cart.refNumber}
-              brand={cart.brand}
-              brandName= {cart.brandName}
-              brandCountry={cart.brandCountry}
-              creativeQuantity={cart.creativeQuantity}
-              creativeHookQuantity={cart.creativeHookQuantity}
-              creativeType={cart.creativeType}
-              project={cart.project}
-              projectName={cart.project?cart.project.name:""}
-              projectLanguage={cart.project?cart.project.language[0].language:""}
-              projectType={cart.project?cart.project.type:""}
-              creativeLanguage={cart.creativeLanguage}
-              creatorCategoryCode={cart.creatorCategoryCode}
-              creatorCategoryName= {cart.creatorCategoryName}
-              grandTotal={cart.grandTotal} 
-              isDeleted= {cart.isDeleted}
-              creativeUnitPrice={cart.creativeUnitPrice}
-              creativeHookUnitPrice={cart.creativeHookUnitPrice}
-              creativeDeliveryDays={cart.creativeDeliveryDays}
-              currency={cart.currency}
-              currencyName={cart.currencyName}
-              //status: "marked-for-checkout",
-              status={cart.status}
-              category={cart.category}
-              slug={cart.slug}
-              image={cart.image}
+            id={cart.id}
+            dateAddedToCart={cart.dateAddedToCart}
+            creator={cart.creator}
+            brand={cart.brand}
+            vehicle={cart.vehicle}
+            numberOfGuest={cart.numberOfGuest}
+            refNumber={cart.refNumber} 
+            numberOfVehicleOccupant= {cart.numberOfVehicleOccupant}
+            service={cart.service}
+            country={cart.country}
+            sourceState={cart.sourceState}
+            sourceLocation={cart.sourceLocation}
+            destinationState={cart.destinationState}
+            destinationAddress= {cart.destinationAddress}
+            arrivalDate={cart.arrivalDate} 
+            cartHolder={cart.cartHolder}
+            isDeleted={cart.isDeleted}
+            departureDate= {cart.departureDate}
+            tripCoverage={cart.tripCoverage}
+            serviceApplicability={cart.serviceApplicability}
+            onsiteSecurityServiceApplicability={cart.onsiteSecurityServiceApplicability}
+            ontransitSecurityServiceApplicability={cart.ontransitSecurityServiceApplicability}
+            status={cart.status}  
+            category={cart.category}            
+            slug={cart.slug}
+            image={cart.image}
+            packageCostPerPerson={cart.packageCostPerPerson}   
               token={props.token}
               userId={props.userId}
               setToken={props.setToken}
@@ -500,7 +493,7 @@ function CheckoutPage(props) {
         {/*....INFORMATION BLOCK....*/}
       </Grid>
       <Grid>
-        {!isLoading &&
+        {!isLoading && isAPackage && 
           (cartProductList.length === 0 ? (
             // <Typography>There are no course in your checkout</Typography>
             " "
@@ -520,6 +513,7 @@ function CheckoutPage(props) {
               }
               handleFailedSnackbar={props.handleFailedSnackbar}
             />
+            
           ))}
       </Grid>
       <Grid item className={classes.footer}>

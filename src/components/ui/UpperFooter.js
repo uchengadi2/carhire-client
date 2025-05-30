@@ -20,7 +20,7 @@ import CallToAction from "./../ui/CallToAction";
 
 import revolutionBackground from "./../../assets/repeatingBackground.svg";
 //import infoBackground from "./../../assets/infoBackground.svg";
-import infoBackground from "./../../assets/images/covers/aboutus-cover.jpg";
+import infoBackground from "./../../assets/images/site/image7.webp";
 
 import background from "./../../logistic_assets/cover_image_1.png";
 

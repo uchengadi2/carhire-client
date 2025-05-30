@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Field, reduxForm } from "redux-form";
+import { TextField } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 import { PaystackButton } from "react-paystack";
 import Card from "@material-ui/core/Card";
 import { Link } from "react-router-dom";
@@ -17,6 +20,10 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Snackbar from "@material-ui/core/Snackbar";
 
 import ButtonArrow from "./../ui/ButtonArrow";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Select from "@material-ui/core/Select";
 import UserLogin from "./../users/UserLogin";
 import UserSignUp from "./../users/UserSignUp";
 import UserPasswordReset from "./../users/UserPasswordReset";
@@ -31,6 +38,7 @@ import { baseURL } from "./../../apis/util";
 import theme from "./../ui/Theme";
 import CartUpdateAndDeliveryForm from "./CartUpdateAndDeliveryForm";
 import CheckoutActionPage from "./CheckoutActionPage";
+import { Container } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,6 +123,70 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const renderSingleLineField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  id,
+  helperText,
+  ...custom
+}) => {
+  return (
+    <TextField
+      //error={touched && invalid}
+      helperText={helperText}
+      variant="outlined"
+      label={label}
+      id={input.name}
+      defaultValue={input.value}
+      fullWidth
+      //required
+      type={type}
+      {...custom}
+      onChange={input.onChange}
+      inputProps={{
+        style: {
+          height: 1,
+        },
+      }}
+    />
+  );
+};
+
+
+
+const renderMultiLineField = ({
+  input,
+  label,
+  meta: { touched, error, invalid },
+  type,
+  helperText,
+  id,
+  rows,
+  ...custom
+}) => {
+  return (
+    <TextField
+      error={touched && invalid}
+      //placeholder="category description"
+      variant="outlined"
+      helperText={helperText}
+      label={label}
+      id={input.name}
+      name={input.name}
+      defaultValue={input.value}
+      fullWidth
+      type={type}
+      style={{ marginTop: 20 }}
+      multiline={true}
+      minRows={rows}   
+      {...custom}
+      onChange={input.onChange}
+    />
+  );
+};
+
 export default function CheckoutCard(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -132,7 +204,14 @@ export default function CheckoutCard(props) {
   const [promoMinQuantity, setPromoMinQuantity] = useState();
   const [creator, setCreator] = useState({});
   const [course, setCourse] = useState({});
-
+  const [name, setName] = useState("");
+  const [numberOfGuest, setNumberOfGuest] = useState("")
+  const [serviceApplicability, setServiceApplicability] = useState();
+  const [arrivalDate, setArrivalDate] =useState("")
+  const [departureDate, setDepartureDate] = useState("")
+  const [ontransitSecurityService, setOntransitSecurityService] = useState('not-applicable');
+  const [onsiteSecurityService, setOnsiteSecurityService] = useState('not-applicable');
+  const [carService, setCarService] = useState('not-applicable');
   // const { token, setToken } = useToken();
   // const { userId, setUserId } = useUserId();
   const [expanded, setExpanded] = useState(false);
@@ -233,11 +312,13 @@ export default function CheckoutCard(props) {
   
 
   
-
   let imageUrl = "";
-  if (creator) {
-    imageUrl = `${baseURL}/images/creators/${creator.image}`;
-  }
+  //if (creator) {
+    imageUrl = `${baseURL}/images/vehicles/${props.image}`;
+  //}
+
+
+ 
 
   const Str = require("@supercharge/strings");
 
@@ -325,6 +406,20 @@ export default function CheckoutCard(props) {
     setOpenSignUpForm(false);
   };
 
+  const handleServiceApplicabilityChange =(event)=>{
+    setServiceApplicability(event.target.value);
+  }
+  const  handleCarServiceChange = (event)=>{
+    setCarService(event.target.value);
+  }
+
+  const handleOnsiteSecurityServiceChange=(event)=>{
+    setOnsiteSecurityService(event.target.value);
+  }
+
+  const handleOntransitSecurityServiceChange =(event)=>{
+    setOntransitSecurityService(event.target.value);
+  }
   const handleSuccessfulCreateSnackbar = (message) => {
     // history.push("/categories/new");
     // setOpen({ open: false });
@@ -455,106 +550,365 @@ export default function CheckoutCard(props) {
   }
   
 
+
   return (
     <>
       {matchesMDUp ? (
         <Card className={classes.root} disableRipple>
           {/* <CardActionArea disableRipple> */}
+          
           <Grid container direction="row">
-            <Grid item style={{ width: "26.94%" }}>
+            {(props.service[0] === "car-and-security" || props.service[0] === "carhire") &&<Grid item style={{ width: "26.94%" }}>
               <CardMedia
                 className={classes.media}
                 component="img"
-                alt={creator.name}
+                alt={props.vehicle ? props.vehicle[0].vehicleMake: ""}
                 image={imageUrl}
                 //title={product.name}
                 crossOrigin="anonymous"
               />
-            </Grid>
-            <Grid item style={{ width: "46.19%", border: "1px dotted grey" }}>
+            </Grid>}
+            {!(props.service[0] === "car-and-security" || props.service[0] === "carhire") &&<Grid item style={{ width: "26.94%" }}>
+              <CardMedia
+                className={classes.media}
+                component="img"
+                alt={props.vehicle ? props.vehicle[0].vehicleMake: ""}
+                image={props.image}
+                //title={product.name}
+                crossOrigin="anonymous"
+              />
+            </Grid>}
+           
+           {(props.service[0] === "car-and-security" || props.service[0] === "carhire") && <Grid item style={{ width: "46.19%", border: "1px dotted grey" }}>
               <CardContent disableRipple>
-                {creator.categoryCode === 'video-and-audio-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                                    {creator.name}
-                                    <span style={{ fontSize: 16, fontWeight: 700 }}>
-                                      <em> ({creator.country[0].name}, Video & Jingle Creator,  {creator.age} years)</em>
-                                    </span>
-                </Typography>}
-               {creator.categoryCode === 'video-only-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                                    {creator.name}
-                                    <span style={{ fontSize: 16, fontWeight: 700 }}>
-                                      <em> ({creator.country[0].name}, Video Creator,  {creator.age} years)</em>
-                                    </span>
-                 </Typography>}
-                {creator.categoryCode === 'audio-only-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                                    {creator.name}
-                                    <span style={{ fontSize: 16, fontWeight: 700 }}>
-                                      <em> ({creator.country[0].name}, Jingle Creator,  {creator.age} years)</em>
-                                    </span>
-                </Typography>}
+              <Typography variant="h5">Vehicle Details</Typography>
+              <Typography variant="h4" color="textSecondary" component="p">
+                    
+                    <span style={{ fontSize: 16, fontWeight: 700 }}>
+                      <em> {props.refNumber}</em>
+                    </span>
+                  </Typography>
+                  
+               
                 <Typography
-                  variant="subtitle1"
+                  variant="h5"
                   color="textSecondary"
                   component="p"
-                  style={{ marginTop: 20 }}
+                  style={{ marginTop: 5, marginBottom: 15 }}
                 >
-                  {Str(creator.bio).limit(200, "...").get()}
+                <strong>Make</strong>: {props.vehicle ? props.vehicle[0].vehicleMake:""}
+                  </Typography>       
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Model</strong>: {props.vehicle ?props.vehicle[0].vehicleModel:""}
+
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Class</strong>: {props.vehicle ?props.vehicle[0].vehicleClass:""}
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Special Feature</strong>: {props.vehicle ?props.vehicle[0].specialFeature:""}
+
                 </Typography>
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Location</strong>: {props.sourceLocation ? props.sourceLocation[0].name:""},&nbsp;{props.sourceState ? props.sourceState[0].name :""}&nbsp;
+
+                </Typography> 
                 
+                <Typography variant="h5">Booking Details</Typography>
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Source Location</strong>: {props.sourceLocation ? props.sourceLocation[0].name :""},&nbsp;{props.sourceState ? props.sourceState[0].name :""}&nbsp;
+
+                </Typography> 
+
+                              
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Destination</strong>: {props.destinationAddress},&nbsp;{props.destinationState ? props.destinationState[0].name :""}&nbsp;
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Booking Coverage</strong>: {props.tripCoverage}
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Number of Passengers</strong>: {props.numberOfVehicleOccupant}
+
+                </Typography> 
+
                 
                 <Typography
                     variant="h5"
-                    style={{ color: "black", fontSize: 13 }}
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
                   >
-                    <span style={{ marginRight: 20 }}>
-                      <strong>Reference Number:</strong>
-                    </span>
-                    <span style={{ marginLeft: 3, textAlign: "center" }}>
-                      {props.refNumber} &nbsp;
-                    </span>
-                  </Typography>
-                   <Typography style={{marginLeft:10}}><strong>Niches:</strong></Typography>
-                                
-                                 {creator.niche && <Grid container direction="row" style={{marginLeft:30}}>
-                                                {creator.niche.map((niche, index) => (
-                                                  <Typography>{niche.niche},  </Typography>
-                  
-                                                ))}
-                                              </Grid>}
-                                  <Typography style={{marginLeft:10}}><strong>Languages:</strong></Typography>
-                                  
-                                  {creator.language && <Grid container direction="row" style={{marginLeft:30}}>
-                                                {creator.language.map((lang, index) => (
-                                                  <Typography>{lang.language},  </Typography>
-                  
-                                                ))}
-                                              </Grid>}
-                  
+                  <strong>Service Applicability</strong>: {props.serviceApplicability ==="both" ? "At Arrival & Departure" : props.serviceApplicability}
 
-                
+                </Typography> 
+                {props.service[0] === "car-and-security" && <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Onsite Security Service Applicability</strong>: {props.onsiteSecurityServiceApplicability ==="both" ? "On Arrival & Departure" : props.onsiteSecurityServiceApplicability}
+
+                </Typography>}
+                {props.service[0] === "car-and-security" && <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Ontransit Security Service Applicability</strong>: {props.ontransitSecurityServiceApplicability ==="both"? "From Airport to Destination & From Destination back to Airport" : props.ontransitSecurityServiceApplicability}
+
+                </Typography> }
+                {props.arrivalDate && <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Arrival Date</strong>: {new Date(props.arrivalDate).toLocaleDateString("en-GB")}
+                  </Typography>}
+                  {props.departureDate && <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Departure Date</strong>: {new Date(props.departureDate).toLocaleDateString("en-GB")}
+                  </Typography>}
+
                 
                
               </CardContent>
-            </Grid>
+            </Grid>}
+            
+            {!(props.service[0] === "car-and-security" || props.service[0] === "carhire") && <Grid item style={{ width: "46.19%", border: "1px dotted grey" }}>
+              <CardContent disableRipple>
+              
+                            
+                <Typography variant="h5">Booking Details</Typography>
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Service Package</strong>: {props.service[0]}
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Package Cost</strong>: &#x20A6;{props.packageCostPerPerson.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}&nbsp;per Guest
+                  
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Source Location</strong>: {props.sourceLocation ? props.sourceLocation[0].name :""},&nbsp;{props.sourceState ? props.sourceState[0].name :""}&nbsp;
+
+                </Typography> 
+
+               
+                 <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
+                            <Select 
+                              style={{ width: 580, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              //label="Select Location"
+                              labelId="serviceApplicability"
+                              id="serviceApplicability"
+                              value={serviceApplicability}
+                              onChange={handleServiceApplicabilityChange}
+                              
+                            >                      
+                               
+                              <MenuItem value="at-arrival">Only At Arrival</MenuItem>
+                              <MenuItem value="at-departure">Only At Departure</MenuItem>
+                              <MenuItem value="both">Both At Arrival & Departure</MenuItem>
+                            
+                            </Select>
+                     <FormHelperText style={{marginLeft:'1%',fontSize:11}}>Where Do You Want To Apply This Service?</FormHelperText>
+                </FormControl>
+
+                <TextField
+                  //error={touched && invalid}
+                  helperText={"Enter the number of Guest"}
+                  variant="outlined"
+                  //label={label}
+                  id={"numberOfGuest"}
+                  name={"numberOfGuest"}
+                  fullWidth
+                  //required
+                  type="number"
+                  onChange={(e)=>setNumberOfGuest(e.target.value)}
+                  inputProps={{
+                  style: {
+                    height: 1,
+                    },
+                  }}
+                />
+               
+                <TextField
+                  //error={touched && invalid}
+                  helperText={"Enter Arrival Date"}
+                  variant="outlined"
+                  //label={label}
+                  id={"arrivalDate"}
+                  name={"arrivalDate"}
+                  fullWidth
+                  //required
+                  type="date"
+                  onChange={(e)=>setArrivalDate(e.target.value)}
+                  inputProps={{
+                  style: {
+                    height: 1,
+                    },
+                  }}
+                />
+                 <TextField
+                  //error={touched && invalid}
+                  helperText={"Enter Departure Date"}
+                  variant="outlined"
+                  //label={label}
+                  id={"departureDate"}
+                  name={"departureDate"}
+                  fullWidth
+                  //required
+                  type="date"
+                  onChange={(e)=>setDepartureDate(e.target.value)}
+                  inputProps={{
+                  style: {
+                    height: 1,
+                    },
+                  }}
+                />
+                  <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
+                            <Select 
+                              style={{ width: 580, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              //label="Select Location"
+                              labelId="carService"
+                              id="carService"
+                              value={carService}
+                              onChange={handleCarServiceChange}
+                              
+                            >                      
+                               
+                              <MenuItem value="not-applicable">Not Applicable</MenuItem>
+                              <MenuItem value="yes">Yes</MenuItem>
+                              <MenuItem value="no">No</MenuItem>
+                            
+                            </Select>
+                     <FormHelperText style={{marginLeft:'1%',fontSize:11}}>Will You Need A Car for Transport to Destination ?</FormHelperText>
+                </FormControl>
+                <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
+                            <Select 
+                              style={{ width: 580, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              //label="Select Location"
+                              labelId="onsiteSecurityService"
+                              id="onsiteSecurityService"
+                              value={onsiteSecurityService}
+                              onChange={handleOnsiteSecurityServiceChange}
+                              
+                            >                      
+                               
+                              <MenuItem value="not-applicable">Not Applicable</MenuItem>
+                              <MenuItem value="yes">Yes</MenuItem>
+                              <MenuItem value="no">No</MenuItem>
+                            
+                            </Select>
+                     <FormHelperText style={{marginLeft:'1%',fontSize:11}}>Will You Need An Onsite Security Service?</FormHelperText>
+                </FormControl>
+                <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
+                            <Select 
+                              style={{ width: 580, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              //label="Select Location"
+                              labelId="ontransitSecurityService"
+                              id="ontransitSecurityService"
+                              value={ontransitSecurityService}
+                              onChange={handleOntransitSecurityServiceChange}
+                              
+                            >                      
+                               
+                              <MenuItem value="not-applicable">Not Applicable</MenuItem>
+                              <MenuItem value="yes">Yes</MenuItem>
+                              <MenuItem value="no">No</MenuItem>
+                            
+                            </Select>
+                     <FormHelperText style={{marginLeft:'1%',fontSize:11}}>Will You Need An Ontransit Security Service?</FormHelperText>
+                </FormControl>
+
+
+
+                
+               
+              </CardContent>
+            </Grid>}
 
             <Grid item style={{ width: "26.30%", border: "1px dotted grey" }}>
-              {props.grandTotal && (
+            
                 <CheckoutActionPage
-                  grandTotal={props.grandTotal}
-                  brandName={props.brandName}
-                  minimumQuantity={creator.minimumQuantity}
-                  creatorId={creator.id}
-                  creativeQuantity={props.creativeQuantity}
-                  creativeHookQuantity={props.creativeHookQuantity}
-                  creativeType={props.creativeType}
-                  projectName= {props.projectName}
-                  projectType= {props.projectType}
-                  projectLanguage= {props.projectLanguage}
+                  
+                  parameters={props}
+                  numberOfGuest={numberOfGuest}
+                  serviceApplicability={serviceApplicability}
+                  arrivalDate={arrivalDate}
+                  departureDate={departureDate}
+                  ontransitSecurityService={ontransitSecurityService}
+                  onsiteSecurityService={onsiteSecurityService}
+                  carService={carService}
+                  
                   token={props.token}
                   userId={props.userId}
-                  quantity={props.quantity}
-                  preferredStartDate={props.preferredStartDate}
-                  cartId={props.cartId}
-                  currency={creator.currency}
+                  cartId={props.id}
                   dateAddedToCart={props.dateAddedToCart}
                   handleMakeOpenLoginFormDialogStatus={
                     handleMakeOpenLoginFormDialogStatus
@@ -568,26 +922,39 @@ export default function CheckoutCard(props) {
                   }
                   handleFailedSnackbar={props.handleFailedSnackbar}
                   renderCheckoutUpdate={props.renderCheckoutUpdate}
+                  
+                  
                 />
-              )}
+            
             </Grid>
           </Grid>
+          
           {/* </CardActionArea> */}
         </Card>
       ) : (
         <Card className={classes.rootMobile} disableRipple>
           {/* <CardActionArea disableRipple> */}
           <Grid container direction="column">
-            <Grid item style={{ width: "100%", height: "100%" }}>
-              <CardMedia
-                className={classes.mediaMobile}
+            {(props.service[0] === "car-and-security" || props.service[0] === "carhire") && <Grid item style={{ width: "100%", height: "100%" }}>
+            <CardMedia
+                className={classes.media}
                 component="img"
-                alt={creator.name}
+                alt={props.vehicle ? props.vehicle[0].vehicleMake : ""}
                 image={imageUrl}
                 //title={product.name}
                 crossOrigin="anonymous"
               />
-            </Grid>
+            </Grid>}
+            {!(props.service[0] === "car-and-security" || props.service[0] === "carhire") &&<Grid item style={{ width: "100%", height: "100%" }}>
+            <CardMedia
+                className={classes.media}
+                component="img"
+                alt={props.vehicle ? props.vehicle[0].vehicleMake : ""}
+                image={props.image}
+                //title={product.name}
+                crossOrigin="anonymous"
+              />
+            </Grid>}
             <Grid
               item
               style={{
@@ -596,62 +963,149 @@ export default function CheckoutCard(props) {
                 border: "1px dotted grey",
               }}
             >
-              <CardContent disableRipple>
-              {creator.categoryCode === 'video-and-audio-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                                    {creator.name}
-                                    <span style={{ fontSize: 16, fontWeight: 700 }}>
-                                      <em> ({creator.country[0].name}, Video & Jingle Creator,  {creator.age} years)</em>
-                                    </span>
-                </Typography>}
-               {creator.categoryCode === 'video-only-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                                    {creator.name}
-                                    <span style={{ fontSize: 16, fontWeight: 700 }}>
-                                      <em> ({creator.country[0].name}, Video Creator,  {creator.age} years)</em>
-                                    </span>
-                 </Typography>}
-                {creator.categoryCode === 'audio-only-creators'  && <Typography variant="h4" color="textSecondary" component="p">
-                                    {creator.name}
-                                    <span style={{ fontSize: 16, fontWeight: 700 }}>
-                                      <em> ({creator.country[0].name}, Jingle Creator,  {creator.age} years)</em>
-                                    </span>
-                </Typography>}
+               <CardContent disableRipple>
+              <Typography variant="h5">Vehicle Details</Typography>
+              <Typography variant="h4" color="textSecondary" component="p">
+                    
+                    <span style={{ fontSize: 16, fontWeight: 700 }}>
+                      <em> {props.refNumber}</em>
+                    </span>
+                  </Typography>
+                  
+               
+                
                 <Typography
-                  variant="subtitle1"
+                  variant="h5"
                   color="textSecondary"
                   component="p"
-                  style={{ marginTop: 20 }}
+                  style={{ marginTop: 5, marginBottom: 15 }}
                 >
-                  {Str(creator.bio).limit(200, "...").get()}
+                <strong>Make</strong>: {props.vehicle ? props.vehicle[0].vehicleMake:""}
+                  </Typography>       
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Model</strong>: {props.vehicle ? props.vehicle[0].vehicleModel:""}
+
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Class</strong>: {props.vehicle ? props.vehicle[0].vehicleClass:""}
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Special Feature</strong>: {props.vehicle ?props.vehicle[0].specialFeature:""}
+
                 </Typography>
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Location</strong>: {props.sourceLocation ? props.sourceLocation[0].name:""},&nbsp;{props.sourceState ? props.sourceState[0].name:""}&nbsp;
+
+                </Typography> 
                 
+                <Typography variant="h5">Booking Details</Typography>
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Source Location</strong>: {props.sourceLocation ? props.sourceLocation[0].name:""},&nbsp;{props.sourceState ? props.sourceState[0].name:""}&nbsp;
+
+                </Typography> 
+
+                              
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Destination</strong>: {props.destinationAddress},&nbsp;{props.destinationState ? props.destinationState[0].name :""}&nbsp;
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Booking Coverage</strong>: {props.tripCoverage}
+
+                </Typography> 
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Number of Passengers</strong>: {props.numberOfVehicleOccupant}
+
+                </Typography> 
+
                 
                 <Typography
                     variant="h5"
-                    style={{ color: "black", fontSize: 13 }}
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
                   >
-                    <span style={{ marginRight: 20 }}>
-                      <strong>Reference Number:</strong>
-                    </span>
-                    <span style={{ marginLeft: 3, textAlign: "center" }}>
-                      {props.refNumber} &nbsp;
-                    </span>
-                  </Typography>
-                   <Typography style={{marginLeft:10}}><strong>Niches:</strong></Typography>
-                                
-                                 {creator.niche && <Grid container direction="row" style={{marginLeft:30}}>
-                                                {creator.niche.map((niche, index) => (
-                                                  <Typography>{niche.niche},  </Typography>
-                  
-                                                ))}
-                                              </Grid>}
-                                  <Typography style={{marginLeft:10}}><strong>Languages:</strong></Typography>
-                                  
-                                  {creator.language && <Grid container direction="row" style={{marginLeft:30}}>
-                                                {creator.language.map((lang, index) => (
-                                                  <Typography>{lang.language},  </Typography>
-                  
-                                                ))}
-                                              </Grid>}
+                  <strong>Service Applicability</strong>: {props.serviceApplicability ==="both" ? "At Arrival & Departure" : props.serviceApplicability}
+
+                </Typography> 
+                {props.service[0] === "car-and-security" && <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Onsite Security Service Applicability</strong>: {props.onsiteSecurityServiceApplicability ==="both" ? "On Arrival & Departure" : props.onsiteSecurityServiceApplicability}
+
+                </Typography>}
+                {props.service[0] === "car-and-security" && <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Ontransit Security Service Applicability</strong>: {props.ontransitSecurityServiceApplicability ==="both"? "From Airport to Destination & From Destination back to Airport" : props.ontransitSecurityServiceApplicability}
+
+                </Typography> }
+                {props.arrivalDate && <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Arrival Date</strong>: {new Date(props.arrivalDate).toLocaleDateString("en-GB")}
+                  </Typography>}
+                  {props.departureDate && <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Departure Date</strong>: {new Date(props.departureDate).toLocaleDateString("en-GB")}
+                  </Typography>}
+
+                
+               
               </CardContent>
             </Grid>
 
@@ -664,23 +1118,13 @@ export default function CheckoutCard(props) {
                 border: "1px dotted grey",
               }}
             >
-              {props.grandTotal && (
+              
                 <CheckoutActionPage
-                  grandTotal={props.grandTotal}
-                  brandName={props.brandName}
-                  minimumQuantity={creator.minimumQuantity}
-                  creatorId={creator.id}
-                  creativeQuantity={props.creativeQuantity}
-                  creativeHookQuantity={props.creativeHookQuantity}
-                  creativeType={props.creativeType}
-                  projectName= {props.projectName}
-                  projectType= {props.projectType}
-                  projectLanguage= {props.projectLanguage}
+                  parameters={props}
+                  
                   token={props.token}
                   userId={props.userId}
-                  quantity={props.quantity}
-                  cartId={props.cartId}
-                  currency={course.currency}
+                  cartId={props.id}
                   dateAddedToCart={props.dateAddedToCart}
                   handleMakeOpenLoginFormDialogStatus={
                     handleMakeOpenLoginFormDialogStatus
@@ -695,7 +1139,7 @@ export default function CheckoutCard(props) {
                   handleFailedSnackbar={props.handleFailedSnackbar}
                   renderCheckoutUpdate={props.renderCheckoutUpdate}
                 />
-              )}
+              
             </Grid>
           </Grid>
           {/* </CardActionArea> */}

@@ -460,7 +460,7 @@ function AddCreatorForm(props) {
             value={status}
             onChange={handleStatusChange}
             //label="Display On Store?"
-            style={{width:matchesMDUp?660:220, marginTop: 10, height: 38 }}
+            style={{width:matchesMDUp?600:220, marginTop: 10, height: 38 }}
             //{...input}
           >
             <MenuItem value={"inactive"}>Inactive</MenuItem>
@@ -493,7 +493,7 @@ function AddCreatorForm(props) {
             value={props.hasInfo ? props.yourGender : gender}
             onChange={handleGenderChange}
             //label="Display On Store?"
-            style={{width:matchesMDUp?660:220, marginTop: 10, height: 38 }}
+            style={{width:matchesMDUp?650:220, marginTop: 10, height: 38 }}
             //{...input}
           >
             <MenuItem value={"male"}>Male</MenuItem>
@@ -525,12 +525,12 @@ function AddCreatorForm(props) {
             //defaultValue={props.yourCountry}
             onChange={handleCountryChange}
             // label="User"
-            style={{ marginTop: 0, width: matchesMDUp?660:220, height: 38, marginLeft:0,marginRight:0 }}
+            style={{ marginTop: 0, width: matchesMDUp?650:220, height: 38, marginLeft:0,marginRight:0 }}
             //{...input}
           >
             {renderCountriesList()}
           </Select>
-          <FormHelperText>Creator's Country</FormHelperText>
+          <FormHelperText>Owner's Country</FormHelperText>
         </FormControl>
       </Box>
     );
@@ -620,7 +620,7 @@ function AddCreatorForm(props) {
             value={currency}
             onChange={handleCurrencyChange}
             // label="User"
-            style={{ marginTop: 10, width:matchesMDUp?660:220, height: 38, marginLeft:0,marginRight:0 }}
+            style={{ marginTop: 10, width:matchesMDUp?600:220, height: 38, marginLeft:0,marginRight:0 }}
             //{...input}
           >
             {renderCurrenciesList()}
@@ -674,7 +674,7 @@ function AddCreatorForm(props) {
         !formValues["name"] ||
         formValues["name"].replace(/\s/g, "").length === 0
       ) {
-        props.handleFailedSnackbar("The creator name field cannot be empty");
+        props.handleFailedSnackbar("The vehicle owner name field cannot be empty");
         setLoading(false);
         return;
       }
@@ -757,20 +757,20 @@ function AddCreatorForm(props) {
       const form = new FormData();
       form.append("name", formValues.name);
       form.append("slug", slug);
-      form.append("videoPrice", actualVideoPrice);
-      form.append("videoHookPrice", actualVideoHookPrice);
-      form.append("videoDeliveryDays", formValues.videoDeliveryDays);
-      form.append("soundPrice", actualSoundPrice);
-      form.append("soundHookPrice", actualSoundHookPrice);
-      form.append("soundDeliveryDays", formValues.soundDeliveryDays);
+      // form.append("videoPrice", actualVideoPrice);
+      // form.append("videoHookPrice", actualVideoHookPrice);
+      // form.append("videoDeliveryDays", formValues.videoDeliveryDays);
+      // form.append("soundPrice", actualSoundPrice);
+      // form.append("soundHookPrice", actualSoundHookPrice);
+      // form.append("soundDeliveryDays", formValues.soundDeliveryDays);
       form.append("age", formValues.age);
-      form.append("bio", formValues.bio);
+      form.append("organizationDetails", formValues.organizationDetails);
       form.append("bankDetails", formValues.bankDetails);      
       form.append("gender", gender);
       form.append("status", 'inactive');    
-      form.append("currency", currency);
+      //form.append("currency", currency);
       form.append("country", country);
-      form.append("category", category);
+      //form.append("category", category);
       //form.append("status", status);
       form.append("creatorContactPhoneNumber", formValues.creatorContactPhoneNumber);
       form.append("creatorContactEmailAddress", formValues.creatorContactEmailAddress);
@@ -778,14 +778,14 @@ function AddCreatorForm(props) {
       form.append("user", props.userId);
   
     //niches
-        for (let i = 0; i < niche.length; i++) {
-        form.append(`niches`, niche[i]);
-      }
+      //   for (let i = 0; i < niche.length; i++) {
+      //   form.append(`niches`, niche[i]);
+      // }
   
       //language
-      for (let i = 0; i < language.length; i++) {
-        form.append(`languages`, language[i]);
-      }
+      // for (let i = 0; i < language.length; i++) {
+      //   form.append(`languages`, language[i]);
+      // }
          
   
       // if (!formValues["refNumber"]) {
@@ -814,7 +814,7 @@ function AddCreatorForm(props) {
             });
   
             props.handleSuccessfulCreateSnackbar(
-              `${response.data.data.data.name} creator is successfully completed!!!`
+              `Vehicle Owner,  ${response.data.data.data.name}  information is successfully completed!!!`
             );
            props.renderUpdatePage();
             //props.handleDialogOpenStatus();
@@ -837,70 +837,70 @@ function AddCreatorForm(props) {
 
       //Computing Video Price
 
-      let actualVideoPrice = 0;
-      if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-        actualVideoPrice = formValues.videoPrice
-      }else{
-        if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
-          actualVideoPrice = parseFloat(formValues.videoPrice) + parseFloat(formValues.videoPrice)*parseFloat(props.vat)/100;
-        }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-          actualVideoPrice = parseFloat(formValues.videoPrice) + parseFloat(formValues.videoPrice)*parseFloat(props.platformRate)/100;
-        }else{
-          //both platform rate and vat not included
-          actualVideoPrice = parseFloat(formValues.videoPrice) + (parseFloat(formValues.videoPrice)*parseFloat(props.platformRate)/100) + (parseFloat(formValues.videoPrice)*parseFloat(props.vat)/100);
-        }
+      // let actualVideoPrice = 0;
+      // if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+      //   actualVideoPrice = formValues.videoPrice
+      // }else{
+      //   if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
+      //     actualVideoPrice = parseFloat(formValues.videoPrice) + parseFloat(formValues.videoPrice)*parseFloat(props.vat)/100;
+      //   }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+      //     actualVideoPrice = parseFloat(formValues.videoPrice) + parseFloat(formValues.videoPrice)*parseFloat(props.platformRate)/100;
+      //   }else{
+      //     //both platform rate and vat not included
+      //     actualVideoPrice = parseFloat(formValues.videoPrice) + (parseFloat(formValues.videoPrice)*parseFloat(props.platformRate)/100) + (parseFloat(formValues.videoPrice)*parseFloat(props.vat)/100);
+      //   }
         
-      }
+      // }
 
       //computing video hook prices
 
-      let actualVideoHookPrice = 0;
-      if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-        actualVideoHookPrice = formValues.videoHookPrice
-      }else{
-        if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
-          actualVideoHookPrice = parseFloat(formValues.videoHookPrice) + parseFloat(formValues.videoHookPrice)*parseFloat(props.vat)/100;
-        }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-          actualVideoHookPrice = parseFloat(formValues.videoHookPrice) + parseFloat(formValues.videoHookPrice)*parseFloat(props.platformRate)/100;
-        }else{
-          //both platform rate and vat not included
-          actualVideoHookPrice = parseFloat(formValues.videoHookPrice) + (parseFloat(formValues.videoHookPrice)*parseFloat(props.platformRate)/100) + (parseFloat(formValues.videoHookPrice)*parseFloat(props.vat)/100);
-        }
+      // let actualVideoHookPrice = 0;
+      // if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+      //   actualVideoHookPrice = formValues.videoHookPrice
+      // }else{
+      //   if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
+      //     actualVideoHookPrice = parseFloat(formValues.videoHookPrice) + parseFloat(formValues.videoHookPrice)*parseFloat(props.vat)/100;
+      //   }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+      //     actualVideoHookPrice = parseFloat(formValues.videoHookPrice) + parseFloat(formValues.videoHookPrice)*parseFloat(props.platformRate)/100;
+      //   }else{
+      //     //both platform rate and vat not included
+      //     actualVideoHookPrice = parseFloat(formValues.videoHookPrice) + (parseFloat(formValues.videoHookPrice)*parseFloat(props.platformRate)/100) + (parseFloat(formValues.videoHookPrice)*parseFloat(props.vat)/100);
+      //   }
         
-      }
+      // }
 
       //computing the sound prices
 
-      let actualSoundPrice = 0;
-      if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-        actualSoundPrice = formValues.soundPrice
-      }else{
-        if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
-          actualSoundPrice = parseFloat(formValues.soundPrice) + parseFloat(formValues.soundPrice)*parseFloat(props.vat)/100;
-        }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-          actualSoundPrice = parseFloat(formValues.soundPrice) + parseFloat(formValues.soundPrice)*parseFloat(props.platformRate)/100;
-        }else{
-          //both platform rate and vat not included
-          actualSoundPrice = parseFloat(formValues.soundPrice) + (parseFloat(formValues.soundPrice)*parseFloat(props.platformRate)/100) + (parseFloat(formValues.soundPrice)*parseFloat(props.vat)/100);
-        }
+      // let actualSoundPrice = 0;
+      // if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+      //   actualSoundPrice = formValues.soundPrice
+      // }else{
+      //   if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
+      //     actualSoundPrice = parseFloat(formValues.soundPrice) + parseFloat(formValues.soundPrice)*parseFloat(props.vat)/100;
+      //   }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+      //     actualSoundPrice = parseFloat(formValues.soundPrice) + parseFloat(formValues.soundPrice)*parseFloat(props.platformRate)/100;
+      //   }else{
+      //     //both platform rate and vat not included
+      //     actualSoundPrice = parseFloat(formValues.soundPrice) + (parseFloat(formValues.soundPrice)*parseFloat(props.platformRate)/100) + (parseFloat(formValues.soundPrice)*parseFloat(props.vat)/100);
+      //   }
         
-      }
+      // }
 
       //computing the sound Hook Price
-      let actualSoundHookPrice = 0;
-      if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-        actualSoundHookPrice = formValues.soundHookPrice
-      }else{
-        if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
-          actualSoundHookPrice = parseFloat(formValues.soundHookPrice) + parseFloat(formValues.soundHookPrice)*parseFloat(props.vat)/100;
-        }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-          actualSoundHookPrice = parseFloat(formValues.soundHookPrice) + parseFloat(formValues.soundHookPrice)*parseFloat(props.platformRate)/100;
-        }else{
-          //both platform rate and vat not included
-          actualSoundHookPrice = parseFloat(formValues.soundHookPrice) + (parseFloat(formValues.soundHookPrice)*parseFloat(props.platformRate)/100) + (parseFloat(formValues.soundHookPrice)*parseFloat(props.vat)/100);
-        }
+      // let actualSoundHookPrice = 0;
+      // if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+      //   actualSoundHookPrice = formValues.soundHookPrice
+      // }else{
+      //   if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
+      //     actualSoundHookPrice = parseFloat(formValues.soundHookPrice) + parseFloat(formValues.soundHookPrice)*parseFloat(props.vat)/100;
+      //   }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+      //     actualSoundHookPrice = parseFloat(formValues.soundHookPrice) + parseFloat(formValues.soundHookPrice)*parseFloat(props.platformRate)/100;
+      //   }else{
+      //     //both platform rate and vat not included
+      //     actualSoundHookPrice = parseFloat(formValues.soundHookPrice) + (parseFloat(formValues.soundHookPrice)*parseFloat(props.platformRate)/100) + (parseFloat(formValues.soundHookPrice)*parseFloat(props.vat)/100);
+      //   }
         
-      }
+      // }
 
       
 
@@ -909,33 +909,33 @@ function AddCreatorForm(props) {
       const form = new FormData();
       form.append("name", formValues.name ? formValues.name : props.yourName);
       //form.append("slug", slug);
-      form.append("videoPrice", formValues.videoPrice ? actualVideoPrice : props.videoPrice);
-      form.append("videoHookPrice", formValues.videoHookPrice ? actualVideoHookPrice : props.videoHookPrice);
-      form.append("videoDeliveryDays", formValues.videoDeliveryDays ? formValues.videoDeliveryDays : props.videoDeliveryDays);
-      form.append("soundPrice", formValues.soundPrice ? actualSoundPrice : props.soundPrice);
-      form.append("soundHookPrice", formValues.soundHookPrice ? actualSoundHookPrice : props.soundHookPrice);
-      form.append("soundDeliveryDays", formValues.soundDeliveryDays ? formValues.soundDeliveryDays : props.soundDeliveryDays);
+      // form.append("videoPrice", formValues.videoPrice ? actualVideoPrice : props.videoPrice);
+      // form.append("videoHookPrice", formValues.videoHookPrice ? actualVideoHookPrice : props.videoHookPrice);
+      // form.append("videoDeliveryDays", formValues.videoDeliveryDays ? formValues.videoDeliveryDays : props.videoDeliveryDays);
+      // form.append("soundPrice", formValues.soundPrice ? actualSoundPrice : props.soundPrice);
+      // form.append("soundHookPrice", formValues.soundHookPrice ? actualSoundHookPrice : props.soundHookPrice);
+      // form.append("soundDeliveryDays", formValues.soundDeliveryDays ? formValues.soundDeliveryDays : props.soundDeliveryDays);
       form.append("age", formValues.age ? formValues.age : props.yourAge);
-      form.append("bio", formValues.bio ? formValues.bio : props.bio);
+      form.append("organizationDetails", formValues.organizationDetails ? formValues.organizationDetails : props.organizationDetails);
       form.append("gender", gender ? gender : props.yourGender);
       form.append("status", status?status: props.status);    
-      form.append("currency", currency ? currency : props.currency);
+      //form.append("currency", currency ? currency : props.currency);
       form.append("country", country ? country : props.yourCountry);
-      form.append("category", category ? category : props.category);
+      //form.append("category", category ? category : props.category);
       form.append("bankDetails", formValues.bankDetails ? formValues.bankDetails : props.bankDetails);  
       form.append("user", props.userId);
       form.append("creatorContactPhoneNumber", formValues.creatorContactPhoneNumber ? formValues.creatorContactPhoneNumber : props.creatorContactPhoneNumber);
       form.append("creatorContactEmailAddress", formValues.creatorContactEmailAddress ? formValues.creatorContactEmailAddress : props.creatorContactEmailAddress);
   
     //niches
-        for (let i = 0; i < niche.length; i++) {
-        form.append(`niches`, niche[i]);
-      }
+      //   for (let i = 0; i < niche.length; i++) {
+      //   form.append(`niches`, niche[i]);
+      // }
   
       //language
-      for (let i = 0; i < language.length; i++) {
-        form.append(`languages`, language[i]);
-      }
+      // for (let i = 0; i < language.length; i++) {
+      //   form.append(`languages`, language[i]);
+      // }
          
   
      
@@ -956,7 +956,7 @@ function AddCreatorForm(props) {
                 });
       
                 props.handleSuccessfulEditSnackbar(
-                  `${response.data.data.data.name} Creator Informtion  is updated successfully!!!`
+                  `Vehicle Owner,  ${response.data.data.data.name} Informtion  is updated successfully!!!`
                 );
                 //props.handleEditDialogOpenStatus();
                 props.renderUpdatePage();
@@ -978,68 +978,67 @@ function AddCreatorForm(props) {
     }
     
   };
+  
 
   //video price text extension
-  let videoPriceTextExtension = "";
-  if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-    videoPriceTextExtension  = `Note to apply the ${props.vat}% VAT and the ${props.platformRate}% Platform Promotion & Commision charge to your inputted amount`;
-  }else{
-    if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
-      videoPriceTextExtension=`Note that You Should Manually apply the ${props.vat}% VAT to your inputted Amount. However, the Platform commission will be applied automatically`;
-    }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-      videoPriceTextExtension=`Note that You Should Manually apply the ${props.platformRate}% Platform Commission to your inputted Amount. However, the VAT amount will be applied automatically `;
-    }else{
-      videoPriceTextExtension = "Note that both VAT and the Platform Promotion & Commission Charge will be automatically applied"
-    }
-  }
+  // let videoPriceTextExtension = "";
+  // if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+  //   videoPriceTextExtension  = `Note to apply the ${props.vat}% VAT and the ${props.platformRate}% Platform Promotion & Commision charge to your inputted amount`;
+  // }else{
+  //   if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
+  //     videoPriceTextExtension=`Note that You Should Manually apply the ${props.vat}% VAT to your inputted Amount. However, the Platform commission will be applied automatically`;
+  //   }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+  //     videoPriceTextExtension=`Note that You Should Manually apply the ${props.platformRate}% Platform Commission to your inputted Amount. However, the VAT amount will be applied automatically `;
+  //   }else{
+  //     videoPriceTextExtension = "Note that both VAT and the Platform Promotion & Commission Charge will be automatically applied"
+  //   }
+  // }
 
 
   //video hook price text extension
-  let videoHookPriceTextExtension = "";
-  if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-    videoHookPriceTextExtension  = `Note to apply the ${props.vat}% VAT and the ${props.platformRate}% Platform Promotion & Commision charge to your inputted amount`;
-  }else{
-    if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
-      videoHookPriceTextExtension=`Note that You Should Manually apply the ${props.vat}% VAT to your inputted Amount. However, the Platform commission will be applied automatically`;
-    }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-      videoHookPriceTextExtension=`Note that You Should Manually apply the ${props.platformRate}% Platform Commission to your inputted Amount. However, the VAT amount will be applied automatically `;
-    }else{
-      videoHookPriceTextExtension = "Note that both VAT and the Platform Promotion & Commission Charge will be automatically applied"
-    }
-  }
+  // let videoHookPriceTextExtension = "";
+  // if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+  //   videoHookPriceTextExtension  = `Note to apply the ${props.vat}% VAT and the ${props.platformRate}% Platform Promotion & Commision charge to your inputted amount`;
+  // }else{
+  //   if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
+  //     videoHookPriceTextExtension=`Note that You Should Manually apply the ${props.vat}% VAT to your inputted Amount. However, the Platform commission will be applied automatically`;
+  //   }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+  //     videoHookPriceTextExtension=`Note that You Should Manually apply the ${props.platformRate}% Platform Commission to your inputted Amount. However, the VAT amount will be applied automatically `;
+  //   }else{
+  //     videoHookPriceTextExtension = "Note that both VAT and the Platform Promotion & Commission Charge will be automatically applied"
+  //   }
+  // }
 
 
    
   //sound price text extension
-  let soundPriceTextExtension = "";
-  if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-    soundPriceTextExtension  = `Note to apply the ${props.vat}% VAT and the ${props.platformRate}% Platform Promotion & Commision charge to your inputted amount`;
-  }else{
-    if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
-      soundPriceTextExtension=`Note that You Should Manually apply the ${props.vat}% VAT to your inputted Amount. However, the Platform commission will be applied automatically`;
-    }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-      soundPriceTextExtension=`Note that You Should Manually apply the ${props.platformRate}% Platform Commission to your inputted Amount. However, the VAT amount will be applied automatically `;
-    }else{
-      soundPriceTextExtension = "Note that both VAT and the Platform Promotion & Commission Charge will be automatically applied"
-    }
-  }
+  // let soundPriceTextExtension = "";
+  // if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+  //   soundPriceTextExtension  = `Note to apply the ${props.vat}% VAT and the ${props.platformRate}% Platform Promotion & Commision charge to your inputted amount`;
+  // }else{
+  //   if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
+  //     soundPriceTextExtension=`Note that You Should Manually apply the ${props.vat}% VAT to your inputted Amount. However, the Platform commission will be applied automatically`;
+  //   }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+  //     soundPriceTextExtension=`Note that You Should Manually apply the ${props.platformRate}% Platform Commission to your inputted Amount. However, the VAT amount will be applied automatically `;
+  //   }else{
+  //     soundPriceTextExtension = "Note that both VAT and the Platform Promotion & Commission Charge will be automatically applied"
+  //   }
+  // }
 
 
   //sound hook price text extension
-  let soundHookPriceTextExtension = "";
-  if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-   soundHookPriceTextExtension  = `Note to apply the ${props.vat}% VAT and the ${props.platformRate}% Platform Promotion & Commision charge to your inputted amount`;
-  }else{
-    if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
-     soundHookPriceTextExtension=`Note that You Should Manually apply the ${props.vat}% VAT to your inputted Amount. However, the Platform commission will be applied automatically`;
-    }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
-     soundHookPriceTextExtension=`Note that You Should Manually apply the ${props.platformRate}% Platform Commission to your inputted Amount. However, the VAT amount will be applied automatically `;
-    }else{
-     soundHookPriceTextExtension = "Note that both VAT and the Platform Promotion & Commission Charge will be automatically applied"
-    }
-  }
-
-console.log('props.hasInfo:', props.hasInfo)
+  // let soundHookPriceTextExtension = "";
+  // if(props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+  //  soundHookPriceTextExtension  = `Note to apply the ${props.vat}% VAT and the ${props.platformRate}% Platform Promotion & Commision charge to your inputted amount`;
+  // }else{
+  //   if(props.platformRateIsIncludedAsPartOfUserInputedAmount && !props.vatIsIncludedAsPartOfUserInputedAmount){
+  //    soundHookPriceTextExtension=`Note that You Should Manually apply the ${props.vat}% VAT to your inputted Amount. However, the Platform commission will be applied automatically`;
+  //   }else if(!props.platformRateIsIncludedAsPartOfUserInputedAmount && props.vatIsIncludedAsPartOfUserInputedAmount){
+  //    soundHookPriceTextExtension=`Note that You Should Manually apply the ${props.platformRate}% Platform Commission to your inputted Amount. However, the VAT amount will be applied automatically `;
+  //   }else{
+  //    soundHookPriceTextExtension = "Note that both VAT and the Platform Promotion & Commission Charge will be automatically applied"
+  //   }
+  // }
 
   
   return (
@@ -1095,20 +1094,20 @@ console.log('props.hasInfo:', props.hasInfo)
           type="text"
           component={renderCountriesField}
         />
-         <Field
+         {/* <Field
           label=""
           id="niche"
           name="niche"
           type="text"
           component={renderNichesField}
-        />
-           <Field
+        /> */}
+           {/* <Field
           label=""
           id="category"
           name="category"
           type="text"
           component={renderCategoryField}
-        />
+        /> */}
         
 
         <Field
@@ -1160,7 +1159,7 @@ console.log('props.hasInfo:', props.hasInfo)
           component={renderGenderField}
         />
 
-    <Field
+    {/* <Field
           label=""
           id="currency"
           name="currency"
@@ -1239,15 +1238,15 @@ console.log('props.hasInfo:', props.hasInfo)
           
           component={renderLanguagesField}
           style={{ marginTop: 10 }}
-        />
+        /> */}
 
         <Field
                   label=""
-                  id="bio"
-                  name="bio"
+                  id="organizationDetails"
+                  name="organizationDetails"
                   type="text"
-                  defaultValue={props.bio}
-                  helperText="Your Bio"
+                  defaultValue={props.organizationDetails}
+                  helperText="Your Organization Details"
                   rows={10}
                  component={renderMultiLineField}
                   style={{ marginTop: 10 }}

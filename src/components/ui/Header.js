@@ -101,13 +101,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   logoMobile: {
-    height: "9em",
-    width: "7em",
+    height: "12em",
+    width: "10em",
     marginLeft: -30,
     marginRight: "1.5px",
     padding: 0,
     [theme.breakpoints.down("md")]: {
-      height: "7em",
+      height: "10em",
     },
     [theme.breakpoints.down("xs")]: {
       height: "7em",
@@ -157,7 +157,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "20px",
     marginRight: "10px",
     height: "45px",
-    width: "180px",
+    width: "220px",
 
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
@@ -531,6 +531,35 @@ const Header = (props) => {
     setOpenLoginForm(true);
   };
 
+  const handleSuccessfulSignUpCreatorDialogOpenStatusWithSnackbar = (message) => {
+    // history.push("/categories/new");
+
+    setAlert({
+      open: true,
+      message: message,
+      backgroundColor: "#4BB543",
+    });
+    setOpenSignUpForm(false);
+    setOpenCreatorSignUpForm(false);
+    setOpenDrawer(false);
+  };
+
+  
+
+  const handleFailedSignUpCreatorDialogOpenStatusWithSnackbar = (message) => {
+    // history.push("/categories/new");
+    setAlert({
+      open: true,
+      message: message,
+
+      backgroundColor: "#FF3232",
+    });
+    setOpenCreatorSignUpForm(true);
+  };
+
+
+  
+
   const handleSuccessfulSignUpDialogOpenStatusWithSnackbar = (message) => {
     // history.push("/categories/new");
 
@@ -627,6 +656,12 @@ const Header = (props) => {
     setOpenSignUpForm(false);
   };
 
+   const handleMakeCloseSignUpCreatorDialogStatus = () => {
+    // history.push("/categories/new");
+    setOpenSignUpForm(false);
+    setOpenCreatorSignUpForm(false);
+  };
+
   const handleLogOutDialogOpenStatus = () => {
     // history.push("/categories/new");
     setOpenLogOut(false);
@@ -693,7 +728,7 @@ const Header = (props) => {
             //onClick={() => [setOpenLoginForm(true), history.push("/")]}
             onClick={() => [setOpenSignUpForm(true)]}
           >
-            Sign Up As A Brand
+            Sign Up As User
           </Button>
           <Button
             variant="contained"
@@ -704,7 +739,7 @@ const Header = (props) => {
             //onClick={() => [setOpenLoginForm(true), history.push("/")]}
             onClick={() => [setOpenCreatorSignUpForm(true)]}
           >
-            Sign Up As A Creator
+            Sign Up As Vehicle Owner
           </Button>
         </Fragment>
       );
@@ -732,7 +767,7 @@ const Header = (props) => {
           >
             Dashboard
           </Button>}
-          {userRole === 'creator' && <Button
+          {userRole === 'vehicleOwner' && <Button
             onClick={() => <DashboardCreator />}
             disableRipple
             component={Link}
@@ -744,7 +779,7 @@ const Header = (props) => {
             {/* <img alt="company logo" src={logo} className={classes.logo} /> */}
             Dashboard
           </Button>}
-          {userRole === 'brand' && <Button
+          {userRole === 'customer' && <Button
             onClick={() => <DashboardBrand />}
             disableRipple
             component={Link}
@@ -994,15 +1029,16 @@ const Header = (props) => {
             handleMakeOpenLoginFormDialogStatus={
               handleMakeOpenLoginFormDialogStatus
             }
-            handleSuccessfulSignUpDialogOpenStatusWithSnackbar={
-              handleSuccessfulSignUpDialogOpenStatusWithSnackbar
+            handleSuccessfulSignUpCreatorDialogOpenStatusWithSnackbar={
+              handleSuccessfulSignUpCreatorDialogOpenStatusWithSnackbar
             }
-            handleFailedSignUpDialogOpenStatusWithSnackbar={
-              handleFailedSignUpDialogOpenStatusWithSnackbar
+            handleFailedSignUpCreatorDialogOpenStatusWithSnackbar={
+              handleFailedSignUpCreatorDialogOpenStatusWithSnackbar
             }
-            handleMakeCloseSignUpDialogStatus={
-              handleMakeCloseSignUpDialogStatus
+            handleMakeCloseSignUpCreatorDialogStatus={
+              handleMakeCloseSignUpCreatorDialogStatus
             }
+            handleLoginDialogOpenStatus={handleLoginDialogOpenStatus}
 
             setToken={props.setToken}
             setUserId={props.setUserId}
@@ -1173,7 +1209,7 @@ const Header = (props) => {
               selected={props.value === 5}
             >
               <ListItemText className={classes.drawerItem} disableTypography>
-                Sign Up As a Creator
+                Sign Up As Vehicle Owner
               </ListItemText>
             </ListItem>
             <ListItem
@@ -1188,7 +1224,7 @@ const Header = (props) => {
               selected={props.value === 5}
             >
               <ListItemText className={classes.drawerItem} disableTypography>
-                Sign Up As A Brand
+                Sign Up As User
               </ListItemText>
             </ListItem>
 
@@ -1196,7 +1232,7 @@ const Header = (props) => {
             
           ) : (
             <>
-              {userRole === 'creator' && <ListItem
+              {userRole === 'vehicleOwner' && <ListItem
                 className={classes.drawerItem}
                 onClick={() => [
                   setOpenDrawer(false),
@@ -1218,7 +1254,7 @@ const Header = (props) => {
                   Dashboard
                 </ListItemText>
               </ListItem>}
-              {userRole === 'brand' && <ListItem
+              {userRole === 'customer' && <ListItem
                 className={classes.drawerItem}
                 onClick={() => [
                   setOpenDrawer(false),

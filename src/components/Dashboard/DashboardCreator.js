@@ -86,7 +86,7 @@ function DashboardCreator(props) {
     const [currency, setCurrency] = useState();
     const [updatePage, setUpdatePage] = useState(false);
     const [creatorId, setCreatorId] = useState();
-    const [bio, setBio] = useState();
+    const [organizationDetails, setOrganizationDetails] = useState();
     const [bankDetails, setBankDetails] = useState();
     const [creatorContactPhoneNumber, setCreatorContactPhoneNumber] = useState();
     const [creatorContactEmailAddress, setCreatorContactEmailAddress] = useState();
@@ -140,7 +140,7 @@ function DashboardCreator(props) {
         }});
         const workingData = response.data.data.data;
                    
-  
+        console.log("workingData",workingData)
        
        if(workingData.length > 0){
         setHasInfo(true);
@@ -148,22 +148,23 @@ function DashboardCreator(props) {
         setYourAge(workingData[0].age)
         SetYourGender(workingData[0].gender);
         setYourCountry(workingData[0].country[0].id);
-        setVideoPrice(workingData[0].videoPrice);
-        setVideoHookPrice(workingData[0].videoHookPrice);
-        setVideoDeliveryDays(workingData[0].videoDeliveryDays);
-        setNiches(workingData[0].niches);
-        setLanguages(workingData[0].languages);
+        // setVideoPrice(workingData[0].videoPrice);
+        // setVideoHookPrice(workingData[0].videoHookPrice);
+        // setVideoDeliveryDays(workingData[0].videoDeliveryDays);
+        // setNiches(workingData[0].niches);
+        // setLanguages(workingData[0].languages);
         setImage(workingData[0].image);
-        setCurrency(workingData[0].currency);
-        setCategory(workingData[0].category[0].id)
+        // setCurrency(workingData[0].currency);
+        // setCategory(workingData[0].category[0].id)
         setCreatorId(workingData[0].id);
-        setBio(workingData[0].bio);
-        setSoundPrice(workingData[0].soundPrice)
-        setSoundHookPrice(workingData[0].soundHookPrice)
-        setSoundDeliveryDays(workingData[0].soundDeliveryDays)
+        // setBio(workingData[0].bio);
+        // setSoundPrice(workingData[0].soundPrice)
+        // setSoundHookPrice(workingData[0].soundHookPrice)
+        // setSoundDeliveryDays(workingData[0].soundDeliveryDays)
         setCreatorContactPhoneNumber(workingData[0].creatorContactPhoneNumber);
         setCreatorContactEmailAddress(workingData[0].creatorContactEmailAddress);
         setBankDetails(workingData[0].bankDetails)
+        setOrganizationDetails(workingData[0].organizationDetails);
         
         }else{
         setHasInfo(false);
@@ -257,7 +258,7 @@ function DashboardCreator(props) {
           <Paper sx={{ width: 320, maxWidth: "100%" }}>
             <MenuList className={classes.menu}>
               <Typography style={{ marginLeft: 10, fontWeight: "Bold" }}>
-                Creator Information & Work Samples
+                Vehicle & Owner's Information
               </Typography>
               <MenuItem
                 className={slug === "creator-information" ? classes.selected : null}
@@ -270,7 +271,7 @@ function DashboardCreator(props) {
                 <ListItemIcon>
                   <BarChartIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>Creator Details</ListItemText>
+                <ListItemText>Vehicle Owner's Details</ListItemText>
               </MenuItem>
               <MenuItem
                 className={slug === "creator-work-samples" ? classes.selected : null}
@@ -283,7 +284,7 @@ function DashboardCreator(props) {
                 <ListItemIcon>
                   <BarChartIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>My Work Samples</ListItemText>
+                <ListItemText>My Vehicles</ListItemText>
               </MenuItem>
               <Divider />
               <Typography style={{ marginLeft: 10, fontWeight: "Bold" }}>
@@ -351,7 +352,7 @@ function DashboardCreator(props) {
              soundDeliveryDays={soundDeliveryDays}
             currency={currency}
             creatorId={creatorId}
-            bio={bio}
+            organizationDetails={organizationDetails}
             creatorContactEmailAddress={creatorContactEmailAddress}
             creatorContactPhoneNumber={creatorContactPhoneNumber}
             bankDetails={bankDetails}
@@ -508,7 +509,7 @@ function DashboardCreator(props) {
              soundDeliveryDays={soundDeliveryDays}
             currency={currency}
             creatorId={creatorId}
-            bio={bio}
+            organizationDetails={organizationDetails}
             creatorContactEmailAddress={creatorContactEmailAddress}
             creatorContactPhoneNumber={creatorContactPhoneNumber}
             bankDetails={bankDetails}

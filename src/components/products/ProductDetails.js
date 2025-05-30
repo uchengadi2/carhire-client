@@ -222,6 +222,8 @@ function ProductDetails(props) {
   const [creatorId, setCreatorId] = useState("");
   const[brandName, setBrandName] = useState("");
   const [brandCountry, setBrandCountry] = useState("");
+  const [sample, setSample] = useState({});
+  const [sampleId,setSampleId] = useState("")
 
   const [alert, setAlert] = useState({
     open: false,
@@ -238,6 +240,7 @@ function ProductDetails(props) {
   };
 
   const slug = params.slug;
+  const service = params.serviceId;
 
  // console.log('user id:', props.userId);
  // console.log('categorySlug is:',categorySlug)
@@ -305,66 +308,67 @@ function ProductDetails(props) {
       setIsLoading(true);
       let allData = [];
       api.defaults.headers.common["Authorization"] = `Bearer ${props.token}`;
-      const response = await api.get(`/creators`, {
+      const response = await api.get(`/samples`, {
         params: { slug: slug },
       });
-      const creator = response.data.data.data;
+      const sample = response.data.data.data;
 
-      if (creator.length >= 1) {
+      if (sample.length >= 1) {
         allData.push({
-          id: creator[0]._id,
-            name: creator[0].name,
-            image: creator[0].image,
-            bio: creator[0].bio,
-            user: creator[0].user,
-            currency: creator[0].currency,
-            videoPrice: creator[0].videoPrice,
-            videoHookPrice: creator[0].videoHookPrice,
-            videoDeliveryDays: creator[0].videoDeliveryDays,
-            soundPrice: creator[0].soundPrice,
-            soundHookPrice: creator[0].soundHookPrice,
-            soundDeliveryDays: creator[0].soundDeliveryDays,
-            age: creator[0].age,
-            gender: creator[0].gender,
-            rate: creator[0].rate,
-            country: creator[0].country,
-            category:creator[0].category,
-            niches: creator[0].niches,
-            languages: creator[0].languages,
-            slug: creator[0].slug,
-            status: creator[0].status,
-            creatorContactPhoneNumber: creator[0].creatorContactPhoneNumber,
-            creatorContactEmailAddress: creator[0].creatorContactEmailAddress,
+               id: sample[0]._id,
+              refNumber: sample[0].refNumber,
+              creator: sample[0].creator,
+              youtubeId: sample[0].youtubeId,
+              sampleType: sample[0].sampleType,
+              specialFeature: sample[0].specialFeature,
+              dateCreated: sample[0].dateCreated,
+              dateModified: sample[0].dateModified,
+              createdBy: sample[0].createdBy,
+              modifiedBy: sample[0].modifiedBy,
+              status: sample[0].status,
+              isAllowedOnThePlatform: sample[0].isAllowedOnThePlatform,
+              driverDetails: sample[0].driverDetails,
+              vehicleDetails: sample[0].vehicleDetails,
+              vehicleDescription: sample[0].vehicleDescription,
+              maximumOccupants: sample[0].maximumOccupants,
+              vehicleClass: sample[0].vehicleClass,
+              vehicleMake: sample[0].vehicleMake,
+              vehicleModel: sample[0].vehicleModel,
+              location: sample[0].location,
+              image: sample[0].image,
+              images: sample[0].images,
+              category: sample[0].category,
+              slug: sample[0].slug,
           
         });
 
-        setCreator({
-          id: allData[0].id,
-            name: allData[0].name,
-            image: allData[0].image,
-            bio: allData[0].bio,
-            user: allData[0].user,
-            currency: allData[0].currency,
-            videoPrice: allData[0].videoPrice,
-            videoHookPrice: allData[0].videoHookPrice,
-            videoDeliveryDays: allData[0].videoDeliveryDays,
-
-            soundPrice: allData[0].soundPrice,
-            soundHookPrice: allData[0].soundHookPrice,
-            soundDeliveryDays: allData[0].soundDeliveryDays,
-            age: allData[0].age,
-            gender: allData[0].gender,
-            rate: allData[0].rate,
-            country: allData[0].country,
-            category:allData[0].category,
-            niches: allData[0].niches,
-            languages: allData[0].languages,
-            slug: allData[0].slug,
-            status: allData[0].status,
-            creatorContactPhoneNumber: allData[0].creatorContactPhoneNumber,
-            creatorContactEmailAddress: allData[0].creatorContactEmailAddress,
+        setSample({
+              id: allData[0].id,
+              refNumber: allData[0].refNumber,
+              creator: allData[0].creator,
+              youtubeId: allData[0].youtubeId,
+              sampleType: allData[0].sampleType,
+              specialFeature: allData[0].specialFeature,
+              dateCreated: allData[0].dateCreated,
+              dateModified: allData[0].dateModified,
+              createdBy: allData[0].createdBy,
+              modifiedBy: allData[0].modifiedBy,
+              status: allData[0].status,
+              isAllowedOnThePlatform: allData[0].isAllowedOnThePlatform,
+              driverDetails: allData[0].driverDetails,
+              vehicleDetails: allData[0].vehicleDetails,
+              vehicleDescription: allData[0].vehicleDescription,
+              maximumOccupants: allData[0].maximumOccupants,
+              vehicleClass: allData[0].vehicleClass,
+              vehicleMake: allData[0].vehicleMake,
+              vehicleModel:allData[0].vehicleModel,
+              location: allData[0].location,
+              image: allData[0].image,
+              images: allData[0].images,
+              category: allData[0].category,
+              slug: allData[0].slug,
         });
-        setCreatorId(allData[0].id);
+        setSampleId(allData[0].id);
 
 
         setIsLoading(false);
@@ -382,38 +386,33 @@ function ProductDetails(props) {
 
   const Str = require("@supercharge/strings");
 
-  const creatorData = matchesMD ? (
+  const sampleData = matchesMD ? (
     <React.Fragment>
       {
         <Grid container direction="row">
           <ProductDetailCard
-            creator={creator}
-            creatorId={creator.id}
-            name= {creator.name}
-            image= {creator.image}
-            bio = {creator.bio}
-            user= {creator.user}
-            currency={creator.currency}
-            videoPrice={creator.videoPrice}
-            videoHookPrice={creator.videoHookPrice}
-            videoDeliveryDays={creator.videoDeliveryDays}
-
-            soundPrice={creator.soundPrice}
-            soundHookPrice={creator.soundHookPrice}
-            soundDeliveryDays={creator.soundDeliveryDays}
-            age={creator.age}
-            gender={creator.gender}
-            rate= {creator.rate}
-            country={creator.country}
-            category={creator.category}
-            categoryName = {creator.category ? creator.category[0].name : ""}
-            categoryCode = {creator.category ? creator.category[0].code : ""}
-            niches={creator.niches}
-            languages={creator.languages}
-            slug= {creator.slug}
-            status={creator.status}
-            creatorContactPhoneNumber= {creator.creatorContactPhoneNumber}
-            creatorContactEmailAddress={creator.creatorContactEmailAddress}
+            sample={sample}
+            service={service}
+            sampleId={sampleId}
+            refNumber= {sample.refNumber}
+            image= {sample.image}
+            images = {sample.images}
+            creator={sample.creator}
+            sampleType= {sample.sampleType}
+            specialFeature={sample.specialFeature}
+            dateCreated={sample.dateCreated}
+            status={sample.status}
+            isAllowedOnThePlatform={sample.isAllowedOnThePlatform}
+            driverDetails={sample.driverDetails}
+            vehicleDetails={sample.vehicleDetails}
+            vehicleDescription={sample.vehicleDescription}
+            maximumOccupants={sample.maximumOccupants}
+            vehicleClass={sample.vehicleClass}
+            vehicleMake={sample.vehicleMake}
+            vehicleModel={sample.vehicleModel}
+            location={sample.location}
+            category={sample.category}
+            slug={sample.slug}
             key={creator.id}
             token={props.token}
             userId={props.userId}
@@ -424,9 +423,7 @@ function ProductDetails(props) {
             }
             handleFailedSnackbar={props.handleFailedSnackbar}
             cartCounterHandler={props.cartCounterHandler}
-            brandId={brandId}
-            brandCountry={brandCountry}
-            brandName={brandName}
+            
           />
         </Grid>
       }
@@ -441,46 +438,38 @@ function ProductDetails(props) {
           alignItems="center"
         >
           <ProductDetailCard
-              creator={creator}
-              creatorId={creator.id}
-              name= {creator.name}
-              image= {creator.image}
-              bio = {creator.bio}
-              user= {creator.user}
-              currency={creator.currency}
-              videoPrice={creator.videoPrice}
-              videoHookPrice={creator.videoHookPrice}
-              videoDeliveryDays={creator.videoDeliveryDays}
-  
-              soundPrice={creator.soundPrice}
-              soundHookPrice={creator.soundHookPrice}
-              soundDeliveryDays={creator.soundDeliveryDays}
-              age={creator.age}
-              gender={creator.gender}
-              rate= {creator.rate}
-              country={creator.country}
-              category={creator.category}
-              categoryName = {creator.category ? creator.category[0].name : ""}
-              categoryCode = {creator.category ? creator.category[0].code : ""}
-              niches={creator.niches}
-              languages={creator.languages}
-              slug= {creator.slug}
-              status={creator.status}
-              creatorContactPhoneNumber= {creator.creatorContactPhoneNumber}
-              creatorContactEmailAddress={creator.creatorContactEmailAddress}
-              key={creator.id}
-              token={props.token}
-              userId={props.userId}
-              setToken={props.setToken}
-              setUserId={props.setUserId}
-              handleSuccessfulCreateSnackbar={
-                props.handleSuccessfulCreateSnackbar
-              }
-              handleFailedSnackbar={props.handleFailedSnackbar}
-              cartCounterHandler={props.cartCounterHandler}
-              brandId={brandId}
-              brandCountry={brandCountry}
-              brandName={brandName}
+             sample={sample}
+             service={service}
+             sampleId={sampleId}
+             name= {sample.refNumber}
+             image= {sample.image}
+             images = {sample.images}
+             creator={sample.creator}
+             sampleType= {sample.sampleType}
+             specialFeature={sample.specialFeature}
+             dateCreated={sample.dateCreated}
+             status={sample.status}
+             isAllowedOnThePlatform={sample.isAllowedOnThePlatform}
+             driverDetails={sample.driverDetails}
+             vehicleDetails={sample.vehicleDetails}
+             vehicleDescription={sample.vehicleDescription}
+             maximumOccupants={sample.maximumOccupants}
+             vehicleClass={sample.vehicleClass}
+             vehicleMake={sample.vehicleMake}
+             vehicleModel={sample.vehicleModel}
+             location={sample.location}
+             category={sample.category}
+             slug={sample.slug}
+             key={creator.id}
+             token={props.token}
+             userId={props.userId}
+             setToken={props.setToken}
+             setUserId={props.setUserId}
+             handleSuccessfulCreateSnackbar={
+               props.handleSuccessfulCreateSnackbar
+             }
+             handleFailedSnackbar={props.handleFailedSnackbar}
+             cartCounterHandler={props.cartCounterHandler}
           />
         </Grid>
       }
@@ -498,7 +487,7 @@ function ProductDetails(props) {
           />
         )}
 
-        {!isLoading && <Grid item>{creatorData}</Grid>}
+        {!isLoading && <Grid item>{sampleData}</Grid>}
 
         {/*....INFORMATION BLOCK....*/}
       </Grid>
