@@ -311,9 +311,9 @@ function UpperFooter(props) {
                         practice, mentoring and assessment <br />
                       </strong> */}
                       <strong>
-                        At TopCreators, we believe that powerful storytelling is at the heart of every successful brand.
-                        Our platform is designed to connect businesses with top-tier creators specializing in marketing videos and jingles 
-                        that captivate audiences and leave a lasting impression
+                        At 3Stars Pluto, we specialize in delivering premium Airport Protocol, Security, and Chauffeur-driven Car Hire services tailored to the discerning traveler. Whether you're a VIP, airline crew, government official, or corporate executive, 
+                        our mission is to ensure your journey is seamless, secure, and supremely comfortable.
+                        We elevate airport travel into an experience. From your arrival until departure, expect an unwavering commitment to precision, comfort, and security. Let us handle the details—in style, with dignity, and always with your best interests at heart.
 
                       </strong>
                     </Typography>
@@ -378,10 +378,10 @@ function UpperFooter(props) {
                       <span> 64 Okota Road, Isolo, Lagos</span>
                       <br />
 
-                      <span>controlsoftng@gmail.com</span>
+                      <span>3starspluto@gmail.com</span>
                       <br />
 
-                      <span>+234 803 201 5819, +234 701 854 1894</span>
+                      <span>+234 808 773 5317, +234 701 854 1894</span>
                     </Typography>
                   )}
                   {matchesMD ? (

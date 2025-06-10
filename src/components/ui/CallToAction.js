@@ -104,25 +104,25 @@ export default function CallToAction(props) {
           <Grid item>
             {matchesMD ? (
               <Typography variant="h2">
-                A Platform That Connects You With Top Creators!!! <br />{" "}
-                Revolutionary Creators
+                A Platform That Connects You With Professional Protocal Services!!! <br />{" "}
+                Revolutionary Professionals
               </Typography>
             ) : (
               <Typography variant="h2" style={{ fontSize: "1.5rem" }}>
-                A Platform That Connects You With Top Creators!!! <br />{" "}
-                Revolutionary Creators
+                A Platform That Connects You With Professional Protocal Services!!! <br />{" "}
+                Revolutionary Professional
               </Typography>
             )}
             {matchesMD ? (
               <Typography variant="subtitle2" style={{ fontSize: "1.5rem" }}>
-                Creating visuals & Jingles that elevate brands
+                Making Travelling Safe & Fun
               </Typography>
             ) : (
               <Typography
                 variant="subtitle2"
                 style={{ fontSize: "1rem", marginTop: 20, marginBottom: 20 }}
               >
-                Creating visuals & Jingles that elevate brands
+                Making Travelling Safe & Fun
               </Typography>
             )}
 

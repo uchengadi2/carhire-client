@@ -181,7 +181,7 @@ function AboutUsForm(props) {
             // className={classes.background}
             // style={{ height: "25em", width: "50%", marginTop: "-300" }}
           >
-            <Typography
+            {/* <Typography
               //variant="h4"
               style={{
                 marginTop: 50,
@@ -197,21 +197,19 @@ function AboutUsForm(props) {
                 <br />
               </strong>
             </Typography>
-            <br />
+            <br /> */}
             <Typography
               //variant="h4"
               style={{
-                marginTop: 20,
+                marginTop: 50,
                 marginLeft: 100,
                 color: "aqua",
-                fontSize: 16,
+                fontSize: 20,
               }}
             >
               {/* <strong> */}
-              We bring together talented video producers, animators, voice-over artists, and musicians who are passionate about
-              helping brands stand out in today’s competitive market. Whether you need an engaging ad, a product explainer, 
-              or a catchy jingle to reinforce your brand identity, our curated network of professionals is here to bring your 
-              vision to life.
+              At 3Stars Pluto, we specialize in delivering premium Airport Protocol, Security, and Chauffeur-driven Car Hire services tailored to the discerning traveler. Whether you're a VIP, airline crew, government official, or corporate executive, 
+              our mission is to ensure your journey is seamless, secure, and supremely comfortable..
 
               {/* </strong> */}
             </Typography>
@@ -221,15 +219,15 @@ function AboutUsForm(props) {
                 marginTop: 20,
                 marginLeft: 100,
                 color: "aqua",
-                fontSize: 16,
+                fontSize: 20,
               }}
             >
               {/* <strong> */}
-              Our mission is simple: to make high-quality creative production accessible, seamless, and results-driven. With an intuitive platform, transparent collaboration, and a commitment to excellence, we empower brands to produce marketing content that resonates, 
-              inspires, and drives growth
+              We elevate airport travel into an experience. From your arrival until departure, expect an unwavering commitment to precision, comfort, and security. Let us handle the details—in style, with dignity, 
+              and always with your best interests at heart.
               {/* </strong> */}
             </Typography>
-            <Typography
+            {/* <Typography
               //variant="h4"
               style={{
                 marginTop: 20,
@@ -238,10 +236,9 @@ function AboutUsForm(props) {
                 fontSize: 16,
               }}
             >
-              {/* <strong> */}
-              Join us and discover how the right creative partnership can take your brand to new heights!
-              {/* </strong> */}
-            </Typography>
+                           Join us and discover how the right creative partnership can take your brand to new heights!
+             
+            </Typography> */}
           </Grid>
           {/* <Grid item style={{ width: "50%" }}>
             <Typography>This is where content will stay</Typography>

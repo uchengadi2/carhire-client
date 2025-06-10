@@ -98,10 +98,10 @@ function ContactUsForm(props) {
           <Typography variant="h5" style={{ marginTop: 10 }}>
             <span style={{ color: "orange" }}>Email:</span>{" "}
             <span style={{ marginLeft: 30 }}>
-              controlsoftng@gmail.com{" "}
+              3starspluto@gmail.com{" "}
             </span>
             <br /> <br /> <span style={{ color: "orange" }}>Tel:</span>{" "}
-            <span style={{ marginLeft: 50 }}>+234 803 201 5819</span>
+            <span style={{ marginLeft: 50 }}>+234 808 773 5317</span>
             <br /> <br />
             <span style={{ marginLeft: 100 }}>+234 701 854 1894</span>
           </Typography>
