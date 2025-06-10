@@ -104,12 +104,12 @@ export default function CallToAction(props) {
           <Grid item>
             {matchesMD ? (
               <Typography variant="h2">
-                A Platform That Connects You With Professional Protocal Services!!! <br />{" "}
+                A Platform That Connects You With Professional Protocol Services!!! <br />{" "}
                 Revolutionary Professionals
               </Typography>
             ) : (
               <Typography variant="h2" style={{ fontSize: "1.5rem" }}>
-                A Platform That Connects You With Professional Protocal Services!!! <br />{" "}
+                A Platform That Connects You With Professional Protocol Services!!! <br />{" "}
                 Revolutionary Professional
               </Typography>
             )}
