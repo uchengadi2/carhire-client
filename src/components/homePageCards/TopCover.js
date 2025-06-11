@@ -1008,7 +1008,7 @@ export default function TopCover(props) {
               <Grid
                 item
                 alignItems="center"
-                style={{ height: "65%", marginLeft: 25 }}
+                style={{ height: "55%", marginLeft: 25 }}
               >
                 <Typography><ReactMarkdown>**Specialized services for diplomats, embassy officials, and government representatives traveling on official duties.**</ReactMarkdown></Typography>
                   <Typography>   
