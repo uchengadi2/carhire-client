@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   },
   uppercardMobile: {
     maxWidth: "100%",
-    height: 7400,
+    height: 7600,
     //height: 350,
     width: "100%",
 
