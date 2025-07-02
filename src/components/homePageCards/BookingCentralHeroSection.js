@@ -501,7 +501,7 @@ export default function BookingCentralHeroSection() {
                                 {/* <Typography style={{marginTop:10, fontSize:10.5}}>
                                       <ReactMarkdown>{ourProcess}</ReactMarkdown>
                                 </Typography> */}
-                                <Typography variant="h3" style={{marginLeft:'10%',marginTop:"25%"}}>Influencers' Board</Typography>
+                                <Typography variant="h3" style={{marginLeft:'10%',marginTop:"25%"}}>Vehicles For Hire</Typography>
                                 {/* <Typography style={{marginTop:10, fontSize:12}}>
                                       <ReactMarkdown>Whether you're launching a local product or expanding across markets, we provide the tools, talent, and support to drive real results.</ReactMarkdown>
                                 </Typography> */}

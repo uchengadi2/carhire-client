@@ -627,7 +627,7 @@ export default function AllProductsInCardDesign(props) {
                       // to={`/categories/${categoryId}/${productId}`}
                       to={`/categories/${creator.category[0].slug}/${creator.slug}/${props.service}`}
                       varaint="outlined"
-                      className={classes.viewButton}
+                      className={classes.viewButtonMobile}
                       onClick={() => <ProductDetails />}
                     >
                       <span style={{ marginRight: 10 }}>View Vehicle</span>
