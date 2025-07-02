@@ -248,6 +248,7 @@ const useStyles = makeStyles((theme) => ({
   drawerIcon: {
     height: "50px",
     width: "50px",
+    color: "white",
   },
   drawerIconContainer: {
     //marginLeft: "auto",
@@ -803,7 +804,7 @@ const Header = (props) => {
             <img alt="company logo" src={logo} className={classes.logo} />
             {`Cart` + `(${props.cartCounter})`}
           </Button> */}
-          <Button
+          {userRole !=='admin' && <Button
             onClick={() => <CheckoutPage />}
             disableRipple
             component={Link}
@@ -813,7 +814,7 @@ const Header = (props) => {
           >
             {/* <img alt="company logo" src={logo} className={classes.logo} /> */}
             Checkout
-          </Button>
+          </Button>}
           <Button
             onClick={() => <ProfileLayout />}
             disableRipple
@@ -1277,7 +1278,7 @@ const Header = (props) => {
                 </ListItemText>
               </ListItem>}
               
-              <ListItem
+              {userRole !=='admin' && <ListItem
                 className={classes.drawerItem}
                 onClick={() => [
                   setOpenDrawer(false),
@@ -1300,7 +1301,7 @@ const Header = (props) => {
                 <ListItemText className={classes.drawerItem} disableTypography>
                   Checkout
                 </ListItemText>
-              </ListItem>
+              </ListItem>}
               <ListItem
                 className={classes.drawerItem}
                 onClick={() => [

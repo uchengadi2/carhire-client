@@ -1483,7 +1483,7 @@ const onVVIPSubmit = (formValues) => {
                 <strong>Features:</strong><br />
                   <ReactMarkdown>{vvipPackage}</ReactMarkdown>
                 </Typography>
-                {vvipPackageCost && <Typography>Total Cost: <strong>&#x20A6;{vvipPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>}
+                {/* {vvipPackageCost && <Typography>Total Cost: <strong>&#x20A6;{vvipPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>} */}
                  
                 </Grid>
                 <Grid
@@ -1537,7 +1537,7 @@ const onVVIPSubmit = (formValues) => {
                   <strong>Features</strong><br />
                   <ReactMarkdown>{businessExecPackage}</ReactMarkdown>                 
                   </Typography>
-                  {businessExecPackageCost && <Typography>Total Cost: <strong>&#x20A6;{businessExecPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>}
+                  {/* {businessExecPackageCost && <Typography>Total Cost: <strong>&#x20A6;{businessExecPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -1589,7 +1589,7 @@ const onVVIPSubmit = (formValues) => {
 
                   <ReactMarkdown>{diplomaticPackage}</ReactMarkdown>  
                   </Typography>
-                  {diplomaticPackageCost && <Typography>Total Cost: <strong>&#x20A6;{diplomaticPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>}
+                  {/* {diplomaticPackageCost && <Typography>Total Cost: <strong>&#x20A6;{diplomaticPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -1640,7 +1640,7 @@ const onVVIPSubmit = (formValues) => {
 
                   <ReactMarkdown>{familyGroupPackage}</ReactMarkdown>
                   </Typography>
-                  {familyGroupPackageCost && <Typography>Total Cost: <strong>&#x20A6;{familyGroupPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest (min of 4 guest)</strong></Typography>}
+                  {/* {familyGroupPackageCost && <Typography>Total Cost: <strong>&#x20A6;{familyGroupPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest (min of 4 guest)</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -1690,7 +1690,7 @@ const onVVIPSubmit = (formValues) => {
                   <strong>Features:</strong><br />
                   <ReactMarkdown>{privateJetPackage}</ReactMarkdown>
                   </Typography>
-                  {privateJetPackageCost && <Typography>Total Cost: <strong>&#x20A6;{privateJetPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>}
+                  {/* {privateJetPackageCost && <Typography>Total Cost: <strong>&#x20A6;{privateJetPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -1748,7 +1748,7 @@ const onVVIPSubmit = (formValues) => {
                     <strong>Features:</strong><br />
                     <ReactMarkdown>{medicalPackage}</ReactMarkdown>
                   </Typography>
-                  {medicalPackageCost && <Typography>Total Cost: <strong>&#x20A6;{medicalPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>}
+                  {/* {medicalPackageCost && <Typography>Total Cost: <strong>&#x20A6;{medicalPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -1798,7 +1798,7 @@ const onVVIPSubmit = (formValues) => {
                     <strong>Features:</strong><br />
                     <ReactMarkdown>{airlineCrewPackage}</ReactMarkdown>
                   </Typography>
-                  {airlineCrewPackageCost && <Typography>Total Cost: <strong>&#x20A6;{airlineCrewPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Crew Member</strong></Typography>}
+                  {/* {airlineCrewPackageCost && <Typography>Total Cost: <strong>&#x20A6;{airlineCrewPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Crew Member</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -1852,11 +1852,16 @@ const onVVIPSubmit = (formValues) => {
                   </Typography>
                   <br />
                   
-                  {addonSecurityServicesCost && <Typography>
+                  {/* {addonSecurityServicesCost && <Typography>
                    
                   &nbsp;&nbsp;&nbsp;&#8667;<strong>2. On-site Security Escort</strong>:&nbsp;&nbsp;&#x20A6;{addonSecurityServicesCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/client
 
-                  </Typography>}
+                  </Typography>} */}
+                  <Typography>
+                   
+                  &nbsp;&nbsp;&nbsp;&#8667;<strong>2. On-site Security Escort</strong>:&nbsp;&nbsp;Additional Cost applies/client
+
+                  </Typography>
                   <br />
                   <Typography>
                    
@@ -1864,16 +1869,25 @@ const onVVIPSubmit = (formValues) => {
 
                 </Typography>
                 <br />
-                  {addonLoungeAccessServicesCost && <Typography>
+                  {/* {addonLoungeAccessServicesCost && <Typography>
                    
                   &nbsp;&nbsp;&nbsp;&#8667;<strong>4. Exclusive Lounge Access (without full protocol)</strong>:&nbsp;&nbsp;&#x20A6;{addonLoungeAccessServicesCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/person
                     
-                  </Typography>}
+                  </Typography>} */}
+                  <Typography>
+                   
+                  &nbsp;&nbsp;&nbsp;&#8667;<strong>4. Exclusive Lounge Access (without full protocol)</strong>:&nbsp;&nbsp;Additional Cost appiies/person
+                    
+                  </Typography>
                   <br />
-                  {addonConciergeServicesCost && <Typography>
+                  {/* {addonConciergeServicesCost && <Typography>
                                        
                   &nbsp;&nbsp;&nbsp;&#8667;<strong>5. Concierge Errand Services</strong>:&nbsp;&nbsp;&#x20A6;{addonConciergeServicesCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/client
-                  </Typography>}
+                  </Typography>} */}
+                  <Typography>
+                                       
+                  &nbsp;&nbsp;&nbsp;&#8667;<strong>5. Concierge Errand Services</strong>:&nbsp;&nbsp;Additional Cost applies/client
+                  </Typography>
                   {/* <Typography>Total Cost: <strong>{airlineCrewPackageCost}/Crew Member</strong></Typography> */}
                 </Grid>
                 {/* <Grid
@@ -1954,7 +1968,7 @@ const onVVIPSubmit = (formValues) => {
                 <strong>Features:</strong><br />
                   <ReactMarkdown>{vvipPackage}</ReactMarkdown>
                 </Typography>
-                {vvipPackageCost && <Typography>Total Cost: <strong>&#x20A6;{vvipPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>}
+                {/* {vvipPackageCost && <Typography>Total Cost: <strong>&#x20A6;{vvipPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>} */}
                  
                 </Grid>
                 <Grid
@@ -2008,7 +2022,7 @@ const onVVIPSubmit = (formValues) => {
                   <strong>Features</strong><br />
                   <ReactMarkdown>{businessExecPackage}</ReactMarkdown>                 
                   </Typography>
-                  {businessExecPackageCost && <Typography>Total Cost: <strong>&#x20A6;{businessExecPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>}
+                  {/* {businessExecPackageCost && <Typography>Total Cost: <strong>&#x20A6;{businessExecPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -2060,7 +2074,7 @@ const onVVIPSubmit = (formValues) => {
 
                   <ReactMarkdown>{diplomaticPackage}</ReactMarkdown>  
                   </Typography>
-                  {diplomaticPackageCost && <Typography>Total Cost: <strong>&#x20A6;{diplomaticPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>}
+                  {/* {diplomaticPackageCost && <Typography>Total Cost: <strong>&#x20A6;{diplomaticPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -2111,7 +2125,7 @@ const onVVIPSubmit = (formValues) => {
 
                   <ReactMarkdown>{familyGroupPackage}</ReactMarkdown>
                   </Typography>
-                  {familyGroupPackageCost && <Typography>Total Cost: <strong>&#x20A6;{familyGroupPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest (min of 4 guest)</strong></Typography>}
+                  {/* {familyGroupPackageCost && <Typography>Total Cost: <strong>&#x20A6;{familyGroupPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest (min of 4 guest)</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -2161,7 +2175,7 @@ const onVVIPSubmit = (formValues) => {
                   <strong>Features:</strong><br />
                   <ReactMarkdown>{privateJetPackage}</ReactMarkdown>
                   </Typography>
-                  {privateJetPackageCost && <Typography>Total Cost: <strong>&#x20A6;{privateJetPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>}
+                  {/* {privateJetPackageCost && <Typography>Total Cost: <strong>&#x20A6;{privateJetPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -2218,7 +2232,7 @@ const onVVIPSubmit = (formValues) => {
                     <strong>Features:</strong><br />
                     <ReactMarkdown>{medicalPackage}</ReactMarkdown>
                   </Typography>
-                  {medicalPackageCost && <Typography>Total Cost: <strong>&#x20A6;{medicalPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>}
+                  {/* {medicalPackageCost && <Typography>Total Cost: <strong>&#x20A6;{medicalPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Guest</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -2268,7 +2282,7 @@ const onVVIPSubmit = (formValues) => {
                     <strong>Features:</strong><br />
                     <ReactMarkdown>{airlineCrewPackage}</ReactMarkdown>
                   </Typography>
-                  {airlineCrewPackageCost && <Typography style={{marginLeft:15}}>Total Cost: <strong>&#x20A6;{airlineCrewPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Crew Member</strong></Typography>}
+                  {/* {airlineCrewPackageCost && <Typography style={{marginLeft:15}}>Total Cost: <strong>&#x20A6;{airlineCrewPackageCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/Crew Member</strong></Typography>} */}
                 </Grid>
                 <Grid
                   item
@@ -2312,11 +2326,15 @@ const onVVIPSubmit = (formValues) => {
                   </Typography>
                   <br />
                   
-                  {addonSecurityServicesCost && <Typography>
+                  {/* {addonSecurityServicesCost && <Typography>
                    
                   &nbsp;&nbsp;&nbsp;&#8667;<strong>2. On-site Security Escort</strong>:&nbsp;&nbsp;&#x20A6;{addonSecurityServicesCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/client
 
-                  </Typography>}
+                  </Typography>} */}
+                  <Typography>
+                                       
+                  &nbsp;&nbsp;&nbsp;&#8667;<strong>5. Concierge Errand Services</strong>:&nbsp;&nbsp;Additional Cost applies/client
+                  </Typography>
                   <br />
                   <Typography>
                    
@@ -2324,16 +2342,25 @@ const onVVIPSubmit = (formValues) => {
 
                 </Typography>
                 <br />
-                  {addonLoungeAccessServicesCost && <Typography>
+                  {/* {addonLoungeAccessServicesCost && <Typography>
                    
                   &nbsp;&nbsp;&nbsp;&#8667;<strong>4. Exclusive Lounge Access (without full protocol)</strong>:&nbsp;&nbsp;&#x20A6;{addonLoungeAccessServicesCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/person
                     
-                  </Typography>}
+                  </Typography>} */}
+                  <Typography>
+                   
+                  &nbsp;&nbsp;&nbsp;&#8667;<strong>4. Exclusive Lounge Access (without full protocol)</strong>:&nbsp;&nbsp;Additional Cost applies/person
+                    
+                  </Typography>
                   <br />
-                  {addonConciergeServicesCost && <Typography>
+                  {/* {addonConciergeServicesCost && <Typography>
                                        
                   &nbsp;&nbsp;&nbsp;&#8667;<strong>5. Concierge Errand Services</strong>:&nbsp;&nbsp;&#x20A6;{addonConciergeServicesCost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}/client
-                  </Typography>}
+                  </Typography>} */}
+                  <Typography>
+                                       
+                  &nbsp;&nbsp;&nbsp;&#8667;<strong>5. Concierge Errand Services</strong>:&nbsp;&nbsp;Additional Cost applies/client
+                  </Typography>
                  
                 </Grid>
                

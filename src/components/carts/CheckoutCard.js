@@ -739,7 +739,7 @@ export default function CheckoutCard(props) {
                   <strong>Service Package</strong>: {props.service[0]}
 
                 </Typography> 
-                <Typography
+                {/* <Typography
                     variant="h5"
                     color="textSecondary"
                     component="p"
@@ -748,7 +748,7 @@ export default function CheckoutCard(props) {
                   <strong>Package Cost</strong>: &#x20A6;{props.packageCostPerPerson.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}&nbsp;per Guest
                   
 
-                </Typography> 
+                </Typography>  */}
                 <Typography
                     variant="h5"
                     color="textSecondary"
@@ -762,7 +762,7 @@ export default function CheckoutCard(props) {
                
                  <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
                             <Select 
-                              style={{ width: 580, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              style={{ width: 590, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
                               //label="Select Location"
                               labelId="serviceApplicability"
                               id="serviceApplicability"
@@ -833,7 +833,7 @@ export default function CheckoutCard(props) {
                 />
                   <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
                             <Select 
-                              style={{ width: 580, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              style={{ width: 590, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
                               //label="Select Location"
                               labelId="carService"
                               id="carService"
@@ -851,7 +851,7 @@ export default function CheckoutCard(props) {
                 </FormControl>
                 <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
                             <Select 
-                              style={{ width: 580, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              style={{ width: 590, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
                               //label="Select Location"
                               labelId="onsiteSecurityService"
                               id="onsiteSecurityService"
@@ -869,7 +869,7 @@ export default function CheckoutCard(props) {
                 </FormControl>
                 <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
                             <Select 
-                              style={{ width: 580, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              style={{ width: 590, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
                               //label="Select Location"
                               labelId="ontransitSecurityService"
                               id="ontransitSecurityService"
@@ -955,7 +955,7 @@ export default function CheckoutCard(props) {
                 crossOrigin="anonymous"
               />
             </Grid>}
-            <Grid
+            {(props.service[0] === "car-and-security" || props.service[0] === "carhire") && <Grid
               item
               style={{
                 width: "100%",
@@ -1107,7 +1107,177 @@ export default function CheckoutCard(props) {
                 
                
               </CardContent>
-            </Grid>
+            </Grid>}
+            {/**Vehicle hire and security ends here */}
+
+            {!(props.service[0] === "car-and-security" || props.service[0] === "carhire") && <Grid item style={{ width: "100%", border: "1px dotted grey" }}>
+              <CardContent disableRipple>
+              
+                            
+                <Typography variant="h5">Booking Details</Typography>
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Service Package</strong>: {props.service[0]}
+
+                </Typography> 
+                {/* <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Package Cost</strong>: &#x20A6;{props.packageCostPerPerson.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}&nbsp;per Guest
+                  
+
+                </Typography>  */}
+                <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Source Location</strong>: {props.sourceLocation ? props.sourceLocation[0].name :""},&nbsp;{props.sourceState ? props.sourceState[0].name :""}&nbsp;
+
+                </Typography> 
+
+               
+                 <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
+                            <Select 
+                              style={{ width: 320, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              //label="Select Location"
+                              labelId="serviceApplicability"
+                              id="serviceApplicability"
+                              value={serviceApplicability}
+                              onChange={handleServiceApplicabilityChange}
+                              
+                            >                      
+                               
+                              <MenuItem value="at-arrival">Only At Arrival</MenuItem>
+                              <MenuItem value="at-departure">Only At Departure</MenuItem>
+                              <MenuItem value="both">Both At Arrival & Departure</MenuItem>
+                            
+                            </Select>
+                     <FormHelperText style={{marginLeft:'1%',fontSize:11}}>Where Do You Want To Apply This Service?</FormHelperText>
+                </FormControl>
+
+                <TextField
+                  //error={touched && invalid}
+                  helperText={"Enter the number of Guest"}
+                  variant="outlined"
+                  //label={label}
+                  id={"numberOfGuest"}
+                  name={"numberOfGuest"}
+                  fullWidth
+                  //required
+                  type="number"
+                  onChange={(e)=>setNumberOfGuest(e.target.value)}
+                  inputProps={{
+                  style: {
+                    height: 1,
+                    },
+                  }}
+                />
+               
+                <TextField
+                  //error={touched && invalid}
+                  helperText={"Enter Arrival Date"}
+                  variant="outlined"
+                  //label={label}
+                  id={"arrivalDate"}
+                  name={"arrivalDate"}
+                  fullWidth
+                  //required
+                  type="date"
+                  onChange={(e)=>setArrivalDate(e.target.value)}
+                  inputProps={{
+                  style: {
+                    height: 1,
+                    },
+                  }}
+                />
+                 <TextField
+                  //error={touched && invalid}
+                  helperText={"Enter Departure Date"}
+                  variant="outlined"
+                  //label={label}
+                  id={"departureDate"}
+                  name={"departureDate"}
+                  fullWidth
+                  //required
+                  type="date"
+                  onChange={(e)=>setDepartureDate(e.target.value)}
+                  inputProps={{
+                  style: {
+                    height: 1,
+                    },
+                  }}
+                />
+                  <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
+                            <Select 
+                              style={{ width: 320, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              //label="Select Location"
+                              labelId="carService"
+                              id="carService"
+                              value={carService}
+                              onChange={handleCarServiceChange}
+                              
+                            >                      
+                               
+                              <MenuItem value="not-applicable">Not Applicable</MenuItem>
+                              <MenuItem value="yes">Yes</MenuItem>
+                              <MenuItem value="no">No</MenuItem>
+                            
+                            </Select>
+                     <FormHelperText style={{marginLeft:'1%',fontSize:11}}>Will You Need A Car for Transport to Destination ?</FormHelperText>
+                </FormControl>
+                <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
+                            <Select 
+                              style={{ width: 320, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              //label="Select Location"
+                              labelId="onsiteSecurityService"
+                              id="onsiteSecurityService"
+                              value={onsiteSecurityService}
+                              onChange={handleOnsiteSecurityServiceChange}
+                              
+                            >                      
+                               
+                              <MenuItem value="not-applicable">Not Applicable</MenuItem>
+                              <MenuItem value="yes">Yes</MenuItem>
+                              <MenuItem value="no">No</MenuItem>
+                            
+                            </Select>
+                     <FormHelperText style={{marginLeft:'1%',fontSize:11}}>Will You Need An Onsite Security Service?</FormHelperText>
+                </FormControl>
+                <FormControl variant="outlined" style={{ marginLeft: "0%", marginBottom:10 }}>
+                            <Select 
+                              style={{ width: 320, height: 38, marginTop: 5, marginLeft:'0%', marginBottom:0 }}
+                              //label="Select Location"
+                              labelId="ontransitSecurityService"
+                              id="ontransitSecurityService"
+                              value={ontransitSecurityService}
+                              onChange={handleOntransitSecurityServiceChange}
+                              
+                            >                      
+                               
+                              <MenuItem value="not-applicable">Not Applicable</MenuItem>
+                              <MenuItem value="yes">Yes</MenuItem>
+                              <MenuItem value="no">No</MenuItem>
+                            
+                            </Select>
+                     <FormHelperText style={{marginLeft:'1%',fontSize:11}}>Will You Need An Ontransit Security Service?</FormHelperText>
+                </FormControl>
+
+
+
+                
+               
+              </CardContent>
+            </Grid>}
+            
 
             <Grid
               item
