@@ -567,6 +567,7 @@ export default function CheckoutCard(props) {
                 //title={product.name}
                 crossOrigin="anonymous"
               />
+             
             </Grid>}
             {!(props.service[0] === "car-and-security" || props.service[0] === "carhire") &&<Grid item style={{ width: "26.94%" }}>
               <CardMedia
@@ -604,7 +605,7 @@ export default function CheckoutCard(props) {
                     component="p"
                     style={{ marginTop: 5, marginBottom: 15 }}
                   >
-                  <strong>Model</strong>: {props.vehicle ?props.vehicle[0].vehicleModel:""}
+                  <strong>Model</strong>: {props.requestedModel}
 
                   </Typography>
                   <Typography
@@ -671,7 +672,7 @@ export default function CheckoutCard(props) {
                     component="p"
                     style={{ marginTop: 5, marginBottom: 15 }}
                   >
-                  <strong>Number of Passengers</strong>: {props.numberOfVehicleOccupant}
+                  <strong>Number of Vehicle(s) Required</strong>: {props.numberOfVehicleRequired}
 
                 </Typography> 
 
@@ -718,6 +719,14 @@ export default function CheckoutCard(props) {
                     style={{ marginTop: 5, marginBottom: 15 }}
                   >
                   <strong>Departure Date</strong>: {new Date(props.departureDate).toLocaleDateString("en-GB")}
+                  </Typography>}
+                   {props.comment && <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    component="p"
+                    style={{ marginTop: 5, marginBottom: 15 }}
+                  >
+                  <strong>Comment</strong>: {props.comment}
                   </Typography>}
 
                 
@@ -885,7 +894,8 @@ export default function CheckoutCard(props) {
                             </Select>
                      <FormHelperText style={{marginLeft:'1%',fontSize:11}}>Will You Need An Ontransit Security Service?</FormHelperText>
                 </FormControl>
-
+                
+                <Typography style={{marginTop:10, color:"red"}}> <strong>Please note:<em> If you express interest in both or either vehicle and security services, we will contact you to gather additional details before issuing an invoice.</em> </strong></Typography>
 
 
                 
@@ -905,6 +915,9 @@ export default function CheckoutCard(props) {
                   ontransitSecurityService={ontransitSecurityService}
                   onsiteSecurityService={onsiteSecurityService}
                   carService={carService}
+                  numberOfVehicleRequired={props.numberOfVehicleRequired}
+                  requestedModel={props.requestedModel}
+                  comment={props.comment}
                   
                   token={props.token}
                   userId={props.userId}
@@ -1270,6 +1283,7 @@ export default function CheckoutCard(props) {
                             </Select>
                      <FormHelperText style={{marginLeft:'1%',fontSize:11}}>Will You Need An Ontransit Security Service?</FormHelperText>
                 </FormControl>
+                <Typography style={{marginTop:10, color:"red"}}> <strong>Please note:<em>If you express interest in both or either vehicle and security services, we will contact you to gather additional details before issuing an invoice.</em> </strong></Typography>
 
 
 
@@ -1291,6 +1305,16 @@ export default function CheckoutCard(props) {
               
                 <CheckoutActionPage
                   parameters={props}
+                  numberOfGuest={numberOfGuest}
+                  serviceApplicability={serviceApplicability}
+                  arrivalDate={arrivalDate}
+                  departureDate={departureDate}
+                  ontransitSecurityService={ontransitSecurityService}
+                  onsiteSecurityService={onsiteSecurityService}
+                  carService={carService}
+                  numberOfVehicleRequired={props.numberOfVehicleRequired}
+                  requestedModel={props.requestedModel}
+                  comment={props.comment}
                   
                   token={props.token}
                   userId={props.userId}

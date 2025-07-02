@@ -591,6 +591,7 @@ export default function ProductDetailCard(props) {
                   crossOrigin="anonymous"
                 />
               </Card>
+               {/* <Typography>Note: The Actual Vehicle That Will be Provided May or May Not Be Of The Same Model or Color As The One Displayed Here</Typography> */}
             </Grid>
             <Grid item className={classes.secondRow}>
               <Box>
@@ -681,6 +682,7 @@ export default function ProductDetailCard(props) {
                   <strong>Location</strong>: {props.sample.location[0].name}
 
                 </Typography> }
+                 <Typography style={{marginTop:10, color:"red"}}><strong>Disclaimer: <em>The vehicle delivered may vary in model or color from the one depicted.</em></strong></Typography>
                
               </Box>
             </Grid>
@@ -878,7 +880,7 @@ export default function ProductDetailCard(props) {
                   <strong>Location</strong>: {props.sample.location[0].name}
 
                 </Typography> }
-                
+                <Typography style={{marginTop:10, color:"red"}}><strong>Disclaimer: <em>The vehicle delivered may vary in model or color from the one depicted.</em></strong></Typography>
               </Box>
             </Grid>
             <Grid item className={classes.thirdRowMobile}>

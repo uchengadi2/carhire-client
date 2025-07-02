@@ -313,7 +313,10 @@ function CheckoutPage(props) {
           category: cart.category,            
           slug: cart.slug,
           image:cart.image,
-          packageCostPerPerson:cart.packageCostPerPerson
+          packageCostPerPerson:cart.packageCostPerPerson,
+          numberOfVehicleRequired:cart.numberOfVehicleRequired,
+          requestedModel:cart.requestedModel,
+          comment:cart.comment
         });
       });
 
@@ -390,6 +393,9 @@ function CheckoutPage(props) {
             serviceApplicability={cart.serviceApplicability}
             onsiteSecurityServiceApplicability={cart.onsiteSecurityServiceApplicability}
             ontransitSecurityServiceApplicability={cart.ontransitSecurityServiceApplicability}
+            numberOfVehicleRequired={cart.numberOfVehicleRequired}
+            requestedModel={cart.requestedModel}
+            comment={cart.comment}
             status={cart.status}  
             category={cart.category}   
             packageCostPerPerson={cart.packageCostPerPerson}         
@@ -443,6 +449,9 @@ function CheckoutPage(props) {
             serviceApplicability={cart.serviceApplicability}
             onsiteSecurityServiceApplicability={cart.onsiteSecurityServiceApplicability}
             ontransitSecurityServiceApplicability={cart.ontransitSecurityServiceApplicability}
+            numberOfVehicleRequired={cart.numberOfVehicleRequired}
+            requestedModel={cart.requestedModel}
+            comment={cart.comment}
             status={cart.status}  
             category={cart.category}            
             slug={cart.slug}

@@ -162,6 +162,7 @@ function SendCreatorToCheckoutForm(props) {
 
 
   const [cartForCheckoutList, setCartForCheckoutList] = useState([]);
+  const [requestedModel, setRequestedModel] = useState("any-model");
  
 
   const dispatch = useDispatch();
@@ -328,6 +329,10 @@ useEffect(() => {
       setOntransitSecurityServiceApplicability(event.target.value)
     }
     
+    const handleRequestedModelChange=(event)=>{
+      setRequestedModel(event.target.value)
+    }
+
       //get the countries list
       const renderCountriesList = () => {
         return countriesList.map((item) => {
@@ -627,6 +632,53 @@ useEffect(() => {
       );
     };
 
+
+    const renderVehicleModelField = ({
+      input,
+      label,
+      meta: { touched, error, invalid },
+      type,
+      id,
+      ...custom
+    }) => {
+      return (
+        <Box>
+          <FormControl variant="outlined">
+            {/* <InputLabel id="vendor_city">City</InputLabel> */}
+            <Select
+              labelId="requestedModel"
+              id="requestedModel"
+              value={requestedModel}
+              onChange={handleRequestedModelChange}
+              // label="User"
+              style={{ marginTop: 10, width: 300, height: 38, marginLeft:0,marginRight:0 }}
+              //{...input}
+            >
+              <MenuItem value="any-model">Any Model</MenuItem>
+              <MenuItem value="below-2010">Below 2010 Model</MenuItem>
+              <MenuItem value="2010">2010</MenuItem>
+              <MenuItem value="2011">2011</MenuItem>
+              <MenuItem value="2012">2012</MenuItem>
+              <MenuItem value="2013">2013</MenuItem>
+              <MenuItem value="2014">2014</MenuItem>
+              <MenuItem value="2015">2015</MenuItem>
+              <MenuItem value="2016">2016</MenuItem>
+              <MenuItem value="2017">2017</MenuItem>
+              <MenuItem value="2018">2018</MenuItem>
+              <MenuItem value="2019">2019</MenuItem>
+              <MenuItem value="2020">2020</MenuItem>
+              <MenuItem value="2021">2021</MenuItem>
+              <MenuItem value="2022">2022</MenuItem>
+              <MenuItem value="2023">2023</MenuItem>
+              <MenuItem value="2024">2024</MenuItem>
+              <MenuItem value="2025">2025</MenuItem>
+            </Select>
+            <FormHelperText>Select Your Preferred Model(This Will Affect The Cost)</FormHelperText>
+          </FormControl>
+        </Box>
+      );
+    };
+
   
   
   const buttonContent = () => {
@@ -651,7 +703,7 @@ useEffect(() => {
       creator: props.sample.creator[0].id,
       brand: props.sample.brand ? props.sample.brand.id : "",
       vehicle: props.sample.id,
-      numberOfVehicleOccupant: formValues['numberOfVehicleOccupant'],
+      //numberOfVehicleOccupant: formValues['numberOfVehicleOccupant'],
       refNumber: formValues.refNumber
         ? formValues.refNumber
         : "VEHICLE-" + Math.floor(Math.random() * 1000000000) + "-3START",
@@ -668,6 +720,9 @@ useEffect(() => {
       serviceApplicability: serviceApplicability,
       onsiteSecurityServiceApplicability: onsiteSecurityServiceApplicability, 
       ontransitSecurityServiceApplicability:ontransitSecurityServiceApplicability,
+      numberOfVehicleRequired: formValues['numberOfVehicleRequired'],
+      requestedModel: requestedModel,
+      comment: formValues['comment'],
 
       cartHolder: props.userId,
       isDeleted: false,
@@ -821,13 +876,30 @@ useEffect(() => {
          
          <Field
            label=""
+           id="numberOfVehicleRequired"
+           name="numberOfVehicleRequired"
+           type="number"
+            helperText="Enter The Number of Vehicles Required"
+           component={renderSingleLineField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+        <Field
+           label=""
+           id="requestedModel"
+           name="requestedModel"
+           type="text"           
+           component={renderVehicleModelField}
+          style={{ width: 300, marginTop: 10 }}
+        />
+        {/* <Field
+           label=""
            id="numberOfVehicleOccupant"
            name="numberOfVehicleOccupant"
            type="number"
             helperText="Enter The Expected Number of Vehicle Occupants"
            component={renderSingleLineField}
           style={{ width: 300, marginTop: 10 }}
-        />
+        /> */}
          <Field
            label=""
            id="arrivalDate"
@@ -862,6 +934,18 @@ useEffect(() => {
            component={renderOntransitSecurityServiceApplicabilityField}
           style={{ width: 300, marginTop: 10 }}
         />}
+
+         <Field
+           label=""
+           id="comment"
+           name="comment"
+           type="text"
+          helperText="Enter Any Additional Comment"
+          rows={5}
+          minRows={5}
+           component={renderMultiLineField}
+          style={{ width: 300, marginTop: 10 }}
+        />
 
         
         <Button

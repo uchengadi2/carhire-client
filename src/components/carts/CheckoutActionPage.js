@@ -665,7 +665,9 @@ console.log('props is:',props);
             sourceLocation: props.parameters.sourceLocation[0].id,
             service:props.parameters.service[0],
             numberOfVehicleOccupant: props.parameters.numberOfVehicleOccupant,
-            numberOfGuest: props.parameters.numberOfGuest,
+            numberOfVehicleRequired:props.numberOfVehicleRequired,
+            requestedModel:props.requestedModel,
+            comment:props.comment,
             vehicle: props.parameters.vehicle[0].id,
             status: "pending",
             dateAddedToCart: props.parameters.dateAddedToCart,
@@ -768,7 +770,9 @@ console.log('props is:',props);
             ontransitSecurityService:props.ontransitSecurityService,
             onsiteSecurityService:props.onsiteSecurityService,
             carService:props.carService,
-            numberOfGuest:props.numberOfGuest
+            numberOfVehicleRequired:props.numberOfVehicleRequired,
+            requestedModel:props.requestedModel,
+            comment:props.comment
   
           }
 
