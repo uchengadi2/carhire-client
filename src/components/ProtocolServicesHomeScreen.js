@@ -38,12 +38,6 @@ import CarHireAndSecurityOnlyServices from "./homePageCards/CarHireAndSecurityOn
 import TheFounders from "./homePageCards/TheFounders";
 import OurClients from "./homePageCards/OurClients";
 import api from "./../apis/local";
-import CarRentalSections from "./homePageCards/sections/CarRentalSections";
-import ProtocolSection from "./homePageCards/sections/ProtocolSection";
-import SecuritySection from "./homePageCards/sections/SecuritySection";
-import SecuritySolutionsSection from "./homePageCards/sections/SecuritySolutionsSection";
-import WasteManagementSection from "./homePageCards/sections/WasteManagementSection";
-import AccommodationAssessmentSection from "./homePageCards/sections/AccommodationAssessmentSection";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -299,7 +293,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Marketplace = (props) => {
+const ProtocolServicesHomeScreen = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -3454,10 +3448,10 @@ const Marketplace = (props) => {
                         }}
                       >
                         {" "}
-                      From airport protocol and premium car hire to security <br />
+                      We specialize in corporate, diplomatic, and VIP airport protocol services <br />
                       </span>{" "}
                       <span style={{ marginLeft: matchesSM ? 20 : 60 }}>
-                     and waste solutions — we handle the details so  
+                      — ensuring smooth, secure, and efficient travel experiences for 
                       </span>
                     
                       {/* <span style={{ marginLeft: matchesSM ? 20 : 80 }}>
@@ -3465,7 +3459,7 @@ const Marketplace = (props) => {
                       </span> */}
                       <br />
                       <span style={{ marginLeft: matchesSM ? 20 : 110 }}>
-                      you can focus on the bigger picture.
+                      business leaders, government officials, and private clients.
                       </span>
                       <br />
                       {/* <span style={{ marginLeft: matchesSM ? 20 : 140 }}>
@@ -3545,20 +3539,64 @@ const Marketplace = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        
-        {/**This is the various sections */}
-        <CarRentalSections />
-        <ProtocolSection />
-        <SecuritySection />
-        <SecuritySolutionsSection />
-        
-        <AccommodationAssessmentSection />
-        <WasteManagementSection />
-        
+        {/** Adding the Heero Text container here  */}
+        <CarHireOnlyService />
+        {/* </section> */}
+        <TopCover />
+        <CarHireAndSecurityOnlyServices />
+        <ProtocolPackges 
+          location={locationList} 
+          handleMakeOpenSignUpDialogStatus={handleMakeOpenSignUpDialogStatus}
+          handleMakeOpenLoginFormDialogStatus={handleMakeOpenLoginFormDialogStatus}
+        />
         <TheFounders />
         <OurClients />
 
-        
+        {/* <NoCodeAndAutomationAdBar /> */}
+        {/* <TopCoverServices />
+        <TopCoverNew /> */}
+        {/* <TopCover /> */}
+        {/* <LearningPath
+          updatePathHandler={updatePathHandler}
+          updateLearningPathInfoInfo={updateLearningPathInfoInfo}
+        /> */}
+        {/* <ServicePreferences
+          //updateCourseTypeHandler={updateCourseTypeHandler}
+          updateAgePathInfoHandler={updateAgePathInfoHandler}
+          updatePricePathHandler={updatePricePathHandler}
+          updateGenderPathHandler={updateGenderPathHandler}
+          updateLanguagePathHandler={updateLanguagePathHandler}
+          updateNichePathHandler={updateNichePathHandler}
+          updateCountryPathHandler={updateCountryPathHandler}
+          updateDeliveryDaysPathHandler={updateDeliveryDaysPathHandler}
+          updateServicePathInfoInfo={updateServicePathInfoInfo}
+          
+    
+        /> */}
+
+        {/* {isLoading && (
+          <CircularProgress
+            size={100}
+            color="inherit"
+            style={{ marginTop: 250, marginLeft: 650 }}
+          />
+        )}
+      
+        {!isLoading && creatorsList.length === 0 && (
+          <Typography
+            variant="h4"
+            color="textSecondary"
+            component="p"
+            style={{ marginTop: 60, marginLeft: 170 }}
+          >
+            No Creator Is Found
+          </Typography>
+        )}
+       
+       
+        {!isLoading && path === "all" && (
+          <Grid item>{allCreatorsList}</Grid>
+        )} */}
       {renderLoginForm()}
       {renderSignUpForm()}
       {renderForgotPasswordForm()}
@@ -3581,4 +3619,4 @@ const Marketplace = (props) => {
   );
 };
 
-export default Marketplace;
+export default ProtocolServicesHomeScreen;

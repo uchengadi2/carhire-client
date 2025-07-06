@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e04ca3ecba93a3570aff85dd1100f1be",
+    "revision": "eb1c490d0bf4d2672c78e83d16fb1b3c",
     "url": "/index.html"
   },
   {
-    "revision": "2a71c4e6c72889ce10e6",
+    "revision": "4f2c5d11122ba10e120e",
     "url": "/static/css/main.8a8db68b.chunk.css"
   },
   {
-    "revision": "bb2cd706738241116f43",
-    "url": "/static/js/2.8f0e04c2.chunk.js"
+    "revision": "16a0894b40aff9d88c6b",
+    "url": "/static/js/2.c275b029.chunk.js"
   },
   {
-    "revision": "2a71c4e6c72889ce10e6",
-    "url": "/static/js/main.00fac888.chunk.js"
+    "revision": "4f2c5d11122ba10e120e",
+    "url": "/static/js/main.efd100f0.chunk.js"
   },
   {
     "revision": "56256c405bfa76082cb3",
@@ -66,6 +66,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "666d501ff31d7c210daaf6145445379f",
     "url": "/static/media/aboutus-cover.666d501f.jpg"
+  },
+  {
+    "revision": "32489d9b26e9c74bc83336fcb95ecd9b",
+    "url": "/static/media/accommodation2.32489d9b.webp"
   },
   {
     "revision": "aac9026f17dab895b30d82d80a4aacd7",
@@ -252,6 +256,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/payment1.3e958c92.png"
   },
   {
+    "revision": "1dbe077c2942700a23be1fa0cee2c546",
+    "url": "/static/media/prado2.1dbe077c.jpg"
+  },
+  {
     "revision": "905051081dc155d4aecba0c24e4f4e26",
     "url": "/static/media/programmes.90505108.png"
   },
@@ -266,6 +274,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "c608f23f6d6a6d579e2138bd77b6d054",
     "url": "/static/media/repeatingBackground.c608f23f.svg"
+  },
+  {
+    "revision": "5fd5d19f8674d70be78004264e44d456",
+    "url": "/static/media/security-personel-1.5fd5d19f.webp"
+  },
+  {
+    "revision": "5ad15410c2d50c039a98f9279bcb43e6",
+    "url": "/static/media/securiyu3.5ad15410.webp"
   },
   {
     "revision": "fa30e27b9245c2b5e37ee98191a17da7",
@@ -286,6 +302,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "d91df4000bb764b775e7e8e0c8fec00e",
     "url": "/static/media/vip3.d91df400.webp"
+  },
+  {
+    "revision": "d11098e880bc1e68ea44b7200da6c4d8",
+    "url": "/static/media/waste1.d11098e8.webp"
   },
   {
     "revision": "6b90d7dca8c7d0d5340cc0748c6bdb3c",

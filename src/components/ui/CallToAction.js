@@ -104,13 +104,13 @@ export default function CallToAction(props) {
           <Grid item>
             {matchesMD ? (
               <Typography variant="h2">
-                A Platform That Connects You With Professional Protocol Services!!! <br />{" "}
-                Revolutionary Professionals
+                Where Luxury Meets Logistics & Safety — Travel Reimagined <br />{" "}
+                Revolutionary Services
               </Typography>
             ) : (
               <Typography variant="h2" style={{ fontSize: "1.5rem" }}>
-                A Platform That Connects You With Professional Protocol Services!!! <br />{" "}
-                Revolutionary Professional
+                Where Luxury Meets Logistics & Safety — Travel Reimagined <br />{" "}
+                Revolutionary Services
               </Typography>
             )}
             {matchesMD ? (

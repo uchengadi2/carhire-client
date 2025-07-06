@@ -47,6 +47,7 @@ import DashboardBrand from "./Dashboard/DashboardBrand";
 import DashboardCreator from "./Dashboard/DashboardCreator";
 import ResetUserPasswordForm from "./authForms/ResetUserPasswordForm";
 import BookingCentral from "./BookingCentral";
+import ProtocolServicesHomeScreen from "./ProtocolServicesHomeScreen";
 
 function App() {
   const { token, setToken } = useToken();
@@ -177,6 +178,15 @@ function App() {
             </Route>
             <Route path="/bookingcentral/:serviceId">
               <BookingCentral
+                token={token}
+                setToken={setToken ? setToken : {}}
+                userId={userId}
+                setUserId={setUserId ? setUserId : {}}
+              
+              />
+            </Route>
+             <Route path="/protocolcentral">
+              <ProtocolServicesHomeScreen
                 token={token}
                 setToken={setToken ? setToken : {}}
                 userId={userId}
