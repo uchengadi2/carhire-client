@@ -3489,24 +3489,24 @@ const Marketplace = (props) => {
                         }}
                       >
                         {" "}
-                      We specialize in corporate, diplomatic,   <br />
+                      From airport protocol and premium car hire   <br />
                       </span>{" "}
                       <span style={{ marginLeft: matchesSM ? 20 : 60 }}>
-                      and VIP airport protocol services
+                      to security and waste solutions — we handle 
                       </span>
                       <br />
                       <span style={{ marginLeft: matchesSM ? 30 : 60 }}>
-                      — ensuring smooth, secure, and efficient
+                      the details so you can focus on the 
                       </span>
                       <br />
                       <span style={{ marginLeft: matchesSM ? 40 : 60 }}>
-                     travel experiences for business leaders,
+                          bigger picture.
                       </span>
                       <br />
-                      <span style={{ marginLeft: matchesSM ? 50 : 110 }}>
+                      {/* <span style={{ marginLeft: matchesSM ? 50 : 110 }}>
                       government officials, and private clients. 
                       </span>
-                      <br />
+                      <br /> */}
                       {/* <span style={{ marginLeft: matchesSM ? 60 : 140 }}>
                       secure, and scalable solutions
                       </span>
