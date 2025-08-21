@@ -163,6 +163,7 @@ function SendCreatorToCheckoutForm(props) {
 
   const [cartForCheckoutList, setCartForCheckoutList] = useState([]);
   const [requestedModel, setRequestedModel] = useState("any-model");
+  const [bookingType, setBookingType] = useState("drop-off");
  
 
   const dispatch = useDispatch();
@@ -331,6 +332,10 @@ useEffect(() => {
     
     const handleRequestedModelChange=(event)=>{
       setRequestedModel(event.target.value)
+    }
+
+    const handleBookingTypeChange=(event)=>{
+      setBookingType(event.target.value)
     }
 
       //get the countries list
@@ -527,8 +532,43 @@ useEffect(() => {
             >
               <MenuItem value="one-way">One Way Trip Coverage</MenuItem>
               <MenuItem value="two-way">Two Way Trip Coverage</MenuItem>
+              <MenuItem value="multiple-stops">Multiple Stops</MenuItem>
             </Select>
             <FormHelperText>Select Booking Coverage</FormHelperText>
+          </FormControl>
+        </Box>
+      );
+    };
+
+
+
+    const renderBookingTypeField = ({
+      input,
+      label,
+      meta: { touched, error, invalid },
+      type,
+      id,
+      ...custom
+    }) => {
+      return (
+        <Box>
+          <FormControl variant="outlined">
+            {/* <InputLabel id="vendor_city">City</InputLabel> */}
+            <Select
+              labelId="bookingType"
+              id="bookingType"
+              value={bookingType}
+              onChange={handleBookingTypeChange}
+              // label="User"
+              style={{ marginTop: 10, width: 300, height: 38, marginLeft:0,marginRight:0 }}
+              //{...input}
+            >
+              <MenuItem value="drop-off">Drop Off</MenuItem>
+              <MenuItem value="drop-off-and-pickup">Drop Off And Pickup</MenuItem>
+              <MenuItem value="drop-off-and-wait">Drop Off And Wait</MenuItem>              
+              <MenuItem value="full-day">Full Day</MenuItem>
+            </Select>
+            <FormHelperText>Select Booking Type</FormHelperText>
           </FormControl>
         </Box>
       );
