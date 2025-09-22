@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c7fbda583d1092fcf36386bde7018e58",
+    "revision": "527865596fa1a5aec3041bb82bfa2eee",
     "url": "/index.html"
   },
   {
-    "revision": "d6c796a10ea3163fae7c",
+    "revision": "e884a70768bbc68c89b8",
     "url": "/static/css/main.8a8db68b.chunk.css"
   },
   {
-    "revision": "16a0894b40aff9d88c6b",
-    "url": "/static/js/2.c275b029.chunk.js"
+    "revision": "ac1554d20492efa6b426",
+    "url": "/static/js/2.49c2944b.chunk.js"
   },
   {
-    "revision": "d6c796a10ea3163fae7c",
-    "url": "/static/js/main.182e1c4c.chunk.js"
+    "revision": "e884a70768bbc68c89b8",
+    "url": "/static/js/main.4aa5df20.chunk.js"
   },
   {
     "revision": "56256c405bfa76082cb3",
@@ -160,8 +160,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/event1.6e2b6155.webp"
   },
   {
-    "revision": "73caaa01e4d700f4b23e47665ecc2727",
-    "url": "/static/media/facebook.73caaa01.svg"
+    "revision": "c95af783da234448e6b522bd80339aee",
+    "url": "/static/media/facebook.c95af783.svg"
   },
   {
     "revision": "0be4ef54d2823042b90c9a7a4104f968",
@@ -200,8 +200,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/infoBackground.cb3f09b0.svg"
   },
   {
-    "revision": "0b117993cfdc06f6a05973ffa37ab7dc",
-    "url": "/static/media/instagram.0b117993.svg"
+    "revision": "8a1f257287cb0615e1a97abefedcaaac",
+    "url": "/static/media/instagram.8a1f2572.svg"
   },
   {
     "revision": "e15bca45e89e9d7b96bcae77451228ee",
@@ -284,16 +284,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/securiyu3.5ad15410.webp"
   },
   {
-    "revision": "c01b340b4ba78830be866bf71ec55d5c",
-    "url": "/static/media/taju.c01b340b.jpg"
+    "revision": "927369cc651cb703410214319285e843",
+    "url": "/static/media/taju.927369cc.jpg"
   },
   {
     "revision": "b153b7de3fbcda53fbd4500d1454d390",
     "url": "/static/media/training.b153b7de.webp"
   },
   {
-    "revision": "435fc4bc44c1e90d5f00f4efccdb9b1d",
-    "url": "/static/media/twitter.435fc4bc.svg"
+    "revision": "13b0990004faa8299dd60e83b2b12569",
+    "url": "/static/media/twitter.13b09900.svg"
   },
   {
     "revision": "c0ba254fbedc52809f285ca0d97b5cfe",
